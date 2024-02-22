@@ -20,10 +20,15 @@ public class GettingStartedApplication {
     public GettingStartedApplication(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-//h
+//
     @GetMapping("/")
     public String index() {
         return "Signin";
+    }
+
+    @GetMapping("/Home")
+    public String Home() {
+        return "Home";
     }
 
     @GetMapping("/database")
