@@ -9,14 +9,14 @@ public class Player {
     public String playeremail;
     public String playerpassword;
     public String playergender;
-    public String playerage;
+    public int playerage;
     public String playerstats;
 
     public Player() {
     }
 
     public Player(int playerid, String playername, String playeremail, String playerpassword, String playergender,
-            String playerage, String playerstats) {
+            int playerage, String playerstats) {
         this.playerid = playerid;
         this.playername = playername;
         this.playeremail = playeremail;
@@ -73,11 +73,11 @@ public class Player {
         this.playergender = playergender;
     }
 
-    public String getPlayerage() {
+    public int getPlayerage() {
         return this.playerage;
     }
 
-    public void setPlayerage(String playerage) {
+    public void setPlayerage(int playerage) {
         this.playerage = playerage;
     }
 

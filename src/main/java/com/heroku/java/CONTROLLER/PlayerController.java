@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
+import com.heroku.java.DAO.PlayerDAO;
+import com.heroku.java.MODEL.Player;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -29,13 +31,34 @@ import java.util.Base64;
 @Controller
 
 public class PlayerController {
+    private final PlayerDAO playerDAO;
+
+@Autowired
+    public PlayerController(PlayerDAO playerDAO) {
+        this.playerDAO = playerDAO;
+    }
+
     @GetMapping("/PlayerSignUp")
     public String PlayerSignUp() {
         return "Player/PlayerSignUp";
     }
 
+    @PostMapping("/PlayerSignUp")
+    public String playerSignUp(@ModelAttribute Player player) {
+        try {
+            playerDAO.SignUp(player);
+            // Redirect to a success page or another appropriate page
+            return "redirect:/SignIn?success=true";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle database exception
+            return "redirect:/PlayerSignUp?error=true";
+        }
+    }
+    
     @GetMapping("/PlayerEvent")
     public String PlayerEvent() {
         return "Player/PlayerEvent";
     }
+
 }

@@ -5,6 +5,7 @@ import com.heroku.java.MODEL.Player;
 import javax.sql.DataSource;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,4 +38,25 @@ public class PlayerDAO {
         }
         return null;
     }
+
+    public Player SignUp(@ModelAttribute("PlayerSignUp") Player player) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "INSERT INTO player (playername, playeremail, playergender, playerage, playerpassword) VALUES (?,?,?,?,?)";
+            final var statement = connection.prepareStatement(sql);
+
+            String playername = player.getPlayername();
+            String playeremail = player.getPlayeremail();
+            String playergender = player.getPlayergender();
+            int playerage = player.getPlayerage();
+            String playerpassword = player.getPlayerpassword();
+
+            statement.setString(1, playername);
+            statement.setString(2, playeremail);
+            statement.setString(3, playergender);
+            statement.setInt(4, playerage);
+            statement.setString(5, playerpassword);
+            statement.executeUpdate();
+        }
+        return player;
+}
 }
