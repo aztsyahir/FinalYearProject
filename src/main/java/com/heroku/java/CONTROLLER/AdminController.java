@@ -28,14 +28,9 @@ import java.util.Base64;
 @SpringBootApplication
 @Controller
 
-public class PlayerController {
-    @GetMapping("/PlayerSignUp")
-    public String PlayerSignUp() {
-        return "Player/PlayerSignUp";
-    }
-
-    @GetMapping("/PlayerEvent")
-    public String PlayerEvent() {
-        return "Player/PlayerEvent";
+public class AdminController {
+    @GetMapping("/AdminEvent")
+    public String AdminEvent() {
+        return "Admin/AdminEvent";
     }
 }
