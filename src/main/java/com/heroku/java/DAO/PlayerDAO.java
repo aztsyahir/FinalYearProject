@@ -59,4 +59,35 @@ public class PlayerDAO {
         }
         return player;
 }
+
+public Player PlayerProfile(int playerid)throws SQLException {
+    try (Connection connection = dataSource.getConnection()){
+    String sql = "SELECT * FROM player WHERE playerid = ?";
+    final var statement = connection.prepareStatement(sql);
+    statement.setInt(1,playerid);
+    final var resultSet = statement.executeQuery();
+
+    while (resultSet.next()) {
+        String playername = resultSet.getString("playername");
+        String playeremail = resultSet.getString("playeremail");
+        String playerpassword = resultSet.getString("playerpassword");
+        String playergender = resultSet.getString("playergender");
+        int playerage = resultSet.getInt("playerage");
+        int playerstats = resultSet.getInt("playerstats");
+
+        // debug
+        System.out.println("Player name from db = " + playername);
+
+        //Player player = new Player(playerid, playername, playeremail,playerpassword,playergender,playerage,playerstats);
+        return new Player(playerid, playername, playeremail,playerpassword,playergender,playerage,playerstats);
+    }
+} catch (SQLException sqe) {
+    System.out.println("Error Code = " + sqe.getErrorCode());
+    System.out.println("SQL state = " + sqe.getSQLState());
+    System.out.println("Message = " + sqe.getMessage());
+    System.out.println("printTrace /n");
+    sqe.printStackTrace();
+}
+return null;
+}
 }

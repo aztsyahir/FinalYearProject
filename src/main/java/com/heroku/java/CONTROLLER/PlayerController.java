@@ -57,7 +57,40 @@ public class PlayerController {
     }
     
     @GetMapping("/PlayerEvent")
-    public String PlayerEvent() {
+    public String PlayerEvent(HttpSession session, Model model, Player player) {
+        int playerid = (int) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (player event): " + playerid);
+        System.out.println("Player name in session (player profile): " + playername);
+
+        return "Player/PlayerEvent";
+    }
+
+    @GetMapping("/PlayerProfile")
+    public String PlayerProfile(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
+    Model model, Player player)  {
+
+        int playerid = (int) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (player profile): " + playerid);
+        System.out.println("Player name in session (player profile): " + playername);
+
+        if(playerid != 0){
+            try {
+                player = playerDAO.PlayerProfile(playerid);
+                model.addAttribute("PlayerProfile", player);
+                return "Player/PlayerProfile"; 
+            } catch (SQLException sqe) {
+                System.out.println("Error Code = " + sqe.getErrorCode());
+                System.out.println("SQL state = " + sqe.getSQLState());
+                System.out.println("Message = " + sqe.getMessage());
+                System.out.println("printTrace /n");
+                sqe.printStackTrace();
+            }
+        }
+
         return "Player/PlayerEvent";
     }
 

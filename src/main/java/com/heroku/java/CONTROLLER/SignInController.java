@@ -43,6 +43,10 @@ public class SignInController {
             if (admin != null) {
                 session.setAttribute("adminname", admin.getAdminname());
                 session.setAttribute("adminid", admin.getAdminid());
+
+                System.out.println("Admin SignIn Name : " + admin.getAdminname());
+                System.out.println("admin SignIn ID : " + admin.getAdminid());
+
                 return "redirect:/AdminEvent?success=true";
             }
 
@@ -50,11 +54,19 @@ public class SignInController {
             if (player != null) {
                 session.setAttribute("playerid", player.getPlayerid());
                 session.setAttribute("playername", player.getPlayername());
+
+                System.out.println("Player SignIn Name : " + player.getPlayername());
+                System.out.println("Player SignIn ID: " + player.getPlayerid());
+
                 return "redirect:/PlayerEvent?success=true";
             }
 
             return "redirect:/SignIn?success=false";
         } catch (SQLException sqe) {
+            System.out.println("Error Code = " + sqe.getErrorCode());
+            System.out.println("SQL state = " + sqe.getSQLState());
+            System.out.println("Message = " + sqe.getMessage());
+            System.out.println("printTrace /n");
             sqe.printStackTrace();
             return "redirect:/SignIn?error";
         } catch (Exception e) {
