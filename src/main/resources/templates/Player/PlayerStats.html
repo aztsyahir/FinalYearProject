@@ -9,53 +9,61 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <h1 class="PlayerProfile d-flex justify-content-center">Player Profile</h1>
+    <h1 class="PlayerProfile d-flex justify-content-center">Player Stats</h1>
     <!----------------------- Main Container -------------------------->
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container d-flex justify-content-center align-items-center min-vh-15">
         <!----------------------- Login Container -------------------------->
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
-            <!--------------------------- Right Box ----------------------------->
-            <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column right-box"
-                style="background: #ffffff;">
-                <div class="featured-image mb-3">
-                    <img th:src="@{images/PlayerProfileVector.jpg}" class="img-fluid" style="width: 400px;">
-                </div>
-            </div>
             <!-------------------- ------ Left Box ---------------------------->
 
-            <div class="col-md-6 left-box">
+            <div class="col-md-6 ">
                 <div class="row align-items-center">
                     <div class="header-text mb-4">
-                        <h2>Player Profile</h2>
-                        <p>You can edit your profile and save it here!</p>
+                        <h4>Let's validate your stats before join events!</h4>
                     </div>
-                    <form method="post" th:action="@{/PlayerProfile}" modelAttribute="PlayerProfile" th:object="${PlayerProfile}">
+                    <form method="post" th:action="@{/PlayerStats}" modelAttribute="PlayerStats"
+                        th:object="${PlayerStats}">
+                        <div><label for="experience" class="form-label">Year Of Experience:</label></div>
                         <div class="input-group mb-3">
-                            <input type="text" name="playername" class="form-control form-control-lg bg-light fs-6"
-                                 required th:value="${PlayerProfile.playername}">
+                            <select name="experience" id="experience" class="form-select form-control-lg bg-light fs-6" required>
+                                <option value="25">Less than 1 year</option>
+                                <option value="50">2-3 years</option>
+                                <option value="75">4-5 years</option>
+                                <option value="100">6 years and above</option>
+                            </select>
                         </div>
+                        <div><label for="tournaments" class="form-label">How many tournaments that you have won:</label></div>
                         <div class="input-group mb-3">
-                            <input type="email" name="playeremail" class="form-control form-control-lg bg-light fs-6"
-                                 required th:value="${PlayerProfile.playeremail}">
+                            <select name="tournaments" id="tournaments" class="form-select form-control-lg bg-light fs-6" required>
+                                <option value="25">Less than 2</option>
+                                <option value="50">3-5</option>
+                                <option value="75">6-8</option>
+                                <option value="100">9 and above</option>
+                            </select>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" name="playergender" class="form-control form-control-lg bg-light fs-6"
-                                 required th:value="${PlayerProfile.playergender}">
+                        <div><label for="playergender" class="form-label">How many Game's MVP that you have get:</label></div>
+                        <div class="input-group mb-3" >
+                            <select name="mvps" id="mvps" class="form-select form-control-lg bg-light fs-6" required>
+                                <option value="45">1</option>
+                                <option value="75">2-3</option>
+                                <option value="100">4 and above</option>
+                            </select>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="password" name="password" class="form-control form-control-lg bg-light fs-6"
-                                placeholder="Password" minlength="8" required>
-                        </div>
-                        <div class="input-group mb-3">
-                            <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Login</button>
-                        </div>
-                        <div class="row">
-                            <small>Don't have account? <a th:href="@{/PlayerSignUp}">Sign Up</a></small>
-                        </div>
+                        <div class="input-group mb-3 justify-content-center ">
+                            <div class="text-center">
+                                <button id="btncustsave" type="submit" class="btn btn-primary fs-6">SAVE</button>
+                            </div>
                     </form>
                 </div>
             </div>
         </div>
+        <!--------------------------- Right Box ----------------------------->
+        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column right-box"
+        style="background: #ffffff;">
+        <div class="featured-image mb-3">
+            <img th:src="@{images/PlayerStats.jpg}" class="img-fluid" style="width: 400px;">
+        </div>
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

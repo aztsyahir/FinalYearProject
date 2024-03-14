@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'PlayerProfile')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'PlayerProfile')}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +9,9 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Other meta tags and stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    
+
 </head>
+
 <body>
 
     <h1 class="PlayerProfile d-flex justify-content-center mb-20">Player Profile</h1>
@@ -30,31 +33,32 @@
                     <div class="header-text mb-4 align-items-center">
                         <h4>You can edit your profile and save it here!</h4>
                     </div>
-                    <form method="post" th:action="@{/PlayerProfile}" modelAttribute="PlayerProfile" th:object="${PlayerProfile}">
+                    <form method="post" th:action="@{/PlayerProfile}" modelAttribute="PlayerProfile"
+                        th:object="${PlayerProfile}">
                         <div><label for="playername" class="form-label">Player Name:</label></div>
-                        <div class="input-group mb-3">  
+                        <div class="input-group mb-3">
                             <input type="text" name="playername" class="form-control form-control-lg bg-light fs-6 "
-                                 required th:value="${PlayerProfile.playername}">
+                                required th:value="${PlayerProfile.playername}">
                         </div>
                         <div><label for="playeremail" class="form-label">Player Email:</label></div>
                         <div class="input-group mb-3">
                             <input type="email" name="playeremail" class="form-control form-control-lg bg-light fs-6"
-                                 required th:value="${PlayerProfile.playeremail}">
+                                required th:value="${PlayerProfile.playeremail}">
                         </div>
                         <div><label for="playergender" class="form-label">Player Gender:</label></div>
                         <div class="input-group mb-3">
                             <input type="text" name="playergender" class="form-control form-control-lg bg-light fs-6"
-                                 required th:value="${PlayerProfile.playergender}" readonly>
+                                required th:value="${PlayerProfile.playergender}" readonly>
                         </div>
                         <div><label for="playerage" class="form-label">Player Age:</label></div>
                         <div class="input-group mb-3">
                             <input type="number" name="playerage" class="form-control form-control-lg bg-light fs-6"
-                                 required th:value="${PlayerProfile.playerage}">
+                                required th:value="${PlayerProfile.playerage}">
                         </div>
                         <div><label for="playerstats" class="form-label">Player stats:</label></div>
                         <div class="input-group mb-0">
                             <input type="number" name="playerstats" class="form-control form-control-lg bg-light fs-6"
-                                 required th:value="${PlayerProfile.playerstats}" readonly>
+                                required th:value="${PlayerProfile.playerstats}" readonly>
                         </div>
                         <div class="row mb-3">
                             <small>update your stats here: <a th:href="@{/PlayerStats}">update stats</a></small>
@@ -68,14 +72,16 @@
                             <div class="text-center">
                                 <button id="btncustsave" type="submit" class="btn btn-primary ">SAVE</button>
                                 <!-- Button trigger modal signout -->
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#signoutstaffModal">
-                                  SIGN OUT
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#signoutstaffModal">
+                                    SIGN OUT
                                 </button>
                                 <!-- Button trigger modal delete -->
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletestaffModal">
-                                  DELETE ACCOUNT
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deletestaffModal">
+                                    DELETE ACCOUNT
                                 </button>
-                        </div>
+                            </div>
                     </form>
                 </div>
             </div>
@@ -85,4 +91,5 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

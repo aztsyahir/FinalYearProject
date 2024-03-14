@@ -33,7 +33,7 @@ import java.util.Base64;
 public class PlayerController {
     private final PlayerDAO playerDAO;
 
-@Autowired
+    @Autowired
     public PlayerController(PlayerDAO playerDAO) {
         this.playerDAO = playerDAO;
     }
@@ -55,7 +55,7 @@ public class PlayerController {
             return "redirect:/PlayerSignUp?error=true";
         }
     }
-    
+
     @GetMapping("/PlayerEvent")
     public String PlayerEvent(HttpSession session, Model model, Player player) {
         int playerid = (int) session.getAttribute("playerid");
@@ -69,7 +69,7 @@ public class PlayerController {
 
     @GetMapping("/PlayerProfile")
     public String PlayerProfile(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
-    Model model, Player player)  {
+            Model model, Player player) {
 
         int playerid = (int) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
@@ -77,11 +77,11 @@ public class PlayerController {
         System.out.println("Player id in session (player profile): " + playerid);
         System.out.println("Player name in session (player profile): " + playername);
 
-        if(playerid != 0){
+        if (playerid != 0) {
             try {
                 player = playerDAO.PlayerProfile(playerid);
                 model.addAttribute("PlayerProfile", player);
-                return "Player/PlayerProfile"; 
+                return "Player/PlayerProfile";
             } catch (SQLException sqe) {
                 System.out.println("Error Code = " + sqe.getErrorCode());
                 System.out.println("SQL state = " + sqe.getSQLState());
@@ -94,4 +94,8 @@ public class PlayerController {
         return "Player/PlayerEvent";
     }
 
+    @GetMapping("/PlayerStats")
+    public String PlayerStats() {
+        return "Player/PlayerStats";
+    }
 }
