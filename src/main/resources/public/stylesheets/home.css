@@ -39,7 +39,8 @@ nav {
 }
 
 .nav__logo .logo img {
-  height: 6rem;
+  height: 10rem;
+  width: 10rem;
 }
 .nav__links {
   list-style: none;
@@ -77,7 +78,7 @@ nav {
   max-width: var(--max-width);
   margin: auto;
   padding: 1rem;
-  min-height: calc(100vh - 100px);
+  min-height: calc(80vh - 60px);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 5rem;
@@ -118,8 +119,8 @@ nav {
 }
 
 .content__container input {
-  width: 100%;
-  max-width: 300px;
+  width: 50%;
+  max-width: 50px;
   padding: 1rem;
   font-size: 0.8rem;
   outline: none;
