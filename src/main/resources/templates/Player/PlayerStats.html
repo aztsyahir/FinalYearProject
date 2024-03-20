@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'PlayerStats')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'PlayerStats')}">
 
 <head>
     <meta charset="UTF-8">
@@ -32,9 +33,18 @@
                                 <option value="100">6 years and above</option>
                             </select>
                         </div>
-                        <div><label for="tournaments" class="form-label">How many tournaments that you have won:</label></div>
+                        <div><label for="tournaments" class="form-label">How many tournaments you have joined?:</label></div>
                         <div class="input-group mb-3">
                             <select name="tournaments" id="tournaments" class="form-select form-control-lg bg-light fs-6" required>
+                                <option value="25">Less than 2</option>
+                                <option value="50">3-5</option>
+                                <option value="75">6-8</option>
+                                <option value="100">9 and above</option>
+                            </select>
+                        </div>
+                        <div><label for="tournamentwon" class="form-label">How many tournaments that you have won:</label></div>
+                        <div class="input-group mb-3">
+                            <select name="tournamentwon" id="tournamentwon" class="form-select form-control-lg bg-light fs-6" required>
                                 <option value="25">Less than 2</option>
                                 <option value="50">3-5</option>
                                 <option value="75">6-8</option>

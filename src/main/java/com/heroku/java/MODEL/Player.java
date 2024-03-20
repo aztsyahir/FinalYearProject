@@ -33,6 +33,11 @@ public class Player {
         this.playerpassword = playerpassword;
     }
 
+    public Player(int playerid, int playerstats){
+        this.playerid = playerid;
+        this.playerstats = playerstats;
+    }
+
     public int getPlayerid() {
         return this.playerid;
     }

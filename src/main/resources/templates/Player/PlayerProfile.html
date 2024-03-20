@@ -33,7 +33,7 @@
                     <div class="header-text mb-4 align-items-center">
                         <h4>You can edit your profile and save it here!</h4>
                     </div>
-                    <form method="post" th:action="@{/PlayerProfile}" modelAttribute="PlayerProfile"
+                    <form method="post" th:action="@{/UpdatePlayer}" modelAttribute="PlayerProfile"
                         th:object="${PlayerProfile}">
                         <div><label for="playername" class="form-label">Player Name:</label></div>
                         <div class="input-group mb-3">
@@ -55,7 +55,7 @@
                             <input type="number" name="playerage" class="form-control form-control-lg bg-light fs-6"
                                 required th:value="${PlayerProfile.playerage}">
                         </div>
-                        <div><label for="playerstats" class="form-label">Player stats:</label></div>
+                        <div><label for="playerstats" class="form-label">Player stats (%):</label></div>
                         <div class="input-group mb-0">
                             <input type="number" name="playerstats" class="form-control form-control-lg bg-light fs-6"
                                 required th:value="${PlayerProfile.playerstats}" readonly>
@@ -65,7 +65,7 @@
                         </div>
                         <div><label for="playerpassword" class="form-label">Player Password:</label></div>
                         <div class="input-group mb-3">
-                            <input type="text" name="password" class="form-control form-control-lg bg-light fs-6"
+                            <input type="text" name="playerpassword" class="form-control form-control-lg bg-light fs-6"
                                 th:value="${PlayerProfile.playerpassword}" minlength="8" required>
                         </div>
                         <div class="input-group mb-3">

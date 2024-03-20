@@ -78,7 +78,7 @@ public Player PlayerProfile(int playerid)throws SQLException {
         // debug
         System.out.println("Player name from db = " + playername);
 
-        //Player player = new Player(playerid, playername, playeremail,playerpassword,playergender,playerage,playerstats);
+        
         return new Player(playerid, playername, playeremail,playerpassword,playergender,playerage,playerstats);
     }
 } catch (SQLException sqe) {
@@ -90,4 +90,35 @@ public Player PlayerProfile(int playerid)throws SQLException {
 }
 return null;
 }
+
+public void updatePlayerStats(int playerid, int totalPercentage) throws SQLException {
+    try (Connection connection = dataSource.getConnection()) {
+        String sql = "UPDATE player SET playerstats = ? WHERE playerid = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, totalPercentage);
+        statement.setInt(2, playerid);
+        statement.executeUpdate();
+    }
+}
+
+public Player UpdatePlayer(@ModelAttribute("PlayerProfile") Player player) throws SQLException {
+    try (Connection connection = dataSource.getConnection()) {
+        String sql = "UPDATE player SET playername=?, playeremail=?, playerpassword=?, playergender=?,playerage=?, playerstats=? WHERE playerid=?";
+        final var statement = connection.prepareStatement(sql);
+        String playerpassword = player.getPlayerpassword();
+        System.out.println("password: " + playerpassword);
+
+        statement.setString(1, player.getPlayername());
+        statement.setString(2, player.getPlayeremail());
+        statement.setString(3, playerpassword);
+        statement.setString(4, player.getPlayergender());
+        statement.setInt(5, player.getPlayerage());
+        statement.setInt(6, player.getPlayerstats());
+        statement.setInt(7, player.getPlayerid());
+
+        statement.executeUpdate();
+    }
+    return player;
+}
+
 }
