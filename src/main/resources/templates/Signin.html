@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{fragments/Generallayout :: Generallayout (~{::body},'Signin')}">
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +17,7 @@
 
 <body>
     <!----------------------- Main Container -------------------------->
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container d-flex justify-content-center align-items-center min-vh-90">
         <!----------------------- Login Container -------------------------->
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <!--------------------------- Left Box ----------------------------->
@@ -30,16 +31,16 @@
 
             <div class="col-md-6 right-box">
                 <div class="row align-items-center">
-                    <div class="header-text mb-4">
+                    <div class="header-text mb-5">
                         <h2>Hello,Flatballer</h2>
                         <p>We are happy to have you back.</p>
                     </div>
                     <form method="post" th:action="@{/SignIn}" modelAttribute="SignIn" th:object="${SignIn}">
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-4">
                             <input type="email" name="email" class="form-control form-control-lg bg-light fs-6"
                                 placeholder="Email address" required>
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-5">
                             <input type="password" name="password" class="form-control form-control-lg bg-light fs-6"
                                 placeholder="Password" minlength="8" required>
                         </div>

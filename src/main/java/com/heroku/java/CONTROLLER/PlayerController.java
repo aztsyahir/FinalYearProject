@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpSession;
 import com.heroku.java.DAO.PlayerDAO;
 import com.heroku.java.MODEL.Player;
 
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.Date;
@@ -96,60 +95,85 @@ public class PlayerController {
     }
 
     @GetMapping("/PlayerStats")
-    public String PlayerStats(HttpSession session,Model model) {
+    public String PlayerStats(HttpSession session, Model model) {
         int playerid = (int) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
         System.out.println("Player id in session (player stats): " + playerid);
         System.out.println("Player name in session (player stats): " + playername);
-        //model.addAttribute("playerStats", new Player());
         return "Player/PlayerStats";
     }
+
     @PostMapping("PlayerStats")
-    public String PlayerStats(HttpSession session ,@RequestParam("experience") int experience, @RequestParam("tournaments") int tournaments,@RequestParam("tournamentwon") int tournamentwon, @RequestParam("mvps") int mvps,Model model) {
-        
+    public String PlayerStats(HttpSession session, @RequestParam("experience") int experience,
+            @RequestParam("tournaments") int tournaments, @RequestParam("tournamentwon") int tournamentwon,
+            @RequestParam("mvps") int mvps, Model model) {
+
         int playerid = (int) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
         System.out.println("Player id in session (player stats2): " + playerid);
         System.out.println("Player name in session (player stats2): " + playername);
-        
-        int total = experience+tournaments+tournamentwon+mvps;
-        String  Stringtotal = String.valueOf(total);
+
+        int total = experience + tournaments + tournamentwon + mvps;
+        String Stringtotal = String.valueOf(total);
         double doubletotal = Double.parseDouble(Stringtotal);
-        double Percentage = (doubletotal)/300;
-        double doubletotalPercentage = (Percentage*100);
+        double Percentage = (doubletotal) / 300;
+        double doubletotalPercentage = (Percentage * 100);
         int totalPercentage = (int) doubletotalPercentage;
 
         System.out.println("Total percentage: " + totalPercentage);
         try {
             // Update player stats in the database
             playerDAO.updatePlayerStats(playerid, totalPercentage);
-            return "redirect:/PlayerProfile";
+            return "redirect:/PlayerProfile?statsSuccess=true";
         } catch (SQLException e) {
             e.printStackTrace();
             return "redirect:/PlayerStats";
         }
     }
 
-@PostMapping("UpdatePlayer")
-public String updatePlayer(HttpSession session, @ModelAttribute("PlayerProfile") Player player,Model model){
-    int playerid = (int) session.getAttribute("playerid");
-    String playername = (String) session.getAttribute("playername");
-    System.out.println("Player id in session (player update): " + playerid);
-    System.out.println("Player name in session (player update): " + playername);
+    @PostMapping("UpdatePlayer")
+    public String updatePlayer(HttpSession session, @ModelAttribute("PlayerProfile") Player player, Model model) {
+        int playerid = (int) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+        System.out.println("Player id in session (player update): " + playerid);
+        System.out.println("Player name in session (player update): " + playername);
 
-    if (playerid != 0) {
-        try {
-            player.setPlayerid(playerid);
-            player = playerDAO.UpdatePlayer(player);
-            return "redirect:/PlayerProfile";
-        } catch (SQLException sqe) {
-            System.out.println("Error Code = " + sqe.getErrorCode());
-            System.out.println("SQL state = " + sqe.getSQLState());
-            System.out.println("Message = " + sqe.getMessage());
-            System.out.println("printTrace /n");
-            sqe.printStackTrace();
+        if (playerid != 0) {
+            try {
+                player.setPlayerid(playerid);
+                player = playerDAO.UpdatePlayer(player);
+                return "redirect:/PlayerProfile?profileSuccess=true";
+            } catch (SQLException sqe) {
+                System.out.println("Error Code = " + sqe.getErrorCode());
+                System.out.println("SQL state = " + sqe.getSQLState());
+                System.out.println("Message = " + sqe.getMessage());
+                System.out.println("printTrace /n");
+                sqe.printStackTrace();
+                return "redirect:/PlayerProfile";
+            }
         }
+        return "Player/PlayerProfile?profileSuccess=true";
     }
-    return "Player/PlayerProfile";
-}
+
+    @GetMapping("/DeletePlayer")
+    public String deletePlayer(HttpSession session, Player player, Model model) {
+        int playerid = (int) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+        if (playerid != 0) {
+            try {
+                player.setPlayerid(playerid);
+                playerDAO.DeletePlayer(player);
+                System.out.println("player deleted: " + playername);
+                return "redirect:/";
+            } catch (SQLException sqe) {
+                System.out.println("Error Code = " + sqe.getErrorCode());
+                System.out.println("SQL state = " + sqe.getSQLState());
+                System.out.println("Message = " + sqe.getMessage());
+                System.out.println("printTrace /n");
+                sqe.printStackTrace();
+                return "redirect:/PlayerProfile";
+            }
+        }
+        return "redirect:/PlayerProfile";
+    }
 }

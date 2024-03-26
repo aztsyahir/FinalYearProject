@@ -22,7 +22,7 @@ public class AdminDAO {
     public Admin findAdminByEmailAndPassword(String adminemail, String adminpassword) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT adminid, adminname FROM admin WHERE adminemail = ? AND adminpassword = ?";
-           
+
             final var statement = connection.prepareStatement(sql);
             statement.setString(1, adminemail);
             statement.setString(2, adminpassword);

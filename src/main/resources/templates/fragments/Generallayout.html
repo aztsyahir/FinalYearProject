@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="adminlayout (template, menu)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="Generallayout (template, menu)">
 
 <head>
     <meta charset="UTF-8">
@@ -17,13 +17,12 @@
     <nav>
         <div class="nav__logo">
             <a th:href="@{/}" class="logo"><img th:src="@{images/UltimateNavLogo.png}" alt="ultimatenav icon"></a>
-            <a th:href="@{/AdminEvent}">ULTIMATENAV Admin</a>
         </div>
         <ul class="nav__links">
-            <li class="link"><a href="#">Event Histoy</a></li>
-            <li class="link"><a href="#">Event List</a></li>
-            <li class="link"><a href="#">Create Event</a></li>
-            <li class="link"><a th:href="@{/AdminProfile}" class="nav__btn glyphicon glyphicon-user">Profile</a></li>
+            <li class="link"><a href="#">Home</a></li>
+            <li class="link"><a href="#">About Us</a></li>
+            <li class="link"><a href="#">Contact</a></li>
+            <li class="link"><a th:href="@{/SignIn}" class="nav__btn">Sign In</a></li>
         </ul>
     </nav>
 </header>
