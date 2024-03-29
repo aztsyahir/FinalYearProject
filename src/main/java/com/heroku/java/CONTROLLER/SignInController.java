@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.heroku.java.MODEL.Admin;
 import com.heroku.java.MODEL.Player;
-import com.heroku.java.DAO.AdminDAO;
-import com.heroku.java.DAO.PlayerDAO;
+import com.heroku.java.DAO.Player.PlayerSignInDAO;
+import com.heroku.java.DAO.Admin.AdminSignInDAO;
 
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
@@ -20,13 +20,13 @@ import java.sql.SQLException;
 @Controller
 
 public class SignInController {
-    private final AdminDAO adminDAO;
-    private final PlayerDAO playerDAO;
+    private final AdminSignInDAO adminSignInDAO;
+    private final PlayerSignInDAO playerSignInDAO;
 
     @Autowired
-    public SignInController(AdminDAO adminDAO, PlayerDAO playerDAO) {
-        this.adminDAO = adminDAO;
-        this.playerDAO = playerDAO;
+    public SignInController(AdminSignInDAO adminSignInDAO, PlayerSignInDAO playerSignInDAO) {
+        this.adminSignInDAO = adminSignInDAO;
+        this.playerSignInDAO = playerSignInDAO;
     }
 
     @GetMapping("/SignIn")
@@ -39,7 +39,7 @@ public class SignInController {
             String email, String password, Model model) {
 
         try {
-            Admin admin = adminDAO.findAdminByEmailAndPassword(email, password);
+            Admin admin = adminSignInDAO.AdminSignIn(email, password);
             if (admin != null) {
                 session.setAttribute("adminname", admin.getAdminname());
                 session.setAttribute("adminid", admin.getAdminid());
@@ -50,7 +50,7 @@ public class SignInController {
                 return "redirect:/AdminEvent?success=true";
             }
 
-            Player player = playerDAO.findPlayerByEmailAndPassword(email, password);
+            Player player = playerSignInDAO.PlayerSignIn(email, password);
             if (player != null) {
                 session.setAttribute("playerid", player.getPlayerid());
                 session.setAttribute("playername", player.getPlayername());

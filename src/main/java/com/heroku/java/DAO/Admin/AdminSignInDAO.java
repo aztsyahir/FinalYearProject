@@ -1,4 +1,4 @@
-package com.heroku.java.DAO;
+package com.heroku.java.DAO.Admin;
 
 import com.heroku.java.MODEL.Admin;
 
@@ -12,14 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class AdminDAO {
+public class AdminSignInDAO {
     private final DataSource dataSource;
 
-    public AdminDAO(DataSource dataSource) {
+    public AdminSignInDAO(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public Admin findAdminByEmailAndPassword(String adminemail, String adminpassword) throws SQLException {
+    public Admin AdminSignIn(String adminemail, String adminpassword) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT adminid, adminname FROM admin WHERE adminemail = ? AND adminpassword = ?";
 
