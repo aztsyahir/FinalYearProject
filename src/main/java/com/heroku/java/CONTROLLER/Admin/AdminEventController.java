@@ -1,4 +1,4 @@
-package com.heroku.java.CONTROLLER;
+package com.heroku.java.CONTROLLER.Admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +28,10 @@ import java.util.Base64;
 @SpringBootApplication
 @Controller
 
-public class AdminController {
+public class AdminEventController {
     @GetMapping("/AdminEvent")
     public String AdminEvent() {
         return "Admin/AdminEvent";
     }
+
 }

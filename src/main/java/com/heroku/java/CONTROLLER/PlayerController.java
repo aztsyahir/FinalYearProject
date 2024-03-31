@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpSession;
 
 import com.heroku.java.DAO.Player.PlayerProfileDAO;
-import com.heroku.java.DAO.Player.PlayerStatsDAO;
 import com.heroku.java.MODEL.Player;
 
 import javax.sql.DataSource;
@@ -32,13 +31,6 @@ import java.util.Base64;
 @Controller
 
 public class PlayerController {
-    private final PlayerProfileDAO playerDAO;
-
-    @Autowired
-    public PlayerController(PlayerProfileDAO playerDAO) {
-        this.playerDAO = playerDAO;
-    }
-
 
     @GetMapping("/PlayerEvent")
     public String PlayerEvent(HttpSession session, Model model, Player player) {
@@ -46,7 +38,7 @@ public class PlayerController {
         String playername = (String) session.getAttribute("playername");
 
         System.out.println("Player id in session (player event): " + playerid);
-        System.out.println("Player name in session (player profile): " + playername);
+        System.out.println("Player name in session (player event): " + playername);
 
         return "Player/PlayerEvent";
     }

@@ -24,7 +24,7 @@ public class PlayerProfileController {
     }
     
     @GetMapping("/PlayerProfile")
-    public String PlayerProfile(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
+    public String playerProfile(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model, Player player) {
 
         int playerid = (int) session.getAttribute("playerid");
