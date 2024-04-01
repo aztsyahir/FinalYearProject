@@ -11,6 +11,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Other meta tags and stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" th:href="@{stylesheets/home.css}" />
 </head>
 <header>
@@ -22,7 +24,7 @@
         <ul class="nav__links">
             <li class="link"><a href="#">Event Histoy</a></li>
             <li class="link"><a href="#">Event List</a></li>
-            <li class="link"><a href="#">Create Event</a></li>
+            <li class="link"><a th:href="@{/EventCreate}">Create Event</a></li>
             <li class="link"><a th:href="@{/AdminProfile}" class="nav__btn glyphicon glyphicon-user">Profile</a></li>
         </ul>
     </nav>

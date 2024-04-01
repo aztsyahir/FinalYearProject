@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Base64;
 
-@SpringBootApplication
+// @SpringBootApplication
 @Controller
 
 public class PlayerController {
