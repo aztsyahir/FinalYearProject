@@ -68,20 +68,35 @@
                             <input type="text" name="playerpassword" class="form-control form-control-lg bg-light fs-6"
                                 th:value="${PlayerProfile.playerpassword}" minlength="8" required>
                         </div>
-                        <div class="input-group mb-3">
-                            <div class="text-center">
-                                <button id="btncustsave" type="submit" class="btn btn-primary ">SAVE</button>
+                        <div class="input-group mb-3 justify-content-center">
+                            <div>
+                                <button id="btncustsave" type="submit"
+                                    class="btn btn-primary d-flex align-items-center "><span
+                                        class="material-symbols-outlined">
+                                        save
+                                    </span>SAVE</button>
+                            </div>
+                            <div>
                                 <!-- Button trigger modal signout -->
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#signoutModal">
+                                <button type="button" class="btn btn-warning d-flex align-items-center ms-2 me-2"
+                                    data-bs-toggle="modal" data-bs-target="#signoutModal"><span
+                                        class="material-symbols-outlined">
+                                        logout
+                                    </span>
                                     SIGN OUT
                                 </button>
+                            </div>
+                            <div>
                                 <!-- Button trigger modal delete -->
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal">
+                                <button type="button" class="btn btn-danger d-flex align-items-center"
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal"><span
+                                        class="material-symbols-outlined">
+                                        person_remove
+                                    </span>
                                     DELETE ACCOUNT
                                 </button>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>

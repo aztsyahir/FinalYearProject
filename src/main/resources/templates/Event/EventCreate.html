@@ -33,8 +33,11 @@
                     <div class="header-text mb-3 align-items-center" style="padding-top: 0.5rem;">
                         <h4>Let's Create An Amazing Event!</h4>
                     </div>
-                    <form method="post" th:action="@{/EventCreate}" modelAttribute="EventCreate" action
-                        th:object="${EventCreate}">
+                    <form method="post" 
+                    th:action="@{/EventCreate}" 
+                    th:modelAttribute="EventCreate"
+                        th:object="${EventCreate}"
+                        enctype="multipart/form-data">
                         <div class="form-floating g-2 mb-3">
                             <input type="text" name="eventname" class="form-control form-control-lg bg-light fs-6"
                                 placeholder="Event Name" required>
@@ -44,17 +47,17 @@
                             <div class="col-md">
                                 <div class="form-floating bg-light">
                                     <input type="number" class="form-control bg-light fs-6" id="floatingInputGrid"
-                                        placeholder="Player/Team Capacity">
+                                        placeholder="Player/Team Capacity" name="eventcapacity">
                                     <label for="floatingInputGrid">Player/Team Capacity</label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
                                     <select class="form-select bg-light fs-6" id="floatingSelectGrid"
-                                        placeholder="Event Type">
+                                        placeholder="Event Type" name="eventtype">
                                         <option selected disabled>Event Type</option>
-                                        <option value="1">Individual</option>
-                                        <option value="2">Team</option>
+                                        <option value="INDIVIDUAL">Individual</option>
+                                        <option value="TEAM">Team</option>
                                     </select>
                                 </div>
                             </div>
@@ -63,14 +66,14 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <input type="text" class="form-control bg-light fs-6" id="floatingInputGrid"
-                                        placeholder="event venue">
+                                        placeholder="event venue" name="eventname">
                                     <label for="floatingInputGrid">Event Venue</label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
                                     <input type="text" class="form-control bg-light fs-6" id="floatingInputGrid"
-                                        placeholder="event state">
+                                        placeholder="event state" name="eventname">
                                     <label for="floatingInputGrid">State</label>
                                 </div>
                             </div>
@@ -79,22 +82,33 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <input type="date" class="form-control bg-light fs-6" id="floatingInputGrid"
-                                        placeholder="event date">
+                                        placeholder="event date" name="eventname">
                                     <label for="floatingInputGrid">Event Date</label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control bg-light fs-6" id="floatingInputGrid"
-                                        placeholder="event stats">
-                                    <label for="floatingInputGrid">Minimun Stats (%)</label>
+                                    <input type="date" class="form-control bg-light fs-6" id="floatingInputGrid"
+                                        placeholder="last date registration" name="eventlastdate">
+                                    <label for="floatingInputGrid">Last Registration Date</label>
                                 </div>
                             </div>
                         </div>
-                        <div><label for="eventimage" class="form-label">Event Image:</label></div>
-                        <div class="input-group mb-3">
-                            <input type="file" name="eventimgs" id="eventimgs" accept="image/jpeg"
-                                class="form-control form-control-lg bg-light fs-6" placeholder="Image.jpeg" required>
+                        <div class="row g-2 mb-3">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control bg-light fs-6" id="floatingInputGrid"
+                                        placeholder="Event stats" name="eventstats">
+                                    <label for="floatingInputGrid">Minimum stats (%)</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="file" class="form-control bg-light fs-6" name="eventimgs" id="floatingInputGrid" accept="image/jpeg"
+                                        placeholder="Image.jpeg">
+                                        <label for="floatingInputGrid">Event Image</label>
+                                </div>
+                            </div>
                         </div>
                         <div class=" mb-3 justify-content-center d-grid gap-2 col-6 mx-auto">
                             <button id="btncreate" type="submit"
