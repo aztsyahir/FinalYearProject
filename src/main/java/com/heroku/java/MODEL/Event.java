@@ -13,7 +13,7 @@ public class Event {
     public Date eventdate;
     public Date eventlastdate;
     public int eventstats;
-    public byte[] eventimgbytes;
+    public byte[] eventimgbyte;
     public MultipartFile eventimgs;
     String eventimage;
 
@@ -22,7 +22,7 @@ public class Event {
 
     public Event(int eventid, String eventname, String eventtype, int eventcapacity, String eventvenue,
             String eventstate,
-            Date eventdate, Date eventlastdate, int eventstats, byte[] eventimgbytes, MultipartFile eventimgs, String eventimage) {
+            Date eventdate, Date eventlastdate, int eventstats, byte[] eventimgbyte, MultipartFile eventimgs, String eventimage) {
         this.eventid = eventid;
         this.eventname = eventname;
         this.eventtype = eventtype;
@@ -32,7 +32,7 @@ public class Event {
         this.eventdate = eventdate;
         this.eventlastdate = eventlastdate;
         this.eventstats = eventstats;
-        this.eventimgbytes = eventimgbytes;
+        this.eventimgbyte = eventimgbyte;
         this.eventimgs = eventimgs;
         this.eventimage = eventimage;
     }
@@ -110,12 +110,12 @@ public class Event {
         this.eventstats = eventstats;
     }
 
-    public byte[] getEventimgbytes() {
-        return this.eventimgbytes;
+    public byte[] getEventimgbyte() {
+        return this.eventimgbyte;
     }
 
-    public void setEventimgbytes(byte[] eventimgbytes) {
-        this.eventimgbytes = eventimgbytes;
+    public void setEventimgbyte(byte[] eventimgbyte) {
+        this.eventimgbyte = eventimgbyte;
     }
 
     public MultipartFile getEventimgs() {

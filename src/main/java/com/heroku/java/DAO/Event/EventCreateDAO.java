@@ -19,7 +19,7 @@ public class EventCreateDAO {
 
     public Event EventCreate(Event event) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "INSERT INTO event (eventname, eventtype, eventcapacity, eventvenue, eventstate, eventdate,eventlastdate eventstats, eventimg) VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO event (eventname, eventtype, eventcapacity, eventvenue, eventstate, eventdate,eventlastdate, eventstats, eventimg) VALUES (?,?,?,?,?,?,?,?,?)";
             final var statement = connection.prepareStatement(sql);
 
             statement.setString(1, event.getEventname());
@@ -29,8 +29,8 @@ public class EventCreateDAO {
             statement.setString(5, event.getEventstate());
             statement.setDate(6, event.getEventdate());
             statement.setDate(7, event.getEventlastdate());
-            statement.setInt(7, event.getEventstats());
-            statement.setBytes(8, event.getEventimgbytes());
+            statement.setInt(8, event.getEventstats());
+            statement.setBytes(9, event.getEventimgbyte());
             statement.executeUpdate();
 
         }

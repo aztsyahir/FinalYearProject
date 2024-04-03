@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import com.heroku.java.DAO.Event.EventCreateDAO;
 import com.heroku.java.MODEL.Event;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 @Controller
@@ -29,15 +30,18 @@ public class EventCreateController {
     }
 
     @PostMapping("/EventCreate")
-    public String EventCreate(Event event, Model model) {
+    public String EventCreate(Event event,@RequestParam("eventimgs")MultipartFile eventimgs, Model model) throws IOException { 
         try {
-            MultipartFile eventimgs = event.getEventimgs();
-            event.setEventimgbytes(eventimgs.getBytes());
+            event.setEventimgbyte(eventimgs.getBytes());
             eventCreateDAO.EventCreate(event);
 
             return "redirect:/EventCreate?CreateEventSuccess=true";
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (SQLException sqe) {
+            System.out.println("Error Code = " + sqe.getErrorCode());
+            System.out.println("SQL state = " + sqe.getSQLState());
+            System.out.println("Message = " + sqe.getMessage());
+            System.out.println("printTrace /n");
+            sqe.printStackTrace();
             return "redirect:/EventCreate?CreateEventError=true";
         }
     }
