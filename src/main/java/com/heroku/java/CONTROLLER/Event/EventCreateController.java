@@ -12,6 +12,7 @@ import java.util.Base64;
 import jakarta.servlet.http.HttpSession;
 import com.heroku.java.DAO.Event.EventCreateDAO;
 import com.heroku.java.MODEL.Event;
+import com.heroku.java.MODEL.EventDetail;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,10 +31,10 @@ public class EventCreateController {
     }
 
     @PostMapping("/EventCreate")
-    public String EventCreate(Event event,@RequestParam("eventimgs")MultipartFile eventimgs, Model model) throws IOException { 
+    public String EventCreate(Event event, EventDetail ed,@RequestParam("eventimgs")MultipartFile edimgs, Model model) throws IOException { 
         try {
-            event.setEventimgbyte(eventimgs.getBytes());
-            eventCreateDAO.EventCreate(event);
+            ed.setEdimgbyte(edimgs.getBytes());
+            eventCreateDAO.EventCreate(event,ed);
 
             return "redirect:/EventCreate?CreateEventSuccess=true";
         } catch (SQLException sqe) {

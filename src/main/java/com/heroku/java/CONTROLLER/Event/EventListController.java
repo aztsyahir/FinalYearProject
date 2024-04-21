@@ -1,4 +1,4 @@
-package com.heroku.java.CONTROLLER.Admin;
+package com.heroku.java.CONTROLLER.Event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,14 +24,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Base64;
+import com.heroku.java.DAO.Event.EventListDAO;
+import com.heroku.java.MODEL.Event;
 
-@SpringBootApplication
 @Controller
-
-public class AdminEventController {
+public class EventListController {
+    private final EventListDAO eventListDAO;
+    @Autowired
+    public EventListController(EventListDAO eventListDAO) {
+        this.eventListDAO = eventListDAO;
+    }
+    //admin event list
     @GetMapping("/AdminEvent")
-    public String AdminEvent() {
-        return "Admin/AdminEvent";
+    public String AdminEvent(Model model) {
+        ArrayList<Event> eventList;
+        try {
+            eventList = eventListDAO.getEvents();
+            model.addAttribute("event", eventList);
+            return "Admin/AdminEvent";
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Admin/AdminEvent";
+        }
     }
 
 }
