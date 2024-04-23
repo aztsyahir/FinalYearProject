@@ -44,11 +44,12 @@ public class EventCreateController {
                    // Fetch all player emails from database (example)
             List<String> playerEmails = playerEmailDAO.getPlayerEmail();
 
-            // Send email notification to all players
+           // Send individualized email to each player
+           for (String playerEmail : playerEmails) {
             String subject = "New Event Created: " + event.getEventname();
-            String message = "A new event has been created. Join now!";
-            emailService.sendEmail(playerEmails.toArray(new String[0]), subject, message);
-
+            String htmlContent = buildHtmlContent(event, ed);
+            emailService.sendHtmlEmail(playerEmail, subject, htmlContent);
+        }
             return "redirect:/AdminEvent?eventcreateSuccess=true";
         } catch (SQLException sqe) {
             System.out.println("Error Code = " + sqe.getErrorCode());
@@ -58,6 +59,18 @@ public class EventCreateController {
             sqe.printStackTrace();
             return "redirect:/EventCreate?CreateEventError=true";
         }
+    }
+    private String buildHtmlContent(Event event, EventDetail ed) {
+        StringBuilder message = new StringBuilder();
+        message.append("<h2>Event Details</h2>");
+        message.append("<p><strong>Event Name:</strong> ").append(event.getEventname()).append("</p>");
+        message.append("<p><strong>Event Type:</strong> ").append(ed.getEdtype()).append("</p>");
+        message.append("<p><strong>Event Date:</strong> ").append(ed.getEddate()).append("</p>");
+        message.append("<p><strong>Last Registration Date:</strong> ").append(ed.getEdlastdate()).append("</p>");
+        message.append("<p><strong>Minimum Stats Required:</strong> ").append(ed.getEdstats()).append("</p>");
+        // message.append("<img src=\"cid:eventImage\">"); // Embed event image (image cid)
+
+        return message.toString();
     }
 
 }
