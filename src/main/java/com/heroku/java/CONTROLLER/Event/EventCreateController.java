@@ -3,20 +3,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.Base64;
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
 import com.heroku.java.DAO.Event.EventCreateDAO;
 import com.heroku.java.DAO.Player.PlayerEmailDAO;
 import com.heroku.java.SERVICES.EmailService;
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
-import com.heroku.java.MODEL.Player;
 
 import java.io.IOException;
 import java.sql.SQLException;

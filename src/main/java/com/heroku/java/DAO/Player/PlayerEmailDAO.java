@@ -1,6 +1,5 @@
 package com.heroku.java.DAO.Player;
 
-import com.heroku.java.MODEL.Player;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
@@ -13,7 +12,7 @@ public class PlayerEmailDAO {
 
     public PlayerEmailDAO(DataSource dataSource) {
         this.dataSource = dataSource;
-    } 
+    }
 
     public ArrayList<String> getPlayerEmail() throws SQLException {
         ArrayList<String> players = new ArrayList<>();
@@ -27,6 +26,6 @@ public class PlayerEmailDAO {
                 players.add(EmailToPlayer);
             }
         }
-return players;
-}
+        return players;
+    }
 }

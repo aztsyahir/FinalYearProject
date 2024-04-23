@@ -45,7 +45,7 @@ public class PlayerStatsController {
         int total = experience + tournaments + tournamentwon + mvps;
         String Stringtotal = String.valueOf(total);
         double doubletotal = Double.parseDouble(Stringtotal);
-        double Percentage = (doubletotal) / 300;
+        double Percentage = (doubletotal) / 400;
         double doubletotalPercentage = (Percentage * 100);
         int totalPercentage = (int) doubletotalPercentage;
 

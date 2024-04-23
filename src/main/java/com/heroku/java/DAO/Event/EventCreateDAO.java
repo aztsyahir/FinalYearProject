@@ -5,13 +5,7 @@ import com.heroku.java.MODEL.EventDetail;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import java.sql.Date;
-import java.sql.ResultSet;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
-import java.util.Base64;
 
 @Repository
 public class EventCreateDAO {
