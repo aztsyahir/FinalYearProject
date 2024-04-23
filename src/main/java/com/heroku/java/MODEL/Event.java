@@ -1,8 +1,5 @@
 package com.heroku.java.MODEL;
 
-import java.sql.Date;
-import org.springframework.web.multipart.MultipartFile;
-
 public class Event {
     public int eventid;
     public String eventname;

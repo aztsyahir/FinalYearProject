@@ -1,7 +1,5 @@
 package com.heroku.java.MODEL;
 
-import java.util.Objects;
-
 public class Player {
 
     public int playerid;
