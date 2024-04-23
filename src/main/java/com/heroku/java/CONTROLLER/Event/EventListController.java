@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Base64;
 import com.heroku.java.DAO.Event.EventListDAO;
 import com.heroku.java.MODEL.Event;
+import com.heroku.java.MODEL.Admin;
 
 @Controller
 public class EventListController {
@@ -36,7 +37,13 @@ public class EventListController {
     }
     //admin event list
     @GetMapping("/AdminEvent")
-    public String AdminEvent(Model model) {
+    public String AdminEvent(HttpSession session,Model model,Admin admin) {
+        int adminid = (int) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+        
+        System.out.println("Admin id in session (Admin event): " + adminid);
+        System.out.println("Admin name in session (Admin event): " + adminname);
+
         ArrayList<Event> eventList;
         try {
             eventList = eventListDAO.getEvents();
@@ -45,7 +52,7 @@ public class EventListController {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Admin/AdminEvent";
+            return "Signin";
         }
     }
 

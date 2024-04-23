@@ -47,7 +47,7 @@ public class SignInController {
                 System.out.println("Admin SignIn Name : " + admin.getAdminname());
                 System.out.println("admin SignIn ID : " + admin.getAdminid());
 
-                return "redirect:/AdminEvent?success=true";
+                return "redirect:/AdminEvent?signinSuccess=true";
             }
 
             Player player = playerSignInDAO.PlayerSignIn(email, password);
@@ -58,10 +58,10 @@ public class SignInController {
                 System.out.println("Player SignIn Name : " + player.getPlayername());
                 System.out.println("Player SignIn ID: " + player.getPlayerid());
 
-                return "redirect:/PlayerEvent?success=true";
+                return "redirect:/PlayerEvent?signinSuccess=true";
             }
 
-            return "redirect:/SignIn?success=false";
+            return "redirect:/SignIn?signinError=true";
         } catch (SQLException sqe) {
             System.out.println("Error Code = " + sqe.getErrorCode());
             System.out.println("SQL state = " + sqe.getSQLState());

@@ -38,6 +38,10 @@ public class Player {
         this.playerstats = playerstats;
     }
 
+    public Player(String playeremails) {
+        this.playeremail = playeremails;
+    }
+
     public int getPlayerid() {
         return this.playerid;
     }
