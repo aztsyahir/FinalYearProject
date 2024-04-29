@@ -38,7 +38,7 @@
                         th:object="${PlayerSignUp}">
                         <div class="input-group mb-3">
                             <input type="text" name="playername" class="form-control form-control-lg bg-light fs-6"
-                                placeholder="Full Name" required>
+                                placeholder="Full Name" required oninput="this.value = this.value.toUpperCase()">
                         </div>
                         <div class="input-group mb-3">
                             <input type="email" name="playeremail" class="form-control form-control-lg bg-light fs-6"

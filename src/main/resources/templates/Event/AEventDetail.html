@@ -13,13 +13,18 @@
 </head>
 
 <body>
-    <div>
-        <h2 class="text-center" th:text="${event[0].eventname} + ' Detail'"></h2>
+    <div class="d-grid d-md-flex justify-content-md-end me-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+            th:data-bs-target="'#offcanvasRight-' + ${event[0].eventid}"
+            th:aria-controls="'offcanvasRight-' + ${event[0].eventid}">SET NEW EVENT WITH SAME EVENT
+            NAME</button>
     </div>
-
+    <div>
+        <h2 class="text-center" th:text="${event[0].eventname} + ' DETAIL'"></h2>
+    </div>
     <div class="d-flex justify-content-center">
         <img class="rounded img-thumbnail mx-auto " th:src="${event[0].eventDetail.edimage}" alt="Event Image"
-        style="max-width: 100%; height: 400px;">
+            style="max-width: 100%; height: 400px;">
     </div>
 
     <div class="d-flex justify-content-center text-center m-4">
@@ -39,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="event : ${event}">
+                <tr th:each="event : ${event}" th:action="@{/CancelEvent}" method="post">
                     <td th:text="${event.eventDetail.edid}"></td>
                     <td th:text="${event.eventDetail.edtype}"></td>
                     <td th:text="${event.eventDetail.edcapacity}"></td>
@@ -52,13 +57,149 @@
                     <td>
                         <div class="d-grid gap-2">
                             <a href="#"><button class="btn btn-primary" type="button">Validate</button></a>
-                            <a href="#"><button class="btn btn-danger" type="button">CANCEL EVENT</button></a>
+                            <a th:href="@{/EventUpdate(eventid=${event.eventid})}"><button class="btn btn-primary"
+                                    type="button">Update Event</button></a>
+                            <a th:href="@{/CancelEvent(edid=${event.eventDetail.edid}, eventid=${event.eventid})}"
+                                onclick="return confirm('Are you sure you want to cancel this event?')"><button
+                                    class="btn btn-danger" type="button">CANCEL EVENT</button></a>
+                            <div>
+                                <div class="offcanvas offcanvas-end" tabindex="-1"
+                                    th:id="'offcanvasRight-' + ${event.eventid}"
+                                    th:aria-labelledby="'offcanvasRightLabel-' + ${event.eventid}">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title" id="offcanvasRightLabel">Set New Event</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        <div class="panel"><img th:src="${event.eventDetail.edimage}"
+                                                alt="Product Image" style="width: 200px; height: 200px; "></div>
+                                        <div class="myForm1">
+                                            <h3 class="offcanvas-title1"  id="offcanvasRightLabel-${event.eventid}"
+                                            th:text="${event.eventname}"></h3>
+                                            <br><br>
+                                            <form id="myForm1" th:action="@{/NewEventSet}" method="post"
+                                                modelAttribute="NewEventSet">
+                                                <input type="hidden" name="eventid" th:value="${event.eventid}">
+                                                <input type="hidden" name="eventname" th:value="${event.eventname}">
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-md">
+                                                        <div class="form-floating">
+                                                            <select class="form-select bg-light fs-6"
+                                                                id="floatingSelectGrid" placeholder="Event Type"
+                                                                name="edtype">
+                                                                <option selected disabled>Event Type</option>
+                                                                <option value="INDIVIDUAL">INDIVIDUAL</option>
+                                                                <option value="TEAM">TEAM</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-md">
+                                                        <div class="form-floating bg-light">
+                                                            <input type="number" class="form-control bg-light fs-6"
+                                                                id="floatingInputGrid"
+                                                                placeholder="Player/Team Capacity" name="edcapacity">
+                                                            <label for="floatingInputGrid">Player/Team Capacity</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-md">
+                                                        <div class="form-floating">
+                                                            <input type="text"
+                                                                class="form-control bg-light fs-6 text-uppercase"
+                                                                id="floatingInputGrid" placeholder="event venue"
+                                                                name="edvenue"
+                                                                oninput="this.value = this.value.toUpperCase()">
+                                                            <label for="floatingInputGrid">Event Venue</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <div class="form-floating">
+                                                            <select class="form-select bg-light fs-6"
+                                                                id="floatingSelectGrid" placeholder="Event State"
+                                                                name="edstate">
+                                                                <option selected disabled>States</option>
+                                                                <option value="JOHOR">JOHOR</option>
+                                                                <option value="KEDAH">KEDAH</option>
+                                                                <option value="KELANTAN">KELANTAN</option>
+                                                                <option value="MELAKA">MELAKA</option>
+                                                                <option value="NEGERI SEMBILAN">NEGERI SEMBILAN</option>
+                                                                <option value="PAHANG">PAHANG</option>
+                                                                <option value="PERAK">PERAK</option>
+                                                                <option value="PERLIS">PERLIS</option>
+                                                                <option value="PULAU PINANG">PULAU PINANG</option>
+                                                                <option value="SABAH">SABAH</option>
+                                                                <option value="SARAWAK">SARAWAK</option>
+                                                                <option value="SELANGOR">SELANGOR</option>
+                                                                <option value="TERENGGANU">TERENGGANU</option>
+                                                                <option value="WILAYAH PERSEKUTUAN (KUALA LUMPUR)">
+                                                                    WILAYAH PERSEKUTUAN (KUALA
+                                                                    LUMPUR)</option>
+                                                                <option value="WILAYAH PERSEKUTUAN (LABUAN)">WILAYAH
+                                                                    PERSEKUTUAN (LABUAN)
+                                                                </option>
+                                                                <option value="WILAYAH PERSEKUTUAN (PUTRAJAYA)">WILAYAH
+                                                                    PERSEKUTUAN (PUTRAJAYA)
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-md">
+                                                        <div class="form-floating">
+                                                            <input type="date" class="form-control bg-light fs-6"
+                                                                id="floatingInputGrid" placeholder="DD/MM/YYYY"
+                                                                name="eddate">
+                                                            <label for="floatingInputGrid">Event Date</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <div class="form-floating">
+                                                            <input type="date" class="form-control bg-light fs-6"
+                                                                id="floatingInputGrid" placeholder="DD/MM/YYYY"
+                                                                name="edlastdate">
+                                                            <label for="floatingInputGrid">Last Registration
+                                                                Date</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2 mb-3">
+                                                    <div class="col-md">
+                                                        <div class="form-floating">
+                                                            <input type="number" class="form-control bg-light fs-6"
+                                                                id="floatingInputGrid" placeholder="Event stats"
+                                                                name="edstats">
+                                                            <label for="floatingInputGrid">Minimum stats (%)</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="submitOrder1" id="submitOrder1">
+                                                        <button type="submit"
+                                                            style="color: #000000; font-weight: 800; border: 1px solid #000000; border-radius: 15px; background-color: #4594e9; padding: 8px 30%;">Set
+                                                            New Event</button>
+                                                    </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <script>
+        // Initialize Bootstrap offcanvas components
+        var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'))
+        var offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
+            return new bootstrap.Offcanvas(offcanvasEl)
+        })
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>

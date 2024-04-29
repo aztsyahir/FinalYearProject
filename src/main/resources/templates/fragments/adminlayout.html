@@ -62,6 +62,8 @@
             const ProfileSuccessParam = urlParams.get('profileSuccess');
             const signinSuccessParam = urlParams.get('signinSuccess');
             const eventcreateSuccessParam = urlParams.get('eventcreateSuccess');
+            const UpdateEventSuccessParam = urlParams.get('UpdateEventSuccess');
+            const CancelEventSuccessParam = urlParams.get('CancelEventSuccess');
 
             if (ProfileSuccessParam !== null && ProfileSuccessParam === 'true') {
                 toastBootstrap.show();
@@ -74,6 +76,14 @@
             else if (eventcreateSuccessParam !== null && eventcreateSuccessParam === 'true') {
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Event Created Successfully!";
+            }
+            else if (UpdateEventSuccessParam!== null && UpdateEventSuccessParam === 'true') {
+                toastBootstrap.show();
+                document.getElementById("display-message1").innerHTML = "Event Updated Successfully!";
+            }
+            else if (CancelEventSuccessParam!== null && CancelEventSuccessParam === 'true') {
+                toastBootstrap.show();
+                document.getElementById("display-message1").innerHTML = "Event Cancelled ";
             }
         });
 

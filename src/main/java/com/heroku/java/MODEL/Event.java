@@ -18,6 +18,7 @@ public class Event {
         this.eventid = eventid;
         this.eventname = eventname;
     }
+    
     public Event(EventDetail eventDetail){
         this.eventDetail = eventDetail;
     }

@@ -21,7 +21,7 @@ public class EventListDAO {
     public ArrayList<Event> getEvents() throws SQLException {
         ArrayList<Event> events = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT * FROM event JOIN eventdetail ON event.eventid = eventdetail.eventid ORDER BY event.eventid DESC";
+            String sql = "SELECT * FROM event JOIN eventdetail ON event.eventid = eventdetail.eventid WHERE eventdetail.edstatus= 'OPEN' ORDER BY eventdetail.eventdetailid DESC";
             final var statement = connection.createStatement();
             final var resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {

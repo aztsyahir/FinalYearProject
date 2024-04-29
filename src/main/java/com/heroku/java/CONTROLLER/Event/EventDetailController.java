@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import com.heroku.java.DAO.Event.EventDetailDAO;
 import com.heroku.java.MODEL.Event;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class EventDetailController {
      private final EventDetailDAO EventDetailDAO;
@@ -18,8 +20,13 @@ public class EventDetailController {
         this.EventDetailDAO = eventDetailDAO;
     }
     @GetMapping("/AEventDetail")
-    public String EventDetail(Model model, @RequestParam("eventid") int eventid) {
-        
+    public String EventDetail(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,Model model, @RequestParam("eventid") int eventid) {
+        int Adminid = (int) session.getAttribute("adminid");
+        String Adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (AEvent Detail): " + Adminid);
+        System.out.println("Admin name in session (AEvent Detail): " + Adminname);
+
         try {
             ArrayList<Event> eventDetail = EventDetailDAO.getEventDetail(eventid);
             model.addAttribute("event", eventDetail);

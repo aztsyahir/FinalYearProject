@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ public class EventListController {
     }
     //admin event list
     @GetMapping("/AdminEvent")
-    public String AdminEvent(HttpSession session,Model model,Admin admin) {
+    public String AdminEvent(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,Model model,Admin admin) {
         int adminid = (int) session.getAttribute("adminid");
         String adminname = (String) session.getAttribute("adminname");
         
