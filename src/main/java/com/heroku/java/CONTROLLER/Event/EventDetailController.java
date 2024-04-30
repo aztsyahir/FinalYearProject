@@ -37,4 +37,22 @@ public class EventDetailController {
             return "Event/AEventDetail";
         }
 }
+@GetMapping("/PEventDetail")
+public String PEventDetail(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,Model model, @RequestParam("eventid") int eventid) {
+    int playerid = (int) session.getAttribute("playerid");
+    String playername = (String) session.getAttribute("playername");
+
+    System.out.println("Player id in session (AEvent Detail): " + playerid);
+    System.out.println("Player name in session (AEvent Detail): " + playername);
+
+    try {
+        ArrayList<Event> eventDetail = EventDetailDAO.getEventDetail(eventid);
+        model.addAttribute("event", eventDetail);
+        return "Event/PEventDetail";
+    } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        return "Event/PEventDetail";
+    }
+}
 }

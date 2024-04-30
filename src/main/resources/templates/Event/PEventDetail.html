@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{fragments/adminlayout :: adminlayout (~{::body},'AEventDetail')}">
+    th:replace="~{fragments/adminlayout :: adminlayout (~{::body},'PEventDetail')}">
 
 <head>
     <meta charset="UTF-8">
@@ -56,13 +56,7 @@
                     <td th:text="${event.eventDetail.edstatus}"></td>
                     <td>
                         <div class="d-grid gap-2" >
-                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" href="#"><button class="btn btn-primary" type="button">Validate</button></a>
-                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" th:href="@{/EventUpdate(eventid=${event.eventid})}"><button class="btn btn-primary"
-                                    type="button">Update Event</button></a>
-                            <a th:href="@{/CancelEvent(edid=${event.eventDetail.edid}, eventid=${event.eventid})}"
-                                onclick="return confirm('Are you sure you want to cancel this event?')"
-                                 th:if="${event.eventDetail.edstatus != 'CANCELLED'}"><button
-                                    class="btn btn-danger" type="button">CANCEL EVENT</button></a>
+                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" href="#"><button class="btn btn-primary" type="button">Register Event</button></a>
                             <div>
                                 <div class="offcanvas offcanvas-end" tabindex="-1"
                                     th:id="'offcanvasRight-' + ${event.eventid}"
