@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{fragments/adminlayout :: adminlayout (~{::body},'PEventDetail')}">
+    th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'PEventDetail')}">
 
 <head>
     <meta charset="UTF-8">
@@ -13,12 +13,6 @@
 </head>
 
 <body>
-    <div class="d-grid d-md-flex justify-content-md-end me-4">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-            th:data-bs-target="'#offcanvasRight-' + ${event[0].eventid}"
-            th:aria-controls="'offcanvasRight-' + ${event[0].eventid}">SET NEW EVENT WITH SAME EVENT
-            NAME</button>
-    </div>
     <div>
         <h2 class="text-center" th:text="${event[0].eventname} + ' DETAIL'"></h2>
     </div>
@@ -55,8 +49,9 @@
                     <td th:text="${event.eventDetail.edstats}"></td>
                     <td th:text="${event.eventDetail.edstatus}"></td>
                     <td>
-                        <div class="d-grid gap-2" >
-                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" href="#"><button class="btn btn-primary" type="button">Register Event</button></a>
+                        <div class="d-grid gap-2">
+                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" href="#"><button
+                                    class="btn btn-primary" type="button">Register Event</button></a>
                             <div>
                                 <div class="offcanvas offcanvas-end" tabindex="-1"
                                     th:id="'offcanvasRight-' + ${event.eventid}"
@@ -70,8 +65,8 @@
                                         <div class="panel"><img th:src="${event.eventDetail.edimage}"
                                                 alt="Product Image" style="width: 200px; height: 200px; "></div>
                                         <div class="myForm1">
-                                            <h3 class="offcanvas-title1"  id="offcanvasRightLabel-${event.eventid}"
-                                            th:text="${event.eventname}"></h3>
+                                            <h3 class="offcanvas-title1" id="offcanvasRightLabel-${event.eventid}"
+                                                th:text="${event.eventname}"></h3>
                                             <br><br>
                                             <form id="myForm1" th:action="@{/NewEventSet}" method="post"
                                                 modelAttribute="NewEventSet">
