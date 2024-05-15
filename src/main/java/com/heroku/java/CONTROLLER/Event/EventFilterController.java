@@ -6,8 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpSession;
-
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,12 +30,12 @@ public class EventFilterController {
             // Add the search results and the searchValue to the model
             model.addAttribute("event", searchResults);
             model.addAttribute("searchValue", searchValue);
+            // Return the view name to display the search results
         } catch (SQLException e) {
             e.printStackTrace();
             model.addAttribute("error", "An error occurred during the search: " + e.getMessage());
         }
-        // Return the view name to display the search results
-        return "Player/PlayerEvent";
+        return "Player/PlayerEvent?eventfilterSuccess=true";
     }
 
     @GetMapping("/FilterEvent")
@@ -72,7 +70,7 @@ public class EventFilterController {
             // Handle any SQL exceptions
             e.printStackTrace(); // Log the exception or handle it appropriately
             model.addAttribute("error", "An error occurred while filtering events: " + e.getMessage());
-            return "Player/PlayerEvent";
+            return "Player/PlayerEvent?eventfilterSuccess=true";
         }
     }
 }

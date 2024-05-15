@@ -62,6 +62,7 @@
             const SigninSuccessParam = urlParams.get('signinSuccess');
             const statsSuccessParam = urlParams.get('statsSuccess');
             const ProfileSuccessParam = urlParams.get('profileSuccess');
+            const EventFilterSuccessParam = urlParams.get('eventFilterSuccess');
 
             if (SigninSuccessParam !== null && SigninSuccessParam === 'true') {
                 toastBootstrap.show();
@@ -74,6 +75,9 @@
             else if (ProfileSuccessParam !== null && ProfileSuccessParam === 'true') {
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Profile updated!";
+            }
+            else if (EventFilterSuccessParam !== null && EventFilterSuccessParam === 'true') {
+                document.getElementById("display-message1").innerHTML = "Event Filtered!";
             }
         });
     </script>

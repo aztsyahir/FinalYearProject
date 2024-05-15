@@ -112,7 +112,7 @@ public class EventCreateController {
         message.append("<p><strong>Event Type:</strong> ").append(ed.getEdtype()).append("</p>");
         message.append("<p><strong>Event Date:</strong> ").append(ed.getEddate()).append("</p>");
         message.append("<p><strong>Last Registration Date:</strong> ").append(ed.getEdlastdate()).append("</p>");
-        message.append("<p><strong>Minimum Stats Required:</strong> ").append(ed.getEdstats()).append("</p>");
+        message.append("<p><strong>Minimum Stats Required(%):</strong> ").append(ed.getEdstats()).append("</p>");
         // message.append("<img src=\"cid:eventImage\">"); // Embed event image (image
         // cid)
 
