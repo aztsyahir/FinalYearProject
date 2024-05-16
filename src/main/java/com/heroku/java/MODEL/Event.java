@@ -4,14 +4,16 @@ public class Event {
     public int eventid;
     public String eventname;
     public EventDetail eventDetail;
+    private int eventDay;
 
     public Event() {
     }
 
-    public Event(int eventid, String eventname, EventDetail eventDetail) {
+    public Event(int eventid, String eventname, EventDetail eventDetail, int eventDay) {
         this.eventid = eventid;
         this.eventname = eventname;
         this.eventDetail = eventDetail;
+        this.eventDay = eventDay;
     }
 
     public Event(int eventid, String eventname){
@@ -45,6 +47,12 @@ public class Event {
 
     public void setEventDetail(EventDetail eventDetail) {
         this.eventDetail = eventDetail;
+    }
+    public int getEventDay() {
+        return this.eventDay;
+    }
+    public void setEventDay(int eventDay) {
+        this.eventDay = eventDay;
     }
 
 }

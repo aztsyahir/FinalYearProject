@@ -30,12 +30,14 @@ public class EventFilterController {
             // Add the search results and the searchValue to the model
             model.addAttribute("event", searchResults);
             model.addAttribute("searchValue", searchValue);
-            // Return the view name to display the search results
+            // Redirect to the target URL with query parameters
+        return "PlayerEvent?eventFilterSuccess=true";
         } catch (SQLException e) {
             e.printStackTrace();
             model.addAttribute("error", "An error occurred during the search: " + e.getMessage());
+            return "Signin";
         }
-        return "Player/PlayerEvent?eventfilterSuccess=true";
+        
     }
 
     @GetMapping("/FilterEvent")
@@ -65,12 +67,12 @@ public class EventFilterController {
             ArrayList<Event> FilterResults = eventFilterDAO.FilterEvent(EventType, startDate, endDate, EventStates,
                     EventStats);
             model.addAttribute("event", FilterResults);
-            return "Player/PlayerEvent";
+            return "Player/PlayerEvent?eventFilterSuccess=true";
         } catch (SQLException e) {
             // Handle any SQL exceptions
             e.printStackTrace(); // Log the exception or handle it appropriately
             model.addAttribute("error", "An error occurred while filtering events: " + e.getMessage());
-            return "Player/PlayerEvent?eventfilterSuccess=true";
+            return "Signin";
         }
     }
 }

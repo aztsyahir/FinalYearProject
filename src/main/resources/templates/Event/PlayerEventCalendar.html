@@ -1,50 +1,97 @@
 <!DOCTYPE html>
-<html lang="en"
-th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'PlayerEventCalendar')}">
+<html lang="en" th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'PlayerEventCalendar')}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UltimateNav</title>
 </head>
+
 <body>
-    <h2 class="text-center flex-grow-1" style="font-weight: bold;">UPCOMING EVENT</h2> 
+    <h2 class="text-center flex-grow-1" style="font-weight: bold;">UPCOMING EVENT</h2>
+    <h2 class="text-center flex-grow-1 " style="font-weight: bold;" th:text="${monthYear}">UPCOMING EVENT</h2>
+    <div class="mb-3 m-5">
+        <form th:action="@{/SearchEvent}" method="get">
+          <div class="input-group">
+            <input id="EventSearchInput" name="searchValue" type="text" class="form-control" placeholder="Search Event Name"
+              aria-label="Search Event You Wanted" aria-describedby="basic-addon2"
+              oninput="this.value = this.value.toUpperCase()">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
     <div class="d-flex justify-content-between align-items-center" style="font-weight: bold;">
-        <button type="button" class="btn btn-primary m-4" onclick="navigateMonth(-1)">Previous</button>
-        <h2 class="text-center flex-grow-1" style="font-weight: bold;" th:text="${monthYear}">UPCOMING EVENT</h2>    
-        <button type="button" class="btn btn-primary m-4" onclick="navigateMonth(1)">Next</button>       
+        <button type="button" class="btn btn-primary m-4" id="previousButton" onclick="navigateMonth(-1)">Previous</button>
+       
+        <button type="button" class="btn btn-primary m-4 d-none d-md-block ml-auto" onclick="navigateMonth(1)">Next</button>
     </div>
 
     <div class="d-flex justify-content-center text-center m-4">
         <table class="table table-bordered border-dark image-table">
-          <thead class="table-info border-dark">
-            <tr>
-              <th>Sun</th>
-              <th>Monday</th>
-              <th>Tuesday</th>
-              <th>Wednesday</th>
-              <th>Thursday</th>
-              <th>Friday</th>
-              <th>Saturday</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="row : ${rows}">
-                <td th:each="day : ${row}"class="text-start align-text-top">
-                    <span class="small" th:text="${day}"></span>
-                </td>
-            </tr>
-          </tbody>
+            <thead class="table-info border-dark">
+                <tr>
+                    <th class="w-14">Sun</th>
+                    <th class="w-14">Monday</th>
+                    <th class="w-14">Tuesday</th>
+                    <th class="w-14">Wednesday</th>
+                    <th class="w-14">Thursday</th>
+                    <th class="w-14">Friday</th>
+                    <th class="w-14">Saturday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="weekRow : ${rows}">
+                    <td th:each="day : ${weekRow}" class="table-cell text-start align-text-top">
+                        <div th:if="${day != ''}" class="d-flex flex-column ">
+                            <span class="small" th:text="${day}"></span><br>
+                            <div th:with="targetDate=${year + '-' + month + '-' + day}">
+                                <div th:each="event : ${events}">
+                                    <div
+                                        th:with="eventDateFormatted=${#dates.format(event.eventDetail.eddate, 'yyyy-MM-dd')}" class="d-flex flex-column  align-items-center">
+                                        <div th:if="${eventDateFormatted == targetDate}">
+                                            <!-- Button for displaying event name -->
+                                            <a th:href="@{/PEventDetail(eventid=${event.eventid})}"><button type="button" class="btn btn-primary btn-sm my-1"
+                                                th:text="${event.eventname}"></button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
-      </div>
-      <script>
+    </div>
+    <script>
         function navigateMonth(offset) {
             const params = new URLSearchParams(window.location.search);
             const currentMonth = params.get('month') ? parseInt(params.get('month')) : new Date().getMonth() + 1;
             const currentYear = params.get('year') ? parseInt(params.get('year')) : new Date().getFullYear();
             const newDate = new Date(currentYear, currentMonth - 1 + offset);
+
             window.location.href = `/PlayerEventCalendar?month=${newDate.getMonth() + 1}&year=${newDate.getFullYear()}`;
         }
+        // Check if the displayed month matches the current system month
+        document.addEventListener('DOMContentLoaded', function () {
+            const params = new URLSearchParams(window.location.search);
+            const currentMonth = params.get('month') ? parseInt(params.get('month')) : new Date().getMonth() + 1;
+
+            // Get the previous button element by ID
+            const previousButton = document.getElementById('previousButton');
+
+            // Check if the displayed month is the current month
+            if (currentMonth === new Date().getMonth() + 1) {
+                // Hide the previous button
+                previousButton.style.display = 'none';
+            } else {
+                // Show the previous button
+                previousButton.style.display = 'block';
+            }
+        });
     </script>
 
 </body>
+
 </html>
