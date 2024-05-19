@@ -53,6 +53,12 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var eventFilterSuccess = /*[[${eventFilterSuccess}]]*/ false;
+            /*]]>*/
+          </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toastLiveExample = document.getElementById("liveToast2");
@@ -77,8 +83,14 @@
                 document.getElementById("display-message1").innerHTML = "Profile updated!";
             }
             else if (EventFilterSuccessParam !== null && EventFilterSuccessParam === 'true') {
+                toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Event Filtered!";
             }
+            else if (eventFilterSuccess) {
+  toastBootstrap.show();
+  document.getElementById("display-message1").innerHTML = "Event Filtered!";
+}
+            
         });
     </script>
 </body>

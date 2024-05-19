@@ -123,10 +123,8 @@
         <tr>
           <th>Event Image</th>
           <th>Event Name</th>
-          <th>Event Type</th>
           <th>Event Date</th>
           <th>Event State</th>
-          <th>Last Registration Date</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -135,10 +133,8 @@
           <td><img th:src="${event.eventDetail.edimage}" alt="Event Image"
               style="object-fit: cover; width: 100%; height: 150px;"></td>
           <td th:text="${event.eventDetail.eventname}"></td>
-          <td th:text="${event.eventDetail.edtype}"></td>
           <td th:text="${event.eventDetail.eddate}"></td>
           <td th:text="${event.eventDetail.edstate}"></td>
-          <td th:text="${event.eventDetail.edlastdate}"></td>
           <td>
             <div class="d-grid gap-2">
               <a href="#"><button class="btn btn-primary" type="button">Register</button></a>

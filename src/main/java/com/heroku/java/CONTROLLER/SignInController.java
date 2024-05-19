@@ -58,7 +58,7 @@ public class SignInController {
                 System.out.println("Player SignIn Name : " + player.getPlayername());
                 System.out.println("Player SignIn ID: " + player.getPlayerid());
 
-                return "redirect:/PlayerEvent?signinSuccess=true";
+                return "redirect:/PlayerEventCalendar?signinSuccess=true";
             }
 
             return "redirect:/SignIn?signinError=true";

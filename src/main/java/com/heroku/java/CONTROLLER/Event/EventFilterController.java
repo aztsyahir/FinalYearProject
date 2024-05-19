@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
@@ -30,8 +31,9 @@ public class EventFilterController {
             // Add the search results and the searchValue to the model
             model.addAttribute("event", searchResults);
             model.addAttribute("searchValue", searchValue);
+            model.addAttribute("eventFilterSuccess", true);
             // Redirect to the target URL with query parameters
-        return "PlayerEvent?eventFilterSuccess=true";
+        return "Event/PlayerEventFiltered";
         } catch (SQLException e) {
             e.printStackTrace();
             model.addAttribute("error", "An error occurred during the search: " + e.getMessage());
@@ -67,7 +69,8 @@ public class EventFilterController {
             ArrayList<Event> FilterResults = eventFilterDAO.FilterEvent(EventType, startDate, endDate, EventStates,
                     EventStats);
             model.addAttribute("event", FilterResults);
-            return "Player/PlayerEvent?eventFilterSuccess=true";
+            model.addAttribute("eventFilterSuccess", true);
+            return "Event/PlayerEventFiltered";
         } catch (SQLException e) {
             // Handle any SQL exceptions
             e.printStackTrace(); // Log the exception or handle it appropriately
