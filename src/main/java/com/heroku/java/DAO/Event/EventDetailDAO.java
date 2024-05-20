@@ -43,8 +43,8 @@ public class EventDetailDAO {
                 byte[] edimgbyte = resultSet.getBytes("edimg");
                 String edimgbase64 = Base64.getEncoder().encodeToString(edimgbyte);
                 String edimage = "data:image/jpeg;base64," + edimgbase64;
-                
-                EventDetail ed = new EventDetail(eventid, eventname,edid, edtype, edcapacity, edvenue, edstate, eddate,
+
+                EventDetail ed = new EventDetail(eventid, eventname, edid, edtype, edcapacity, edvenue, edstate, eddate,
                         edlastdate, edstatus, edstats, null, null, edimage);
                 Event event = new Event(eventid, eventname);
                 event.setEventDetail(ed);
@@ -53,4 +53,5 @@ public class EventDetailDAO {
         }
         return events;
     }
+
 }

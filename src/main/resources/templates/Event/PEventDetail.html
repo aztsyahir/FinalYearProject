@@ -32,7 +32,7 @@
                     <th>Event State</th>
                     <th>Event Date</th>
                     <th>Last Registration</th>
-                    <th>Minimum Stats</th>
+                    <th>Minimum Stats (%)</th>
                     <th>Event Status</th>
                     <th>Action</th>
                 </tr>
@@ -50,131 +50,12 @@
                     <td th:text="${event.eventDetail.edstatus}"></td>
                     <td>
                         <div class="d-grid gap-2">
-                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" href="#"><button
-                                    class="btn btn-primary" type="button">Register Event</button></a>
+                            <a
+                                th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'INDIVIDUAL'}"><button
+                                    class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">Register
+                                    Event</button></a>
                             <div>
-                                <div class="offcanvas offcanvas-end" tabindex="-1"
-                                    th:id="'offcanvasRight-' + ${event.eventid}"
-                                    th:aria-labelledby="'offcanvasRightLabel-' + ${event.eventid}">
-                                    <div class="offcanvas-header">
-                                        <h5 class="offcanvas-title" id="offcanvasRightLabel">Set New Event</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="offcanvas-body">
-                                        <div class="panel"><img th:src="${event.eventDetail.edimage}"
-                                                alt="Product Image" style="width: 200px; height: 200px; "></div>
-                                        <div class="myForm1">
-                                            <h3 class="offcanvas-title1" id="offcanvasRightLabel-${event.eventid}"
-                                                th:text="${event.eventname}"></h3>
-                                            <br><br>
-                                            <form id="myForm1" th:action="@{/NewEventSet}" method="post"
-                                                modelAttribute="NewEventSet">
-                                                <input type="hidden" name="eventid" th:value="${event.eventid}">
-                                                <input type="hidden" name="eventname" th:value="${event.eventname}">
-                                                <div class="row g-2 mb-3">
-                                                    <div class="col-md">
-                                                        <div class="form-floating">
-                                                            <select class="form-select bg-light fs-6"
-                                                                id="floatingSelectGrid" placeholder="Event Type"
-                                                                name="edtype">
-                                                                <option selected disabled>Event Type</option>
-                                                                <option value="INDIVIDUAL">INDIVIDUAL</option>
-                                                                <option value="TEAM">TEAM</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2 mb-3">
-                                                    <div class="col-md">
-                                                        <div class="form-floating bg-light">
-                                                            <input type="number" class="form-control bg-light fs-6"
-                                                                id="floatingInputGrid"
-                                                                placeholder="Player/Team Capacity" name="edcapacity">
-                                                            <label for="floatingInputGrid">Player/Team Capacity</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2 mb-3">
-                                                    <div class="col-md">
-                                                        <div class="form-floating">
-                                                            <input type="text"
-                                                                class="form-control bg-light fs-6 text-uppercase"
-                                                                id="floatingInputGrid" placeholder="event venue"
-                                                                name="edvenue"
-                                                                oninput="this.value = this.value.toUpperCase()">
-                                                            <label for="floatingInputGrid">Event Venue</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md">
-                                                        <div class="form-floating">
-                                                            <select class="form-select bg-light fs-6"
-                                                                id="floatingSelectGrid" placeholder="Event State"
-                                                                name="edstate">
-                                                                <option selected disabled>States</option>
-                                                                <option value="JOHOR">JOHOR</option>
-                                                                <option value="KEDAH">KEDAH</option>
-                                                                <option value="KELANTAN">KELANTAN</option>
-                                                                <option value="MELAKA">MELAKA</option>
-                                                                <option value="NEGERI SEMBILAN">NEGERI SEMBILAN</option>
-                                                                <option value="PAHANG">PAHANG</option>
-                                                                <option value="PERAK">PERAK</option>
-                                                                <option value="PERLIS">PERLIS</option>
-                                                                <option value="PULAU PINANG">PULAU PINANG</option>
-                                                                <option value="SABAH">SABAH</option>
-                                                                <option value="SARAWAK">SARAWAK</option>
-                                                                <option value="SELANGOR">SELANGOR</option>
-                                                                <option value="TERENGGANU">TERENGGANU</option>
-                                                                <option value="WILAYAH PERSEKUTUAN (KUALA LUMPUR)">
-                                                                    WILAYAH PERSEKUTUAN (KUALA
-                                                                    LUMPUR)</option>
-                                                                <option value="WILAYAH PERSEKUTUAN (LABUAN)">WILAYAH
-                                                                    PERSEKUTUAN (LABUAN)
-                                                                </option>
-                                                                <option value="WILAYAH PERSEKUTUAN (PUTRAJAYA)">WILAYAH
-                                                                    PERSEKUTUAN (PUTRAJAYA)
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2 mb-3">
-                                                    <div class="col-md">
-                                                        <div class="form-floating">
-                                                            <input type="date" class="form-control bg-light fs-6"
-                                                                id="floatingInputGrid" placeholder="DD/MM/YYYY"
-                                                                name="eddate">
-                                                            <label for="floatingInputGrid">Event Date</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md">
-                                                        <div class="form-floating">
-                                                            <input type="date" class="form-control bg-light fs-6"
-                                                                id="floatingInputGrid" placeholder="DD/MM/YYYY"
-                                                                name="edlastdate">
-                                                            <label for="floatingInputGrid">Last Registration
-                                                                Date</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2 mb-3">
-                                                    <div class="col-md">
-                                                        <div class="form-floating">
-                                                            <input type="number" class="form-control bg-light fs-6"
-                                                                id="floatingInputGrid" placeholder="Event stats"
-                                                                name="edstats">
-                                                            <label for="floatingInputGrid">Minimum stats (%)</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="submitOrder1" id="submitOrder1">
-                                                        <button type="submit"
-                                                            style="color: #000000; font-weight: 800; border: 1px solid #000000; border-radius: 15px; background-color: #4594e9; padding: 8px 30%;">Set
-                                                            New Event</button>
-                                                    </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </td>
@@ -182,13 +63,65 @@
             </tbody>
         </table>
     </div>
-    <script>
-        // Initialize Bootstrap offcanvas components
-        var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'))
-        var offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
-            return new bootstrap.Offcanvas(offcanvasEl)
-        })
-    </script>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">REGISTER EVENT</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/IEventRegister}" th:modelAttribute="IEventRegister"
+                        th:object="${IEventRegister}">
+                        <input type="hidden" name="eventname" th:value="${event[0].eventname}">
+                        <input type="hidden" name="edid" th:value="${event[0].eventDetail.edid}">
+                        <input type="hidden" name="playerid" th:value="${player.playerid}">
+                        <div class="form-floating g-2 mb-3">
+                            <input type="text" name="eventname"
+                                class="form-control form-control-lg bg-light fs-6 text-uppercase"
+                                placeholder="Event Name" th:value="${event[0].eventname}" readonly>
+                            <label for="floatingInputGrid">Event Name</label>
+                        </div>
+                        <div class="form-floating g-2 mb-3">
+                            <input type="text" name="playername"
+                                class="form-control form-control-lg bg-light fs-6 text-uppercase"
+                                placeholder="Player Name" th:value="${player.playername}" readonly>
+                            <label for="floatingInputGrid">Player Name</label>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" name="edtype"
+                                        class="form-control form-control-lg bg-light fs-6 text-uppercase"
+                                        placeholder="PEvent Type" th:value="${event[0].eventDetail.edtype}" readonly>
+                                    <label for="floatingInputGrid">Event Type</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control form-control-lg bg-light fs-6"
+                                        id="floatingInputGrid" placeholder="Player Stats" name="playerstats"
+                                        th:value="${player.playerstats}" readonly>
+                                    <label for="floatingInputGrid">Player stats (%)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="btncreate" type="submit" class="btn btn-primary d-flex align-items-center"><span
+                                    class="material-symbols-outlined">
+                                    edit_square
+                                </span> Register Event</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

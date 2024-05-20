@@ -48,28 +48,7 @@ public class EventListController {
         }
     }
 
-    // admin event list
-    @GetMapping("/PlayerEvent")
-    public String PlayerEvent(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
-            Model model, Admin admin) {
-        // int playerid = (int) session.getAttribute("playerid");
-        // String playername = (String) session.getAttribute("playername");
-
-        // System.out.println("Player id in session (Player event): " + playerid);
-        // System.out.println("Player name in session (Player event): " + playername);
-
-        ArrayList<Event> eventList;
-        try {
-            eventList = eventListDAO.getEvents();
-            model.addAttribute("event", eventList);
-            return "Player/PlayerEvent";
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return "Signin";
-        }
-    }
-
+    // Player Event
     @GetMapping("/PlayerEventCalendar")
     public String playerEventCalendar(@RequestParam(name = "month", required = false) Integer month,
             @RequestParam(name = "year", required = false) Integer year,
@@ -78,8 +57,8 @@ public class EventListController {
         int playerid = (int) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player id in session (Player event): " + playerid);
-        System.out.println("Player name in session (Player event): " + playername);
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
         try {
             // Default to current month and year if not provided
             Calendar cal = Calendar.getInstance();

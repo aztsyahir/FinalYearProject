@@ -33,13 +33,13 @@ public class EventFilterController {
             model.addAttribute("searchValue", searchValue);
             model.addAttribute("eventFilterSuccess", true);
             // Redirect to the target URL with query parameters
-        return "Event/PlayerEventFiltered";
+            return "Event/PlayerEventFiltered";
         } catch (SQLException e) {
             e.printStackTrace();
             model.addAttribute("error", "An error occurred during the search: " + e.getMessage());
             return "Signin";
         }
-        
+
     }
 
     @GetMapping("/FilterEvent")
