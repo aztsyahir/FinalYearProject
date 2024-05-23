@@ -22,32 +22,13 @@ public class EventFilterController {
         this.eventFilterDAO = eventFilterDAO;
     }
 
-    @GetMapping("/SearchEvent")
-    public String searchEvent(@RequestParam(name = "searchValue", required = false) String searchValue, Model model) {
-        try {
-            // Perform the search based on the searchValue
-            ArrayList<Event> searchResults = eventFilterDAO.searchEventsByName(searchValue);
-
-            // Add the search results and the searchValue to the model
-            model.addAttribute("event", searchResults);
-            model.addAttribute("searchValue", searchValue);
-            model.addAttribute("eventFilterSuccess", true);
-            // Redirect to the target URL with query parameters
-            return "Event/PlayerEventFiltered";
-        } catch (SQLException e) {
-            e.printStackTrace();
-            model.addAttribute("error", "An error occurred during the search: " + e.getMessage());
-            return "Signin";
-        }
-
-    }
-
     @GetMapping("/FilterEvent")
     public String FilterEvent(@RequestParam(name = "edtype", required = false) String EventType,
             @RequestParam(name = "startdate", required = false) String startDateString,
             @RequestParam(name = "enddate", required = false) String endDateString,
             @RequestParam(name = "edstate", required = false) String EventStates,
             @RequestParam(name = "edstats", required = false, defaultValue = "0") String EventStatsString,
+            @RequestParam(name = "searchValue", required = false) String searchValue,
             Model model) {
         try {
             // Convert String dates to Date objects
@@ -65,9 +46,9 @@ public class EventFilterController {
                 EventStats = Integer.parseInt(EventStatsString);
             }
 
-            // Perform the search based on the searchValue
             ArrayList<Event> FilterResults = eventFilterDAO.FilterEvent(EventType, startDate, endDate, EventStates,
-                    EventStats);
+                    EventStats, searchValue);
+
             model.addAttribute("event", FilterResults);
             model.addAttribute("eventFilterSuccess", true);
             return "Event/PlayerEventFiltered";
