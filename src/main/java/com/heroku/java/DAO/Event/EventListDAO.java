@@ -58,6 +58,16 @@ public class EventListDAO {
     public ArrayList<Event> getEventsForMonth(int month, int year) throws SQLException {
         ArrayList<Event> events = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
+
+            // Update statement to set edstatus to 'CLOSE' for past events
+            String updateSql = "UPDATE eventdetail " +
+                    "SET edstatus = 'CLOSE' " +
+                    "WHERE eddate < CURRENT_DATE " +
+                    "AND edstatus = 'OPEN'";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                updateStatement.executeUpdate();
+            }
+
             String sql = "SELECT * FROM event " +
                     "JOIN eventdetail ON event.eventid = eventdetail.eventid " +
                     "WHERE eventdetail.edstatus = 'OPEN' " +

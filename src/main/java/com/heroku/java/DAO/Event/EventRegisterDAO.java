@@ -4,6 +4,8 @@ import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -43,6 +45,23 @@ public class EventRegisterDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return event;
+    }
+
+    public Event IRegisterEvent(int edid, int playerid) throws SQLException {
+        Event event = null;
+        try (Connection connection = dataSource.getConnection()) {
+                String individualSql = "INSERT INTO individual ( registrationstatus, eventdetailid, playerid) VALUES ( ?, ?, ?)";
+                try (PreparedStatement individualStatement = connection.prepareStatement(individualSql)) {
+                    
+                    individualStatement.setString(1, "PENDING");
+                    individualStatement.setInt(2, edid);
+                    individualStatement.setInt(3, playerid);
+                    // Execute individual insert
+                    individualStatement.executeUpdate();
+                }
+            }
+        
         return event;
     }
 }
