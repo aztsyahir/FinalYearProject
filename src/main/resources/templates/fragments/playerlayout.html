@@ -47,17 +47,36 @@
         </div>
     </div>
 
+     <!-- Modal for already registered -->
+     <div class="modal fade" id="alreadyRegisteredModal" tabindex="-1" aria-labelledby="alreadyRegisteredLabel"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h1 class="modal-title fs-5" id="alreadyRegisteredLabel">Registration Failed!</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+                 <p>You are already registered for this event.</p>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
     <!-- swiper js link  -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            var eventFilterSuccess = /*[[${eventFilterSuccess}]]*/ false;
-            /*]]>*/
-          </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var eventFilterSuccess = /*[[${eventFilterSuccess}]]*/ false;
+        /*]]>*/
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -69,6 +88,7 @@
             const statsSuccessParam = urlParams.get('statsSuccess');
             const ProfileSuccessParam = urlParams.get('profileSuccess');
             const EventFilterSuccessParam = urlParams.get('eventFilterSuccess');
+            const RegisterSuccessParam = urlParams.get('RegisterSuccess');
 
             if (SigninSuccessParam !== null && SigninSuccessParam === 'true') {
                 toastBootstrap.show();
@@ -87,10 +107,22 @@
                 document.getElementById("display-message1").innerHTML = "Event Filtered!";
             }
             else if (eventFilterSuccess) {
-  toastBootstrap.show();
-  document.getElementById("display-message1").innerHTML = "Event Filtered!";
-}
-            
+                toastBootstrap.show();
+                document.getElementById("display-message1").innerHTML = "Event Filtered!";
+            }
+            else if (RegisterSuccessParam !== null && RegisterSuccessParam === 'true') {
+                toastBootstrap.show();
+                document.getElementById("display-message1").innerHTML = "Event Registered Successfully!";
+            }
+
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('alreadyRegistered') && urlParams.get('alreadyRegistered') === 'true') {
+                var modal = new bootstrap.Modal(document.getElementById('alreadyRegisteredModal'));
+                modal.show();
+            }
         });
     </script>
 </body>

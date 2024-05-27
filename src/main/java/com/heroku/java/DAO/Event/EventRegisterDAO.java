@@ -64,4 +64,20 @@ public class EventRegisterDAO {
         
         return event;
     }
+
+    public boolean isPlayerRegistered(int edid, int playerid) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM individual WHERE eventdetailid = ? AND playerid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, edid);
+                statement.setInt(2, playerid);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getInt(1) > 0;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

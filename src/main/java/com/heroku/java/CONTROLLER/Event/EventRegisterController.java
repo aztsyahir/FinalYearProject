@@ -18,23 +18,22 @@ import com.heroku.java.MODEL.Player;
 public class EventRegisterController {
     @Autowired
     private EventRegisterDAO eventRegisterDAO;
-    
-    private EventRegisterController (EventRegisterDAO eventRegisterDAO) {
+
+    private EventRegisterController(EventRegisterDAO eventRegisterDAO) {
         this.eventRegisterDAO = eventRegisterDAO;
     }
-    
-    // @GetMapping("/IEventRegister")
-    //     public String IEventRegister(){
-    //         return "Event/IEventRegister";
-    // }
 
     @PostMapping("/IEventRegister")
-    public String IEventRegister(@RequestParam("edid") int edid, 
-    @RequestParam("playerid") int playerid) throws SQLException{
+    public String IEventRegister(@RequestParam("edid") int edid,
+            @RequestParam("playerid") int playerid,Model model) throws SQLException {
 
         try {
+            if (eventRegisterDAO.isPlayerRegistered(edid, playerid)) {
+                model.addAttribute("alreadyRegistered", true);
+                return "redirect:/PlayerEventCalendar?alreadyRegistered=true";
+            }
             eventRegisterDAO.IRegisterEvent(edid, playerid);
-            return "redirect:/PlayerEventCalendar";
+            return "redirect:/PlayerEventCalendar?RegisterSuccess=true";
         } catch (Exception e) {
             e.printStackTrace();
             // TODO: handle exception
