@@ -61,7 +61,7 @@ public class EventDetailController {
 
         try {
             ArrayList<Event> eventDetail = EventDetailDAO.getEventDetail(eventid);
-            Event ieventRegister = EventRegisterDAO.IRegisterEventView(edid, playerid);
+            Event ieventRegister = EventRegisterDAO.RegisterEventView(edid, playerid);
             Player player = PlayerProfileDAO.PlayerProfile(playerid);
             model.addAttribute("event", eventDetail);
             model.addAttribute("events", ieventRegister);

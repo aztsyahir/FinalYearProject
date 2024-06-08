@@ -23,7 +23,7 @@ public class EventRegisterDAO {
         this.dataSource = dataSource;
     }
 
-    public Event IRegisterEventView(int edid, int playerid) throws SQLException {
+    public Event RegisterEventView(int edid, int playerid) throws SQLException {
         Event event = null;
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT e.eventid, e.eventname, ed.edtype " +
@@ -51,30 +51,54 @@ public class EventRegisterDAO {
     public Event IRegisterEvent(int edid, int playerid) throws SQLException {
         Event event = null;
         try (Connection connection = dataSource.getConnection()) {
-                String individualSql = "INSERT INTO individual ( registrationstatus, eventdetailid, playerid) VALUES ( ?, ?, ?)";
-                try (PreparedStatement individualStatement = connection.prepareStatement(individualSql)) {
-                    
-                    individualStatement.setString(1, "PENDING");
-                    individualStatement.setInt(2, edid);
-                    individualStatement.setInt(3, playerid);
-                    // Execute individual insert
-                    individualStatement.executeUpdate();
-                }
+            String individualSql = "INSERT INTO individual ( registrationstatus, eventdetailid, playerid) VALUES ( ?, ?, ?)";
+            try (PreparedStatement individualStatement = connection.prepareStatement(individualSql)) {
+
+                individualStatement.setString(1, "PENDING");
+                individualStatement.setInt(2, edid);
+                individualStatement.setInt(3, playerid);
+                // Execute individual insert
+                individualStatement.executeUpdate();
             }
-        
+        }
+
         return event;
     }
 
-    public boolean isPlayerRegistered(int edid, int playerid) throws SQLException {
+    public Event TRegisterEvent(int edid, int playerid) throws SQLException{
+        Event event = null;
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT COUNT(*) FROM individual WHERE eventdetailid = ? AND playerid = ?";
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, edid);
-                statement.setInt(2, playerid);
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next()) {
-                        return resultSet.getInt(1) > 0;
-                    }
+            String teamSql = "INSERT INTO team ( registrationstatus, eventdetailid, playerid) VALUES (?,?,?)";
+            try (PreparedStatement teamStatement = connection.prepareStatement(teamSql)) {
+                teamStatement.setString(1, "PENDING");
+                teamStatement.setInt(2, edid);
+                teamStatement.setInt(3, playerid);
+                // Execute team insert
+                teamStatement.executeUpdate();
+            }
+    }
+    return event;
+}
+
+    public boolean isPlayerRegistered(int edid, int playerid) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM individual WHERE eventdetailid = ? AND playerid = ?";
+        String sql2 = "SELECT COUNT(*) FROM team WHERE eventdetailid = ? AND playerid = ?";
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, edid);
+            statement.setInt(2, playerid);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        try (PreparedStatement statement = connection.prepareStatement(sql2)) {
+            statement.setInt(1, edid);
+            statement.setInt(2, playerid);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
                 }
             }
         }

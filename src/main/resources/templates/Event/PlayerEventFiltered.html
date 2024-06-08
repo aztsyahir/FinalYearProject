@@ -108,7 +108,7 @@
           <td>
             <div class="d-grid gap-2">
               <a href="#"><button class="btn btn-primary" type="button">Register</button></a>
-              <a th:href="@{/PEventDetail(eventid=${event.eventid})}"><button class="btn btn-info"
+              <a th:href="@{/PEventDetail(eventid=${event.eventid}, edid=${event.eventDetail.edid})}"><button class="btn btn-info"
                   type="button">DETAIL</button></a>
             </div>
           </td>

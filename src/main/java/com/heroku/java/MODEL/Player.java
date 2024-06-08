@@ -36,6 +36,12 @@ public class Player {
         this.playerstats = playerstats;
     }
 
+    public Player(int playerid, String playername, int playerstats){
+        this.playerid = playerid;
+        this.playername = playername;
+        this.playerstats = playerstats;
+    }
+
     public Player(String playeremails) {
         this.playeremail = playeremails;
     }
