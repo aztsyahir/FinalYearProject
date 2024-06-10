@@ -18,6 +18,7 @@ import com.heroku.java.DAO.Player.PlayerListDAO;
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 import com.heroku.java.MODEL.Player;
+import com.heroku.java.MODEL.Team;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -34,7 +35,7 @@ public class EventRegisterController {
 
     @PostMapping("/IEventRegister")
     public String IEventRegister(@RequestParam("edid") int edid,
-            @RequestParam("playerid") int playerid,Model model) throws SQLException {
+            @RequestParam("playerid") int playerid, Model model) throws SQLException {
 
         try {
             if (eventRegisterDAO.isPlayerRegistered(edid, playerid)) {
@@ -51,20 +52,20 @@ public class EventRegisterController {
     }
 
     @PostMapping("/TEventRegister")
-    public String TeamEventRegister( @RequestParam("edid") int edid, HttpSession session,
-    Model model){
+    public String TeamEventRegister(@RequestParam("edid") int edid, HttpSession session,
+            Model model) {
         try {
-        int playerid = (int) session.getAttribute("playerid");
-        String playername = (String) session.getAttribute("playername");
+            int playerid = (int) session.getAttribute("playerid");
+            String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player ID: " + playerid);
-        System.out.println("Player Name: " + playername);
-        System.out.println("Event ID: " + edid);
+            System.out.println("Player ID: " + playerid);
+            System.out.println("Player Name: " + playername);
+            System.out.println("Event ID: " + edid);
 
-        eventRegisterDAO.TRegisterEvent(edid, playerid);
-        Event eventRegisterView = eventRegisterDAO.RegisterEventView(edid, playerid);
-        model.addAttribute("event", eventRegisterView);
-        return "redirect:/TEventRegister?edid=" + edid;
+            eventRegisterDAO.TRegisterEvent(edid, playerid);
+            Event eventRegisterView = eventRegisterDAO.RegisterEventView(edid, playerid);
+            model.addAttribute("event", eventRegisterView);
+            return "redirect:/TEventRegister?edid=" + edid;
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -73,27 +74,30 @@ public class EventRegisterController {
     }
 
     @GetMapping("/TEventRegister")
-    public String TEventRegister( @RequestParam("edid") int edid, HttpSession session,
-    Model model){
+    public String TEventRegister(@RequestParam("edid") int edid, HttpSession session,
+            Model model) {
         try {
-        int playerid = (int) session.getAttribute("playerid");
-        String playername = (String) session.getAttribute("playername");
+            int playerid = (int) session.getAttribute("playerid");
+            String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player ID: " + playerid);
-        System.out.println("Player Name: " + playername);
-        System.out.println("Event ID: " + edid);
+            System.out.println("Player ID: " + playerid);
+            System.out.println("Player Name: " + playername);
+            System.out.println("Event ID: " + edid);
 
-        eventRegisterDAO.TRegisterEvent(edid, playerid);
-        Event eventRegisterView = eventRegisterDAO.RegisterEventView(edid, playerid);
-        model.addAttribute("event", eventRegisterView);
-        return "Event/TEventRegister";
+            Team team = eventRegisterDAO.TRegisterEvent(edid, playerid);
+            model.addAttribute("teamid", team.getTeamid());
+
+            System.out.println("Team ID: " + team.getTeamid());
+
+            Event eventRegisterView = eventRegisterDAO.RegisterEventView(edid, playerid);
+            model.addAttribute("event", eventRegisterView);
+            return "Event/TEventRegister";
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
             return "SignIn";
         }
     }
-
 
     @GetMapping("/SearchMember")
     @ResponseBody
@@ -104,5 +108,19 @@ public class EventRegisterController {
             e.printStackTrace();
             return new ArrayList<>(); // Return an empty list or handle the error as needed
         }
+    }
+
+    @PostMapping("/AddMember")
+    public String AddMember(@RequestParam("teamid") int teamid, @RequestParam("playerid") int playerid,
+            @RequestParam("edid") int edid) throws SQLException {
+        try {
+            playerListDAO.AddMember(playerid, teamid);
+            return "redirect:/TEventRegister?edid=" + edid;
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return "redirect:/TEventRegister?edid=" + edid;
+        }
+
     }
 }

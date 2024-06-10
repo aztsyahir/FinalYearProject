@@ -36,4 +36,15 @@ public class PlayerListDAO {
             return player;
         }
     }
+
+    public void AddMember(int playerid, int teamid) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "INSERT INTO member (playerid, teamid) VALUES (?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, playerid);
+                statement.setInt(2, teamid);
+                statement.executeUpdate();
+            }
+        }
+    }
 }

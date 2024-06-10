@@ -2,6 +2,8 @@ package com.heroku.java.DAO.Event;
 
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
+import com.heroku.java.MODEL.Team;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -65,20 +67,26 @@ public class EventRegisterDAO {
         return event;
     }
 
-    public Event TRegisterEvent(int edid, int playerid) throws SQLException{
-        Event event = null;
+    public Team TRegisterEvent(int edid, int playerid) throws SQLException {
+        Team team = null;
         try (Connection connection = dataSource.getConnection()) {
-            String teamSql = "INSERT INTO team ( registrationstatus, eventdetailid, playerid) VALUES (?,?,?)";
-            try (PreparedStatement teamStatement = connection.prepareStatement(teamSql)) {
-                teamStatement.setString(1, "PENDING");
-                teamStatement.setInt(2, edid);
-                teamStatement.setInt(3, playerid);
-                // Execute team insert
-                teamStatement.executeUpdate();
+            String teamSql = "INSERT INTO team (registrationstatus, eventdetailid, playerid) VALUES (?, ?, ?) RETURNING teamid";
+
+            try (PreparedStatement statement = connection.prepareStatement(teamSql)) {
+                statement.setString(1, "PENDING");
+                statement.setInt(2, edid);
+                statement.setInt(3, playerid);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int teamid = resultSet.getInt("teamid");
+                        team = new Team(teamid);
+                    }
+                }
             }
+        }
+        return team;
     }
-    return event;
-}
 
     public boolean isPlayerRegistered(int edid, int playerid) throws SQLException {
         String sql = "SELECT COUNT(*) FROM individual WHERE eventdetailid = ? AND playerid = ?";
