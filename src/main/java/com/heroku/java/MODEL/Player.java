@@ -12,6 +12,10 @@ public class Player {
 
     public Player() {
     }
+    
+    public Player(int playerid) {
+        this.playerid = playerid;
+    }
 
     public Player(int playerid, String playername, String playeremail, String playerpassword, String playergender,
             int playerage, int playerstats) {

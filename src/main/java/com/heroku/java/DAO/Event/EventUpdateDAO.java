@@ -4,10 +4,8 @@ import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Base64;
 

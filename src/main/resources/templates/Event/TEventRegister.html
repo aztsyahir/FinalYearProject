@@ -30,9 +30,10 @@
 
             <div class="col-md-6 left-box">
                 <div class="row align-items-center">
-                    <form method="post" th:action="@{/EventCreate}" th:modelAttribute="EventCreate"
-                        th:object="${EventCreate}" onsubmit="submitForm(event)">
+                    <form method="post" th:action="@{/RegisterTeamMember}" th:modelAttribute="RegisterTeamMember"
+                        th:object="${EventCreate}" onsubmit="submitForm(event)" id="team-registration-form">
                         <input type="hidden" name="teamid" th:value="${teamid}" />
+                        <input type="hidden" name="playerIds" id="player-ids" />
                         <div class="form-floating g-2 mb-3">
                             <input type="text" name="eventname"
                                 class="form-control form-control-lg bg-light fs-6 text-uppercase"
@@ -48,7 +49,7 @@
                         <div class="form-floating g-2 mb-3">
                             <input type="text" name="teammember"
                                 class="form-control form-control-lg bg-light fs-6 text-uppercase"
-                                placeholder="Team Members" id="input-box" required
+                                placeholder="Team Members" id="input-box"
                                 oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                             <label for="floatingInputGrid">Search Team Members to add them</label>
                         </div>
@@ -93,95 +94,6 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 
-    <script>
-        document.getElementById('input-box').addEventListener('input', function () {
-            const query = this.value;
-            if (query.length >= 1) {
-                fetch('/SearchMember?query=' + encodeURIComponent(query))
-                    .then(response => response.json())
-                    .then(data => {
-                        const resultsContainer = document.getElementById('member-results');
-                        resultsContainer.innerHTML = '';
-                        data.forEach(player => {
-                            const playerItem = document.createElement('div');
-                            playerItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                            playerItem.innerHTML = `
-                                <span>${player.playername}</span>
-                                <span>Stats: ${player.playerstats}</span>
-                                <button type="button" class="btn btn-primary btn-sm" onclick="addMember('${player.playername}', ${player.playerstats})">Add</button>
-                            `;
-                            resultsContainer.appendChild(playerItem);
-                        });
-                    });
-            } else {
-                document.getElementById('member-results').innerHTML = '';
-            }
-        });
-
-        const addedPlayers = [];
-
-        function addMember(playerName, playerStats) {
-            if (!addedPlayers.some(player => player.name === playerName)) {
-                addedPlayers.push({ name: playerName, stats: playerStats });
-
-                const playerListItem = document.createElement('li');
-                playerListItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                playerListItem.innerHTML = `
-                <span>${playerName}</span>
-                <button type="button" class="btn btn-danger btn-sm" onclick="removePlayer('${playerName}', this)">Remove</button>
-            `;
-
-                document.getElementById('added-players').appendChild(playerListItem);
-
-                // Update team stats
-                updateTeamStats();
-            }
-        }
-        function removePlayer(playerName, button) {
-            const index = addedPlayers.findIndex(player => player.name === playerName);
-            if (index > -1) {
-                addedPlayers.splice(index, 1);
-                button.parentElement.remove();
-
-                // Update team stats
-                updateTeamStats();
-            }
-        }
-
-        function updateTeamStats() {
-            let totalStats = 0;
-            const totalPlayer = addedPlayers.length;
-
-            // Calculate total stats
-            addedPlayers.forEach(player => {
-                totalStats += player.stats;
-            });
-
-            // Calculate team stats
-            const teamStats = totalPlayer === 0 ? 0 : totalStats / totalPlayer;
-
-            console.log("Team Stats:", teamStats);
-
-            // Enable the teamstats input field
-            document.getElementById('teamstats').removeAttribute('disabled');
-
-            // Update the team stats input field
-            document.getElementById('teamstats').value = Math.round(teamStats);
-        }
-
-        function submitForm(event) {
-            event.preventDefault(); // Prevent form submission
-
-            // Check if the number of added players is less than 7
-            if (addedPlayers.length < 7) {
-                // Display modal if the condition is not met
-                $('#minPlayerModal').modal('show');
-            } else {
-                // Submit the form if the condition is met
-                document.getElementById('team-registration-form').submit();
-            }
-        }
-    </script>
+    <script th:src="@{Javascript/TEventRegister.js}"> </script>
 </body>
-
 </html>

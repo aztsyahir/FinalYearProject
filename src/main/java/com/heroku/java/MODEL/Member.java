@@ -1,20 +1,24 @@
 package com.heroku.java.MODEL;
 
-public class Member {
+public class Member extends Player {
     
     public int memberid;
-    public String membername;
-    public String memberStats;
+    public Team team;
 
     public Member() {
     }
 
-    public Member(int memberid, String membername, String memberStats) {
+    public Member(int memberid, int playerid, String playername, String playeremail, String playerpassword, String playergender,
+    int playerage, int playerstats, Team team) {
+        super(playerid, playername, playeremail,playerpassword, playergender, playerage, playerstats);
         this.memberid = memberid;
-        this.membername = membername;
-        this.memberStats = memberStats;
+        this.team = team;
     }
 
+    public Member( int playerid, int teamid){
+        super(playerid);
+        this.team = new Team(teamid);
+    }
 
     public int getMemberid() {
         return this.memberid;
@@ -24,20 +28,19 @@ public class Member {
         this.memberid = memberid;
     }
 
-    public String getMembername() {
-        return this.membername;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setMembername(String membername) {
-        this.membername = membername;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
-    public String getMemberStats() {
-        return this.memberStats;
+    public int getTeamid() {
+        return team.getTeamid();
     }
 
-    public void setMemberStats(String memberStats) {
-        this.memberStats = memberStats;
+    public String getTeamname() {
+        return team.getTeamname();
     }
-
 }

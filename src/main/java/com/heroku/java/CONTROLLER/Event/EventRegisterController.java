@@ -99,6 +99,24 @@ public class EventRegisterController {
         }
     }
 
+    @PostMapping("/RegisterTeamMember")
+    public String registerTeam(@ModelAttribute Team team, @RequestParam("playerIds") List<Integer> playerIds, Model model) {
+        try {
+            // Save the team details
+            eventRegisterDAO.updateTeamRegister(team);
+
+            // Add each player to the team
+            for (Integer playerId : playerIds) {
+                eventRegisterDAO.addmember(playerId, team.getTeamid(), team);
+            }
+
+            return "redirect:/PlayerEventCalendar?RegisterSuccess=true";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "redirect:/PlayerEventCalendar";
+        }
+    }
+
     @GetMapping("/SearchMember")
     @ResponseBody
     public List<Player> searchPlayers(@RequestParam("query") String query) {

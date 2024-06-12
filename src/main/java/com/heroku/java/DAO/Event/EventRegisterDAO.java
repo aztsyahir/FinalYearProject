@@ -2,8 +2,10 @@ package com.heroku.java.DAO.Event;
 
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
+import com.heroku.java.MODEL.Member;
 import com.heroku.java.MODEL.Team;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -63,7 +65,6 @@ public class EventRegisterDAO {
                 individualStatement.executeUpdate();
             }
         }
-
         return event;
     }
 
@@ -71,7 +72,6 @@ public class EventRegisterDAO {
         Team team = null;
         try (Connection connection = dataSource.getConnection()) {
             String teamSql = "INSERT INTO team (registrationstatus, eventdetailid, playerid) VALUES (?, ?, ?) RETURNING teamid";
-
             try (PreparedStatement statement = connection.prepareStatement(teamSql)) {
                 statement.setString(1, "PENDING");
                 statement.setInt(2, edid);
@@ -87,6 +87,35 @@ public class EventRegisterDAO {
         }
         return team;
     }
+
+    public Member addmember( int playerid, int teamid,Team team) throws SQLException {
+        Member member = null;
+        try (Connection  connection = dataSource.getConnection()) {
+            String sql = "INSERT INTO member (playerid, teamid) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+                statement.setInt(1, playerid);
+                statement.setInt(2, teamid);
+                statement.executeUpdate();
+
+            member = new Member(playerid, teamid);
+    }catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return member;
+}
+
+    public void updateTeamRegister(Team team) throws SQLException {
+        try (Connection connection = dataSource.getConnection()){
+            int teamid = team.getTeamid();
+        String Sql2 = "UPDATE team SET teamname = ?, teamstats = ? WHERE teamid =?";
+        final var statement2 = connection.prepareStatement(Sql2);
+        statement2.setString(1, team.getTeamname());
+        statement2.setInt(2, team.getTeamstats());
+        statement2.setInt(3, teamid);
+        statement2.executeUpdate();
+    }
+}
 
     public boolean isPlayerRegistered(int edid, int playerid) throws SQLException {
         String sql = "SELECT COUNT(*) FROM individual WHERE eventdetailid = ? AND playerid = ?";
