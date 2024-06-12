@@ -57,7 +57,7 @@ public class EventCreateController {
 
             // Send individualized email to each player
             for (String playerEmail : playerEmails) {
-                String subject = "New Event Created: " + event.getEventname();
+                String subject = "New Event Announcement: " + event.getEventname();
                 String htmlContent = buildHtmlContent(event, ed);
                 emailService.sendHtmlEmail(playerEmail, subject, htmlContent);
             }
@@ -90,7 +90,7 @@ public class EventCreateController {
             List<String> playerEmails = playerEmailDAO.getPlayerEmail();
 
             for (String playerEmail : playerEmails) {
-                String subject = "New Event Created: " + event.getEventname();
+                String subject = "New Event Announcement: " + event.getEventname();
                 String htmlContent = buildHtmlContent(event, ed);
                 emailService.sendHtmlEmail(playerEmail, subject, htmlContent);
             }

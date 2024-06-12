@@ -2,7 +2,9 @@ package com.heroku.java.CONTROLLER.Event;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,9 +64,6 @@ public class EventRegisterController {
             System.out.println("Player Name: " + playername);
             System.out.println("Event ID: " + edid);
 
-            eventRegisterDAO.TRegisterEvent(edid, playerid);
-            Event eventRegisterView = eventRegisterDAO.RegisterEventView(edid, playerid);
-            model.addAttribute("event", eventRegisterView);
             return "redirect:/TEventRegister?edid=" + edid;
         } catch (Exception e) {
             // TODO: handle exception
@@ -91,6 +90,7 @@ public class EventRegisterController {
 
             Event eventRegisterView = eventRegisterDAO.RegisterEventView(edid, playerid);
             model.addAttribute("event", eventRegisterView);
+            model.addAttribute("edid", edid);
             return "Event/TEventRegister";
         } catch (Exception e) {
             // TODO: handle exception
@@ -128,17 +128,31 @@ public class EventRegisterController {
         }
     }
 
-    @PostMapping("/AddMember")
-    public String AddMember(@RequestParam("teamid") int teamid, @RequestParam("playerid") int playerid,
-            @RequestParam("edid") int edid) throws SQLException {
-        try {
-            playerListDAO.AddMember(playerid, teamid);
-            return "redirect:/TEventRegister?edid=" + edid;
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-            return "redirect:/TEventRegister?edid=" + edid;
-        }
-
+    @GetMapping("/isPlayerRegistered")
+@ResponseBody
+public Map<String, Boolean> isPlayerRegistered(@RequestParam("edid") int edid, @RequestParam("playerid") int playerid) {
+    Map<String, Boolean> response = new HashMap<>();
+    try {
+        boolean isRegistered = eventRegisterDAO.isMemberRegistered(edid, playerid);
+        response.put("isRegistered", isRegistered);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        response.put("isRegistered", false);
     }
+    return response;
+}
+    
+    // @PostMapping("/AddMember")
+    // public String AddMember(@RequestParam("teamid") int teamid, @RequestParam("playerid") int playerid,
+    //         @RequestParam("edid") int edid) throws SQLException {
+    //     try {
+    //         playerListDAO.AddMember(playerid, teamid);
+    //         return "redirect:/TEventRegister?edid=" + edid;
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //         e.printStackTrace();
+    //         return "redirect:/TEventRegister?edid=" + edid;
+    //     }
+
+    // }
 }
