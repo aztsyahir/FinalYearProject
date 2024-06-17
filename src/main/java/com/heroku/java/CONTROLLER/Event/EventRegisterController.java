@@ -99,8 +99,25 @@ public class EventRegisterController {
         }
     }
 
+    @GetMapping("/CancelTRegistration")
+    public String CancelTRegistration(@RequestParam("teamid") int teamid, HttpSession session,
+            Model model) {
+        try {
+            int playerid = (int) session.getAttribute("playerid");
+            String playername = (String) session.getAttribute("playername");
+
+            eventRegisterDAO.CancelTRegistration(teamid);
+            return "redirect:/PlayerEventCalendar";
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return "SignIn";
+        }
+    }
+
     @PostMapping("/RegisterTeamMember")
-    public String registerTeam(@ModelAttribute Team team, @RequestParam("playerIds") List<Integer> playerIds, Model model) {
+    public String registerTeam(@ModelAttribute Team team, @RequestParam("playerIds") List<Integer> playerIds,
+            Model model) {
         try {
             // Save the team details
             eventRegisterDAO.updateTeamRegister(team);
@@ -129,30 +146,18 @@ public class EventRegisterController {
     }
 
     @GetMapping("/isPlayerRegistered")
-@ResponseBody
-public Map<String, Boolean> isPlayerRegistered(@RequestParam("edid") int edid, @RequestParam("playerid") int playerid) {
-    Map<String, Boolean> response = new HashMap<>();
-    try {
-        boolean isRegistered = eventRegisterDAO.isMemberRegistered(edid, playerid);
-        response.put("isRegistered", isRegistered);
-    } catch (SQLException e) {
-        e.printStackTrace();
-        response.put("isRegistered", false);
+    @ResponseBody
+    public Map<String, Boolean> isPlayerRegistered(@RequestParam("edid") int edid,
+            @RequestParam("playerid") int playerid) {
+        Map<String, Boolean> response = new HashMap<>();
+        try {
+            boolean isRegistered = eventRegisterDAO.isMemberRegistered(edid, playerid);
+            response.put("isRegistered", isRegistered);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.put("isRegistered", false);
+        }
+        return response;
     }
-    return response;
-}
-    
-    // @PostMapping("/AddMember")
-    // public String AddMember(@RequestParam("teamid") int teamid, @RequestParam("playerid") int playerid,
-    //         @RequestParam("edid") int edid) throws SQLException {
-    //     try {
-    //         playerListDAO.AddMember(playerid, teamid);
-    //         return "redirect:/TEventRegister?edid=" + edid;
-    //     } catch (Exception e) {
-    //         // TODO: handle exception
-    //         e.printStackTrace();
-    //         return "redirect:/TEventRegister?edid=" + edid;
-    //     }
 
-    // }
 }

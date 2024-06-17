@@ -2,6 +2,7 @@ package com.heroku.java.DAO.Event;
 
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
@@ -102,6 +103,63 @@ public class EventListDAO {
                         event.setEventDetail(ed);
                         events.add(event);
                     }
+                }
+            }
+        }
+        return events;
+    }
+
+    public ArrayList<Event> getEventHistory(int playerid) throws SQLException {
+        ArrayList<Event> events = new ArrayList<>();
+        String sql = "SELECT DISTINCT e.eventid, e.eventname, ed.edtype, ed.edcapacity, ed.edvenue, " +
+                "ed.edstate, ed.eddate, ed.edlastdate, ed.edstatus, ed.edstats, ed.edimg, r.registrationstatus, " +
+                "r.registrationid AS r_registrationid, i.registrationid AS i_registrationid, t.registrationid AS t_registrationid, r.playerid "
+                +
+                "FROM registration r " +
+                "JOIN eventdetail ed ON r.eventdetailid = ed.eventdetailid " +
+                "JOIN event e ON ed.eventid = e.eventid " +
+                "LEFT JOIN individual i ON r.registrationid = i.registrationid " +
+                "LEFT JOIN team t ON r.registrationid = t.registrationid " +
+                "LEFT JOIN member m ON m.teamid = t.teamid " +
+                "WHERE r.playerid = ? OR m.playerid = ? " +
+                "ORDER BY r.registrationid DESC";
+
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, playerid);
+            statement.setInt(2, playerid);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int eventid = resultSet.getInt("eventid");
+                    String eventname = resultSet.getString("eventname");
+                    String edtype = resultSet.getString("edtype");
+                    int edcapacity = resultSet.getInt("edcapacity");
+                    String edvenue = resultSet.getString("edvenue");
+                    String edstate = resultSet.getString("edstate");
+                    Date eddate = resultSet.getDate("eddate");
+                    Date edlastdate = resultSet.getDate("edlastdate");
+                    String edstatus = resultSet.getString("edstatus");
+                    int edstats = resultSet.getInt("edstats");
+
+                    byte[] edimgbyte = resultSet.getBytes("edimg");
+                    String edimgbase64 = Base64.getEncoder().encodeToString(edimgbyte);
+                    String edimage = "data:image/jpeg;base64," + edimgbase64;
+
+                    String registrationstatus = resultSet.getString("registrationstatus");
+
+                    int registrationid = resultSet.getInt("r_registrationid");
+                    int iRegistrationId = resultSet.getInt("i_registrationid");
+                    int tRegistrationId = resultSet.getInt("t_registrationid");
+
+                    boolean isDirectRegistration = resultSet.getInt("playerid") == playerid;
+
+                    EventDetail ed = new EventDetail(eventid, eventname, edtype, edcapacity, edvenue, edstate, eddate,
+                            edlastdate, edstatus, edstats, edimage, registrationstatus, registrationid,
+                            isDirectRegistration);
+                    Event event = new Event(eventid, eventname);
+                    event.setEventDetail(ed);
+                    events.add(event);
                 }
             }
         }

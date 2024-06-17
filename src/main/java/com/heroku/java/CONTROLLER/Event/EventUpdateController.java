@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpSession;
 
 import com.heroku.java.DAO.Event.EventUpdateDAO;
-
+import com.heroku.java.DAO.Event.EventWithdrawDAO;
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 
@@ -22,10 +22,12 @@ import java.sql.SQLException;
 @Controller
 public class EventUpdateController {
     private final EventUpdateDAO eventUpdateDAO;
+    private final EventWithdrawDAO eventWithdrawDAO;
 
     @Autowired
-    public EventUpdateController(EventUpdateDAO eventUpdateDAO) {
+    public EventUpdateController(EventUpdateDAO eventUpdateDAO, EventWithdrawDAO eventWithdrawDAO) {
         this.eventUpdateDAO = eventUpdateDAO;
+        this.eventWithdrawDAO = eventWithdrawDAO;
     }
 
     @GetMapping("/EventUpdate")
@@ -53,11 +55,11 @@ public class EventUpdateController {
     public String EventUpdate(@ModelAttribute("EventUpdate") Event event, @RequestParam("edimgs") MultipartFile edimgs,
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session, EventDetail ed,
             Model model) throws IOException {
-                int Adminid = (int) session.getAttribute("adminid");
-                String Adminname = (String) session.getAttribute("adminname");
-        
-                System.out.println("Admin id in session (Event Update): " + Adminid);
-                System.out.println("Admin name in session (Event Update): " + Adminname);
+        int Adminid = (int) session.getAttribute("adminid");
+        String Adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Event Update): " + Adminid);
+        System.out.println("Admin name in session (Event Update): " + Adminname);
         try {
 
             int eventid = event.getEventid();
@@ -88,13 +90,13 @@ public class EventUpdateController {
     }
 
     @GetMapping("/CancelEvent")
-    public String cancelEvent(@RequestParam("edid") int edid,@RequestParam("eventid") int eventid,
+    public String cancelEvent(@RequestParam("edid") int edid, @RequestParam("eventid") int eventid,
             HttpSession session, Model model) {
-                int Adminid = (int) session.getAttribute("adminid");
-                String Adminname = (String) session.getAttribute("adminname");
-        
-                System.out.println("Admin id in session (Event Cancelation): " + Adminid);
-                System.out.println("Admin name in session (Event Cancelation): " + Adminname);
+        int Adminid = (int) session.getAttribute("adminid");
+        String Adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Event Cancelation): " + Adminid);
+        System.out.println("Admin name in session (Event Cancelation): " + Adminname);
 
         try {
             eventUpdateDAO.CancelEvent(edid);
@@ -105,5 +107,23 @@ public class EventUpdateController {
             return "redirect:/AEventDetail?eventid=" + eventid + "&CancelEventfalse=true";
         }
 
-}
+    }
+
+    @PostMapping("/WithdrawEvent")
+    public String withdrawEvent(@RequestParam("edid") int edid, HttpSession session, Model model) {
+        int playerid = (int) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (Withdraw Event): " + playerid);
+        System.out.println("Player name in session (Withdraw Event): " + playername);
+
+        try {
+            eventWithdrawDAO.WithdrawEvent(edid);
+            return "redirect:/EventHistory?eventid=" + edid + "&WithdrawEventSuccess=true";
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "redirect:/Signin";
+        }
+    }
 }

@@ -16,11 +16,15 @@ public class EventDetail extends Event {
     public byte[] edimgbyte;
     public MultipartFile edimgs;
     String edimage;
+    public String registrationstatus;
+    public int registrationid;
+    private boolean isDirectRegistration;
 
     public EventDetail() {
     }
 
-    public EventDetail(int eventid, String eventname, String edtype, int edcapacity, String edvenue, String edstate, Date eddate,
+    public EventDetail(int eventid, String eventname, String edtype, int edcapacity, String edvenue, String edstate,
+            Date eddate,
             Date edlastdate, String edstatus, int edstats, byte[] edimgbyte, MultipartFile edimgs, String edimage) {
         super(eventid, eventname);
         this.edtype = edtype;
@@ -36,13 +40,14 @@ public class EventDetail extends Event {
         this.edimage = edimage;
     }
 
-    public EventDetail(int eventid,String eventname, int edid, String edtype){
+    public EventDetail(int eventid, String eventname, int edid, String edtype) {
         super(eventid, eventname);
         this.edid = edid;
         this.edtype = edtype;
     }
 
-    public EventDetail(int eventid, String eventname, int edid, String edtype, int edcapacity, String edvenue, String edstate, Date eddate,
+    public EventDetail(int eventid, String eventname, int edid, String edtype, int edcapacity, String edvenue,
+            String edstate, Date eddate,
             Date edlastdate, String edstatus, int edstats, byte[] edimgbyte, MultipartFile edimgs, String edimage) {
         super(eventid, eventname);
         this.edid = edid;
@@ -57,6 +62,25 @@ public class EventDetail extends Event {
         this.edimgbyte = edimgbyte;
         this.edimgs = edimgs;
         this.edimage = edimage;
+    }
+
+    public EventDetail(int eventid, String eventname, String edtype, int edcapacity, String edvenue, String edstate,
+            Date eddate, Date edlastdate, String edstatus, int edstats, String edimage,
+            String registrationstatus, int registrationid, boolean isDirectRegistration) {
+        this.eventid = eventid;
+        this.eventname = eventname;
+        this.edtype = edtype;
+        this.edcapacity = edcapacity;
+        this.edvenue = edvenue;
+        this.edstate = edstate;
+        this.eddate = eddate;
+        this.edlastdate = edlastdate;
+        this.edstatus = edstatus;
+        this.edstats = edstats;
+        this.edimage = edimage;
+        this.registrationstatus = registrationstatus;
+        this.registrationid = registrationid;
+        this.isDirectRegistration = isDirectRegistration;
     }
 
     public int getEdid() {
@@ -153,6 +177,30 @@ public class EventDetail extends Event {
 
     public void setEdimage(String edimage) {
         this.edimage = edimage;
+    }
+
+    public String getRegistrationStatus() {
+        return registrationstatus;
+    }
+
+    public void setRegistrationStatus(String registrationstatus) {
+        this.registrationstatus = registrationstatus;
+    }
+
+    public int getRegistrationid() {
+        return registrationid;
+    }
+
+    public void setRegistrationid(int registrationid) {
+        this.registrationid = registrationid;
+    }
+
+    public boolean isDirectRegistration() {
+        return isDirectRegistration;
+    }
+
+    public void setDirectRegistration(boolean isDirectRegistration) {
+        this.isDirectRegistration = isDirectRegistration;
     }
 
 }

@@ -22,10 +22,10 @@
                     alt="ultimatenav icon"></a>
         </div>
         <ul class="nav__links">
-            <li class="link"><a href="#">Event Histoy</a></li>
-            <li class="link"><a href="#">Your Event</a></li>
+            <li class="link"><a th:href="@{/EventHistory}">Event History</a></li>
             <li class="link"><a th:href="@{/PlayerProfile}">Profile</a></li>
-            <li class="link"><a th:href="@{/PlayerEventCalendar}" class="nav__btn glyphicon glyphicon-user">Events</a></li>
+            <li class="link"><a th:href="@{/PlayerEventCalendar}" class="nav__btn glyphicon glyphicon-user">Events</a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -47,24 +47,24 @@
         </div>
     </div>
 
-     <!-- Modal for already registered -->
-     <div class="modal fade" id="alreadyRegisteredModal" tabindex="-1" aria-labelledby="alreadyRegisteredLabel"
-     aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h1 class="modal-title fs-5" id="alreadyRegisteredLabel">Registration Failed!</h1>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-             </div>
-             <div class="modal-body">
-                 <p>You are already registered for this event.</p>
-             </div>
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-             </div>
-         </div>
-     </div>
- </div>
+    <!-- Modal for already registered -->
+    <div class="modal fade" id="alreadyRegisteredModal" tabindex="-1" aria-labelledby="alreadyRegisteredLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="alreadyRegisteredLabel">Registration Failed!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>You are already registered for this event.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- swiper js link  -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -89,6 +89,7 @@
             const ProfileSuccessParam = urlParams.get('profileSuccess');
             const EventFilterSuccessParam = urlParams.get('eventFilterSuccess');
             const RegisterSuccessParam = urlParams.get('RegisterSuccess');
+            const WithdrawSuccessParam = urlParams.get('WithdrawEventSuccess');
 
             if (SigninSuccessParam !== null && SigninSuccessParam === 'true') {
                 toastBootstrap.show();
@@ -113,6 +114,10 @@
             else if (RegisterSuccessParam !== null && RegisterSuccessParam === 'true') {
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Event Registered Successfully!";
+            }
+            else if (WithdrawSuccessParam !== null && WithdrawSuccessParam === 'true') {
+                toastBootstrap.show();
+                document.getElementById("display-message1").innerHTML = "Event Withdrawn Successfully!";
             }
 
         });

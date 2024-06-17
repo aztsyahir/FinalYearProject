@@ -88,34 +88,53 @@ public class EventRegisterDAO {
         return team;
     }
 
-    public Member addmember( int playerid, int teamid,Team team) throws SQLException {
+    public Team CancelTRegistration(int teamid) throws SQLException {
+        Team team = null;
+        String sql = "DELETE FROM team WHERE teamid = ?";
+
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, teamid);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Team with ID " + teamid + " was successfully deleted.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return team;
+    }
+
+    public Member addmember(int playerid, int teamid, Team team) throws SQLException {
         Member member = null;
-        try (Connection  connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             String sql = "INSERT INTO member (playerid, teamid) VALUES (?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
-                statement.setInt(1, playerid);
-                statement.setInt(2, teamid);
-                statement.executeUpdate();
+            statement.setInt(1, playerid);
+            statement.setInt(2, teamid);
+            statement.executeUpdate();
 
             member = new Member(playerid, teamid);
-    }catch (SQLException e) {
-        e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return member;
     }
-    return member;
-}
 
     public void updateTeamRegister(Team team) throws SQLException {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             int teamid = team.getTeamid();
-        String Sql2 = "UPDATE team SET teamname = ?, teamstats = ? WHERE teamid =?";
-        final var statement2 = connection.prepareStatement(Sql2);
-        statement2.setString(1, team.getTeamname());
-        statement2.setInt(2, team.getTeamstats());
-        statement2.setInt(3, teamid);
-        statement2.executeUpdate();
+            String Sql2 = "UPDATE team SET teamname = ?, teamstats = ? WHERE teamid =?";
+            final var statement2 = connection.prepareStatement(Sql2);
+            statement2.setString(1, team.getTeamname());
+            statement2.setInt(2, team.getTeamstats());
+            statement2.setInt(3, teamid);
+            statement2.executeUpdate();
+        }
     }
-}
 
     public boolean isPlayerRegistered(int edid, int playerid) throws SQLException {
         String sql = "SELECT COUNT(*) FROM individual WHERE eventdetailid = ? AND playerid = ?";
@@ -134,8 +153,8 @@ public class EventRegisterDAO {
 
     public boolean isMemberRegistered(int edid, int playerid) throws SQLException {
         String sql = "SELECT COUNT(*) FROM member m " +
-                 "JOIN team t ON m.teamid = t.teamid " +
-                 "WHERE t.eventdetailid = ? AND m.playerid = ?";
+                "JOIN team t ON m.teamid = t.teamid " +
+                "WHERE t.eventdetailid = ? AND m.playerid = ?";
         Connection connection = dataSource.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, edid);

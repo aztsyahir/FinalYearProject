@@ -119,4 +119,22 @@ public class EventListController {
         }
     }
 
+    @GetMapping("/EventHistory")
+    public String EventHistory(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
+            Model model) {
+        int playerid = (int) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        ArrayList<Event> eventList;
+        try {
+            eventList = eventListDAO.getEventHistory(playerid);
+            model.addAttribute("events", eventList);
+            return "Event/EventHistory";
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Signin";
+        }
+
+}
 }
