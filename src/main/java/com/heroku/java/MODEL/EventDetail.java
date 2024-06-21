@@ -83,6 +83,25 @@ public class EventDetail extends Event {
         this.isDirectRegistration = isDirectRegistration;
     }
 
+    // public EventDetail(int eventid, String eventname, int edid, int edStats, int edcapacity) {
+    //     this.eventid = eventid;
+    //     this.eventname = eventname;
+    //     this.edid = edid;
+    //     this.edstats = edStats;
+    //     this.edcapacity = edcapacity;
+    // }
+
+    public EventDetail(int edid,String edtype,int edcapacity,String edvenue,String edstate,String edstatus,int edstats,int eventid,String eventname){
+        super(eventid,eventname);
+        this.edid = edid;
+        this.edtype = edtype;
+        this.edcapacity = edcapacity;
+        this.edvenue = edvenue;
+        this.edstate = edstate;
+        this.edstatus = edstatus;
+        this.edstats = edstats;
+    }
+
     public int getEdid() {
         return this.edid;
     }

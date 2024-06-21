@@ -32,6 +32,7 @@ public class EventListDAO {
 
                 int eventid = resultSet.getInt("eventid");
                 String eventname = resultSet.getString("eventname");
+                int edid = resultSet.getInt("eventdetailid");
                 String edtype = resultSet.getString("edtype");
                 int edcapacity = resultSet.getInt("edcapacity");
                 String edvenue = resultSet.getString("edvenue");
@@ -45,7 +46,7 @@ public class EventListDAO {
                 String edimgbase64 = Base64.getEncoder().encodeToString(edimgbyte);
                 String edimage = "data:image/jpeg;base64," + edimgbase64;
 
-                EventDetail ed = new EventDetail(eventid, eventname, edtype, edcapacity, edvenue, edstate, eddate,
+                EventDetail ed = new EventDetail(eventid, eventname, edid, edtype, edcapacity, edvenue, edstate, eddate,
                         edlastdate, edstatus, edstats, null, null, edimage);
                 Event event = new Event(eventid, eventname);
                 event.setEventDetail(ed);
