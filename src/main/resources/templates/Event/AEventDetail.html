@@ -29,7 +29,7 @@
 
     <div class="d-flex justify-content-center text-center m-4">
         <table class="table table-bordered border-dark image-table">
-            <thead>
+            <thead class="table-info border-dark">
                 <tr>
                     <th>Detail ID</th>
                     <th>Event Type</th>
@@ -57,7 +57,7 @@
                     <td>
                         <div class="d-grid gap-2" >
                             <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" href="#"><button class="btn btn-primary" type="button">Validate</button></a>
-                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" th:href="@{/EventUpdate(eventid=${event.eventid})}"><button class="btn btn-primary"
+                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED'}" th:href="@{/EventUpdate(edid=${event.eventDetail.edid}, eventid=${event.eventid})}"><button class="btn btn-primary"
                                     type="button">Update Event</button></a>
                             <a th:href="@{/CancelEvent(edid=${event.eventDetail.edid}, eventid=${event.eventid})}"
                                 onclick="return confirm('Are you sure you want to cancel this event?')"

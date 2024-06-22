@@ -31,7 +31,7 @@ public class EventUpdateController {
     }
 
     @GetMapping("/EventUpdate")
-    public String EventUpdate(@RequestParam("eventid") int eventid,
+    public String EventUpdate(@RequestParam("eventid") int eventid, @RequestParam("edid") int edid,
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session, Model model) {
         int Adminid = (int) session.getAttribute("adminid");
         String Adminname = (String) session.getAttribute("adminname");
@@ -40,7 +40,7 @@ public class EventUpdateController {
         System.out.println("Admin name in session (Event Update): " + Adminname);
 
         try {
-            Event event = eventUpdateDAO.DisplayEvent(eventid);
+            Event event = eventUpdateDAO.DisplayEvent(edid, eventid);
             model.addAttribute("EventUpdate", event);
             return "Event/EventUpdate";
         } catch (SQLException e) {
@@ -53,23 +53,24 @@ public class EventUpdateController {
 
     @PostMapping("/EventUpdate")
     public String EventUpdate(@ModelAttribute("EventUpdate") Event event, @RequestParam("edimgs") MultipartFile edimgs,
-            @RequestParam(name = "success", required = false) Boolean success, HttpSession session, EventDetail ed,
+            @RequestParam(name = "success", required = false) Boolean success,@RequestParam("eventid") int eventid, @RequestParam("edid") int eventdetailid, HttpSession session, EventDetail ed,
             Model model) throws IOException {
         int Adminid = (int) session.getAttribute("adminid");
         String Adminname = (String) session.getAttribute("adminname");
 
         System.out.println("Admin id in session (Event Update): " + Adminid);
         System.out.println("Admin name in session (Event Update): " + Adminname);
+
+        System.out.println("Event Detail ID to be updated: " + eventdetailid);
         try {
 
-            int eventid = event.getEventid();
 
             if (!edimgs.isEmpty()) {
                 // Save the uploaded image to the database
                 ed.setEdimgbyte(edimgs.getBytes());
             } else {
                 // No new image uploaded, use the existing image data from the database
-                EventDetail existingDetail = eventUpdateDAO.EventUpdateimg(eventid);
+                EventDetail existingDetail = eventUpdateDAO.EventUpdateimg(eventdetailid);
                 if (existingDetail != null) {
                     ed.setEdimgbyte(existingDetail.getEdimgbyte());
                 }
@@ -79,7 +80,7 @@ public class EventUpdateController {
                 event.setEventDetail(new EventDetail());
             }
 
-            eventUpdateDAO.EventUpdate(event, ed);
+            eventUpdateDAO.EventUpdate(event, ed,eventdetailid);
             return "redirect:/AEventDetail?eventid=" + eventid + "&UpdateEventSuccess=true";
 
         } catch (SQLException e) {

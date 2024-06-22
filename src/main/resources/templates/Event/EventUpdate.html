@@ -36,6 +36,7 @@
                     <form method="post" th:action="@{/EventUpdate}" th:modelAttribute="EventUpdate"
                         th:object="${EventUpdate}" enctype="multipart/form-data">
                         <input type="hidden" name="eventid" th:value="${EventUpdate.eventid}" />
+                        <input type="hidden" name="edid" th:value="${EventUpdate.eventDetail.edid}" />
                         <div class="form-floating g-2 mb-3">
                             <input type="text" name="eventname"
                                 class="form-control form-control-lg bg-light fs-6 text-uppercase"

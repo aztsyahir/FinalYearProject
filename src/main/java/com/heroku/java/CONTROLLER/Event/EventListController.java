@@ -136,5 +136,27 @@ public class EventListController {
             return "Signin";
         }
 
-}
+    }
+
+    @GetMapping("/AEventHistory")
+    public String AEventHistory(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
+            Model model) {
+
+        int adminid = (int) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Admin event): " + adminid);
+        System.out.println("Admin name in session (Admin event): " + adminname);
+        ArrayList<Event> eventList;
+
+        try {
+            eventList = eventListDAO.getAEventHistory();
+            model.addAttribute("events", eventList);
+            return "Event/AEventHistory";
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Signin";
+        }
+    }
 }

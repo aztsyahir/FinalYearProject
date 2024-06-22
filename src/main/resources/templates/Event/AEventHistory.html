@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{fragments/playerlayout :: playerlayout (~{::body},'EventHistory')}">
+  th:replace="~{fragments/adminlayout :: adminlayout (~{::body},'AEventHistory')}">
 
 <head>
   <meta charset="UTF-8">
@@ -22,9 +22,8 @@
           <th>Event Image</th>
           <th>Event Name</th>
           <th>Event Type</th>
-          <th>Registration Status</th>
+          <th>Event Status</th>
           <th>Event Date</th>
-          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -33,20 +32,8 @@
               style="object-fit: cover; width: 100%; height: 150px;"></td>
           <td th:text="${event.eventDetail.eventname}"></td>
           <td th:text="${event.eventDetail.edtype}"></td>
-          <td th:text="${event.eventDetail.registrationstatus}"></td>
+          <td th:text="${event.eventDetail.edstatus}"></td>
           <td th:text="${#dates.format(event.eventDetail.eddate, 'dd-MM-yyyy')}"></td>
-          <td>
-            <div class="d-grid gap-2">
-              <form
-                th:if="${event.eventDetail.isDirectRegistration and event.eventDetail.registrationstatus == 'PENDING'}"
-                th:action="@{/WithdrawEvent(edid=${event.eventDetail.registrationid})}" method="post">
-                <button class="btn btn-info" type="submit"
-                  onclick="return confirm('Are you sure you want to withdraw from this event?')">
-                  Withdraw
-                </button>
-              </form>
-            </div>
-          </td>
         </tr>
       </tbody>
     </table>

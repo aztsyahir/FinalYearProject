@@ -17,12 +17,12 @@ public class EventUpdateDAO {
         this.dataSource = dataSource;
     }
 
-    public Event DisplayEvent(int eventid) throws SQLException {
+    public Event DisplayEvent(int eventdetailid, int eventid) throws SQLException {
         Event event = null;
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT * FROM event JOIN eventdetail ON event.eventid = eventdetail.eventid WHERE event.eventid = ?";
+            String sql = "SELECT * FROM event JOIN eventdetail ON event.eventid = eventdetail.eventid WHERE eventdetail.eventdetailid = ?";
             final var statement = connection.prepareStatement(sql);
-            statement.setInt(1, eventid);
+            statement.setInt(1, eventdetailid);
             final var resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -53,7 +53,7 @@ public class EventUpdateDAO {
 
     }
 
-    public void EventUpdate(Event event, EventDetail ed) throws SQLException {
+    public void EventUpdate(Event event, EventDetail ed, int edid) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             int eventid = event.getEventid();
             String sql = "UPDATE event SET eventname =? WHERE eventid =?";
@@ -63,7 +63,7 @@ public class EventUpdateDAO {
             statement.setInt(2, eventid);
             statement.executeUpdate();
 
-            String sql2 = "UPDATE eventdetail SET edtype = ?, edcapacity = ?, edvenue = ?, edstate = ?, eddate = ?, edlastdate = ?, edstats = ?, edimg = ? WHERE eventid =?";
+            String sql2 = "UPDATE eventdetail SET edtype = ?, edcapacity = ?, edvenue = ?, edstate = ?, eddate = ?, edlastdate = ?, edstats = ?, edimg = ? WHERE eventdetailid =?";
             final var statement2 = connection.prepareStatement(sql2);
 
             statement2.setString(1, ed.getEdtype());
@@ -74,17 +74,17 @@ public class EventUpdateDAO {
             statement2.setDate(6, ed.getEdlastdate());
             statement2.setInt(7, ed.getEdstats());
             statement2.setBytes(8, ed.getEdimgbyte());
-            statement2.setInt(9, eventid);
+            statement2.setInt(9, edid);
             statement2.executeUpdate();
         }
     }
 
-    public EventDetail EventUpdateimg(int eventid) throws SQLException {
+    public EventDetail EventUpdateimg(int edid) throws SQLException {
         EventDetail eventDetail = null;
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT edimg FROM eventdetail WHERE eventid = ?";
+            String sql = "SELECT edimg FROM eventdetail WHERE eventdetailid = ?";
             final var statement = connection.prepareStatement(sql);
-            statement.setInt(1, eventid);
+            statement.setInt(1, edid);
             final var resultSet = statement.executeQuery();
 
             if (resultSet.next()) {

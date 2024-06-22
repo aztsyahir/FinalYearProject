@@ -18,14 +18,16 @@
 <header>
     <nav>
         <div class="nav__logo">
-            <a th:href="@{/AdminEvent}" class="logo"><img th:src="@{images/UltimateNavLogo.png}" alt="ultimatenav icon"></a>
+            <a th:href="@{/AdminEvent}" class="logo"><img th:src="@{images/UltimateNavLogo.png}"
+                    alt="ultimatenav icon"></a>
             <a th:href="@{/AdminEvent}">Admin</a>
         </div>
         <ul class="nav__links">
-            <li class="link"><a href="#">Event Histoy</a></li>
+            <li class="link"><a th:href="@{/AEventHistory}">Event Histoy</a></li>
             <li class="link"><a th:href="@{/AdminEvent}">Event List</a></li>
             <li class="link"><a th:href="@{/AdminProfile}">Profile</a></li>
-            <li class="link"><a th:href="@{/EventCreate}" class="nav__btn glyphicon glyphicon-user">Create Event</a></li>
+            <li class="link"><a th:href="@{/EventCreate}" class="nav__btn glyphicon glyphicon-user">Create Event</a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -64,6 +66,7 @@
             const eventcreateSuccessParam = urlParams.get('eventcreateSuccess');
             const UpdateEventSuccessParam = urlParams.get('UpdateEventSuccess');
             const CancelEventSuccessParam = urlParams.get('CancelEventSuccess');
+            const ValidateSuccessParam = urlParams.get('ValidateSuccess');
 
             if (ProfileSuccessParam !== null && ProfileSuccessParam === 'true') {
                 toastBootstrap.show();
@@ -72,21 +75,24 @@
             else if (signinSuccessParam !== null && signinSuccessParam === 'true') {
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Welcome Back Admin!";
-            } 
+            }
             else if (eventcreateSuccessParam !== null && eventcreateSuccessParam === 'true') {
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Event Created Successfully!";
             }
-            else if (UpdateEventSuccessParam!== null && UpdateEventSuccessParam === 'true') {
+            else if (UpdateEventSuccessParam !== null && UpdateEventSuccessParam === 'true') {
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Event Updated Successfully!";
             }
-            else if (CancelEventSuccessParam!== null && CancelEventSuccessParam === 'true') {
+            else if (CancelEventSuccessParam !== null && CancelEventSuccessParam === 'true') {
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Event Cancelled ";
             }
+            else if (ValidateSuccessParam !== null && ValidateSuccessParam === 'true') {
+                toastBootstrap.show();
+                document.getElementById("display-message1").innerHTML = "Event Validated Successfully!";
+            }
         });
-
     </script>
 </body>
 

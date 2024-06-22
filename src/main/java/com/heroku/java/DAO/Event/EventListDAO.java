@@ -25,7 +25,12 @@ public class EventListDAO {
     public ArrayList<Event> getEvents() throws SQLException {
         ArrayList<Event> events = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT * FROM event JOIN eventdetail ON event.eventid = eventdetail.eventid WHERE eventdetail.edstatus= 'OPEN' ORDER BY eventdetail.eventdetailid DESC";
+            String sql = "SELECT e.*, ed.* " +
+                    "FROM event e " +
+                    "JOIN eventdetail ed ON e.eventid = ed.eventid " +
+                    "LEFT JOIN registration r ON ed.eventdetailid = r.eventdetailid " +
+                    "WHERE r.registrationstatus = 'PENDING' " +
+                    "ORDER BY ed.eventdetailid DESC";
             final var statement = connection.createStatement();
             final var resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -64,7 +69,7 @@ public class EventListDAO {
             // Update statement to set edstatus to 'CLOSE' for past events
             String updateSql = "UPDATE eventdetail " +
                     "SET edstatus = 'CLOSE' " +
-                    "WHERE eddate < CURRENT_DATE " +
+                    "WHERE edlastdate < CURRENT_DATE " +
                     "AND edstatus = 'OPEN'";
             try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
                 updateStatement.executeUpdate();
@@ -72,8 +77,7 @@ public class EventListDAO {
 
             String sql = "SELECT * FROM event " +
                     "JOIN eventdetail ON event.eventid = eventdetail.eventid " +
-                    "WHERE eventdetail.edstatus = 'OPEN' " +
-                    "AND EXTRACT(MONTH FROM eventdetail.eddate) = ? " +
+                    "WHERE EXTRACT(MONTH FROM eventdetail.eddate) = ? " +
                     "AND EXTRACT(YEAR FROM eventdetail.eddate) = ? " +
                     "ORDER BY eventdetail.eventdetailid DESC";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -167,4 +171,42 @@ public class EventListDAO {
         return events;
     }
 
+    public ArrayList<Event> getAEventHistory() throws SQLException {
+        ArrayList<Event> events = new ArrayList<>();
+        String sql = "SELECT * FROM event e JOIN eventdetail ed ON e.eventid = ed.eventid ORDER BY eventdetailid DESC";
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int eventid = resultSet.getInt("eventid");
+                String eventname = resultSet.getString("eventname");
+                String edtype = resultSet.getString("edtype");
+                int edcapacity = resultSet.getInt("edcapacity");
+                String edvenue = resultSet.getString("edvenue");
+                String edstate = resultSet.getString("edstate");
+                Date eddate = resultSet.getDate("eddate");
+                Date edlastdate = resultSet.getDate("edlastdate");
+                String edstatus = resultSet.getString("edstatus");
+                int edstats = resultSet.getInt("edstats");
+
+                byte[] edimgbyte = resultSet.getBytes("edimg");
+                String edimgbase64 = Base64.getEncoder().encodeToString(edimgbyte);
+                String edimage = "data:image/jpeg;base64," + edimgbase64;
+
+                EventDetail ed = new EventDetail(eventid, eventname, edtype, edcapacity, edvenue, edstate,
+                        eddate,
+                        edlastdate, edstatus, edstats, null, null, edimage);
+                Event event = new Event(eventid, eventname);
+                event.setEventDetail(ed);
+                events.add(event);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // Handle the exception as needed
+        }
+
+        return events;
+    }
 }

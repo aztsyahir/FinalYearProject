@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{fragments/adminlayout :: adminlayout (~{::body},'EventValidateI')}">
+    th:replace="~{fragments/adminlayout :: adminlayout (~{::body},'EventValidateT')}">
 
 <head>
     <meta charset="UTF-8">
@@ -19,24 +19,24 @@
     <div>
         <h3 class="text-center"
             th:text="'TOP ' + ${event.edcapacity} + ' THAT HAVE AT LEAST ' + ${event.edstats} + '% STATISTIC'"></h3>
-        <p class="text-center" th:text="'Total Players Registered: ' + ${totalPlayers}"></p>
+        <p class="text-center" th:text="'Total Teams Registered: ' + ${totalTeams}"></p>
     </div>
 
     <div class="d-flex justify-content-center text-center m-4">
-        <form th:action="@{/EventValidateI}" method="post">
+        <form th:action="@{/EventValidateT}" method="post">
             <input type="hidden" name="edid" th:value="${event.edid}">
             <table class="table table-bordered border-dark image-table">
                 <thead>
                     <tr>
-                        <th>Player name</th>
-                        <th>Player Statistic</th>
+                        <th>Team name</th>
+                        <th>Team Statistic</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="player : ${players}">
-                        <td th:text="${player.playername}"></td>
-                        <td th:text="${player.playerstats}"></td>
-                        <input type="hidden" name="playerid" th:value="${player.playerid}" />
+                    <tr th:each="team : ${teams}">
+                        <td th:text="${team.teamname}"></td>
+                        <td th:text="${team.teamstats}"></td>
+                        <input type="hidden" name="teamid" th:value="${team.teamid}" />
                     </tr>
                 </tbody>
             </table>

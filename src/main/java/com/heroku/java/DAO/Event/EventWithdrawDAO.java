@@ -18,7 +18,7 @@ public class EventWithdrawDAO {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "UPDATE registration SET registrationstatus =? WHERE registrationid =?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "Withdrawn");
+            statement.setString(1, "WITHDRAWN");
             statement.setInt(2, registrationid);
             statement.executeUpdate();
         }

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import com.heroku.java.DAO.Event.EventFilterDAO;
 import com.heroku.java.MODEL.Event;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class EventFilterController {
     @Autowired
@@ -29,7 +31,11 @@ public class EventFilterController {
             @RequestParam(name = "edstate", required = false) String EventStates,
             @RequestParam(name = "edstats", required = false, defaultValue = "0") String EventStatsString,
             @RequestParam(name = "searchValue", required = false) String searchValue,
+            @RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
+
+                int playerid = (int) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
         try {
             // Convert String dates to Date objects
             Date startDate = null;
