@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.heroku.java.DAO.Event.EventRegisterDAO;
+import com.heroku.java.DAO.Player.PlayerEmailDAO;
 import com.heroku.java.DAO.Player.PlayerListDAO;
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 import com.heroku.java.MODEL.Player;
 import com.heroku.java.MODEL.Team;
+import com.heroku.java.SERVICES.EmailService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,10 +31,14 @@ public class EventRegisterController {
     @Autowired
     private EventRegisterDAO eventRegisterDAO;
     private PlayerListDAO playerListDAO;
+    private PlayerEmailDAO playerEmailDAO;
+    private final EmailService emailService;
 
-    private EventRegisterController(EventRegisterDAO eventRegisterDAO, PlayerListDAO playerListDAO) {
+    private EventRegisterController(EventRegisterDAO eventRegisterDAO, PlayerListDAO playerListDAO, PlayerEmailDAO playerEmailDAO, EmailService emailService) {
         this.eventRegisterDAO = eventRegisterDAO;
         this.playerListDAO = playerListDAO;
+        this.playerEmailDAO = playerEmailDAO;
+        this.emailService = emailService;
     }
 
     @PostMapping("/IEventRegister")
@@ -125,7 +131,7 @@ public class EventRegisterController {
     }
 
     @PostMapping("/RegisterTeamMember")
-    public String registerTeam(@ModelAttribute Team team, @RequestParam("playerIds") List<Integer> playerIds,
+    public String registerTeam(@ModelAttribute Team team, @ModelAttribute EventDetail ed, @ModelAttribute Event event, @RequestParam("playerIds") List<Integer> playerIds,
             Model model) {
         try {
             // Save the team details
@@ -134,6 +140,14 @@ public class EventRegisterController {
             // Add each player to the team
             for (Integer playerId : playerIds) {
                 eventRegisterDAO.addmember(playerId, team.getTeamid(), team);
+            }
+
+            ArrayList<String> memberEmails = playerEmailDAO.getMemberEmail(ed.getEdid());
+            // Send individualized email to each player
+            for (String memberEmail : memberEmails) {
+                String subject = "You are on the Team : " + team.getTeamname();
+                String htmlContent = buildHtmlContent(event, ed);
+                emailService.sendHtmlEmail(memberEmail, subject, htmlContent);
             }
 
             return "redirect:/PlayerEventCalendar?RegisterSuccess=true";
@@ -169,4 +183,13 @@ public class EventRegisterController {
         return response;
     }
 
+    private String buildHtmlContent(Event event, EventDetail ed) {
+        StringBuilder message = new StringBuilder();
+        message.append("<h2>Event Details</h2>");
+        message.append("<p><strong>Event Name:</strong> ").append(event.getEventname()).append("</p>");
+        message.append("<p><strong>Event Type:</strong> ").append(ed.getEdtype()).append("</p>");
+        message.append("<p><strong>Event Date:</strong> ").append(ed.getEddate()).append("</p>");
+
+        return message.toString();
+    }
 }

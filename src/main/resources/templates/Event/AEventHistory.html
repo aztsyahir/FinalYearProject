@@ -22,8 +22,9 @@
           <th>Event Image</th>
           <th>Event Name</th>
           <th>Event Type</th>
-          <th>Event Status</th>
+          <th>Registration Status</th>
           <th>Event Date</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -34,6 +35,8 @@
           <td th:text="${event.eventDetail.edtype}"></td>
           <td th:text="${event.eventDetail.edstatus}"></td>
           <td th:text="${#dates.format(event.eventDetail.eddate, 'dd-MM-yyyy')}"></td>
+          <td><div><a th:href="@{/AEventDetail(eventid=${event.eventid})}"><button class="btn btn-info"
+            type="button">DETAIL</button></a></div></td>
         </tr>
       </tbody>
     </table>

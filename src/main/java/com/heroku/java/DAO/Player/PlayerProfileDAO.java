@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
@@ -65,6 +66,34 @@ public class PlayerProfileDAO {
             statement.executeUpdate();
         }
         return player;
+    }
+
+     public boolean checkDeletedIPlayer(int playerid) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM individual WHERE playerid = ?";
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, playerid);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkDeletedTPlayer(int playerid) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM team WHERE playerid = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, playerid);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
     }
 
     public String DeletePlayer(Player player) throws SQLException {

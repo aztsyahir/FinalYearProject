@@ -22,7 +22,7 @@ public class ValidateDAO {
         String sql = "SELECT p.playerid, p.playername, p.playerstats " +
                 "FROM individual i " +
                 "JOIN player p ON i.playerid = p.playerid " +
-                "WHERE i.eventdetailid = ?";
+                "WHERE i.eventdetailid = ? ORDER BY p.playerstats DESC";
 
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -79,8 +79,8 @@ public class ValidateDAO {
             PreparedStatement statement2 = connection.prepareStatement(sql2);
 
             statement.setInt(1, adminid);
-            statement.setInt(1, playerid);
-            statement.setInt(2, edid);
+            statement.setInt(2, playerid);
+            statement.setInt(3, edid);
             statement.executeUpdate();
 
             statement2.setInt(1, edid);
@@ -92,10 +92,27 @@ public class ValidateDAO {
         }
     }
 
+    public void rejectPlayer(int playerid, int edid, int adminid) throws SQLException {
+        String sql = "UPDATE individual SET registrationstatus = 'REJECTED', adminid = ? " +
+                     "WHERE playerid = ? AND eventdetailid = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+    
+            statement.setInt(1, adminid);
+            statement.setInt(2, playerid);
+            statement.setInt(3, edid);
+            statement.executeUpdate();
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // You may want to handle this differently in a real application
+        }
+    }
+
     public ArrayList<Team> getTeam(int edid) throws SQLException {
         ArrayList<Team> teams = new ArrayList<>();
         String sql = "SELECT teamid, teamname, teamstats " +
-                "FROM team  WHERE eventdetailid = ?";
+                "FROM team  WHERE eventdetailid = ? ORDER BY teamstats DESC";
 
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -159,6 +176,23 @@ public class ValidateDAO {
             statement2.setInt(1, edid);
             statement2.executeUpdate();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // You may want to handle this differently in a real application
+        }
+    }
+
+    public void rejectTeam(int teamid, int edid, int adminid) throws SQLException {
+        String sql = "UPDATE team SET registrationstatus = 'REJECTED', adminid = ? " +
+                     "WHERE teamid = ? AND eventdetailid = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+    
+            statement.setInt(1, adminid);
+            statement.setInt(2, teamid);
+            statement.setInt(3, edid);
+            statement.executeUpdate();
+    
         } catch (SQLException e) {
             e.printStackTrace();
             throw e; // You may want to handle this differently in a real application

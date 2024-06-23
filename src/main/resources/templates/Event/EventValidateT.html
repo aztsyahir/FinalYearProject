@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="team : ${teams}">
+                    <tr th:each="team, iterStat : ${teams}" th:if="${iterStat.index < event.edcapacity}">
                         <td th:text="${team.teamname}"></td>
                         <td th:text="${team.teamstats}"></td>
                         <input type="hidden" name="teamid" th:value="${team.teamid}" />

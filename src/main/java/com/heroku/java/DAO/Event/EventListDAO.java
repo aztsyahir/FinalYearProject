@@ -25,7 +25,7 @@ public class EventListDAO {
     public ArrayList<Event> getEvents() throws SQLException {
         ArrayList<Event> events = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT e.*, ed.* " +
+            String sql = "SELECT DISTINCT e.*, ed.* " +
                     "FROM event e " +
                     "JOIN eventdetail ed ON e.eventid = ed.eventid " +
                     "LEFT JOIN registration r ON ed.eventdetailid = r.eventdetailid " +
@@ -209,4 +209,6 @@ public class EventListDAO {
 
         return events;
     }
+
+    
 }

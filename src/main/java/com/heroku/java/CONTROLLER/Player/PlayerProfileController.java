@@ -80,6 +80,13 @@ public class PlayerProfileController {
         String playername = (String) session.getAttribute("playername");
         if (playerid != 0) {
             try {
+                boolean isIndividualRegistered = playerProfileDAO.checkDeletedIPlayer(playerid);
+                boolean isMemberRegistered = playerProfileDAO.checkDeletedTPlayer(playerid);
+                if (isIndividualRegistered || isMemberRegistered) {
+                    // Show modal that player cannot delete their account
+                    model.addAttribute("cannotDelete", true);
+                    return "redirect:/PlayerProfile?cannotDelete=true"; // Return to player profile with modal shown
+                }
                 player.setPlayerid(playerid);
                 playerProfileDAO.DeletePlayer(player);
                 System.out.println("player deleted: " + playername);
