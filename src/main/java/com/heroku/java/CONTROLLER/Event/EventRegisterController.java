@@ -44,6 +44,14 @@ public class EventRegisterController {
                 model.addAttribute("alreadyRegistered", true);
                 return "redirect:/PlayerEventCalendar?alreadyRegistered=true";
             }
+            int playerStats = eventRegisterDAO.getPlayerStats(playerid); // Assuming playerDAO.getPlayerStats() gets the player's stats
+            int minStats = eventRegisterDAO.getEventMinStats(edid);
+    
+            if (playerStats < minStats) {
+                model.addAttribute("statsTooLow", true);
+                return "redirect:/PlayerEventCalendar?statsTooLow=true";
+            }
+
             eventRegisterDAO.IRegisterEvent(edid, playerid);
             return "redirect:/PlayerEventCalendar?RegisterSuccess=true";
         } catch (Exception e) {
@@ -91,6 +99,7 @@ public class EventRegisterController {
             Event eventRegisterView = eventRegisterDAO.RegisterEventView(edid, playerid);
             model.addAttribute("event", eventRegisterView);
             model.addAttribute("edid", edid);
+            model.addAttribute("edstats", eventRegisterView.getEventDetail().getEdstats());
             return "Event/TEventRegister";
         } catch (Exception e) {
             // TODO: handle exception

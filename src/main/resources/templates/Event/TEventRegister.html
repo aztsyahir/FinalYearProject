@@ -35,6 +35,7 @@
                         <input type="hidden" name="teamid" th:value="${teamid}" />
                         <input type="hidden" name="playerIds" id="player-ids" />
                         <input type="hidden" id="edid" th:value="${edid}" />
+                        <input type="hidden" id="edstats" th:value="${event.eventDetail.edstats}" />
                         <div class="form-floating g-2 mb-3">
                             <input type="text" name="teamname"
                                 class="form-control form-control-lg bg-light fs-6 text-uppercase"
@@ -110,13 +111,28 @@
         </div>
     </div>
 
+     <!-- Modal for team stats lower than minimum -->
+     <div class="modal fade" id="teamStatsModal" tabindex="-1" aria-labelledby="teamStatsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="teamStatsModalLabel">Team Registation Failed</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Team statistic is lower than the minimum statistic. Please try again later.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
 
     <script>
         document.getElementById('input-box').addEventListener('input', function () {
@@ -207,17 +223,30 @@
         function submitForm(event) {
             event.preventDefault(); // Prevent form submission
 
+            const teamStats = parseFloat(document.getElementById('teamstats').value); // Convert to float for comparison
+    const edStats = parseFloat(document.getElementById('edstats').value);
+
+    console.log('Team Stats:', teamStats);
+    console.log('Event Detail Stats:', edStats);
             // Check if the number of added players is less than
             if (addedPlayers.length < 7) {
                 // Display modal if the condition is not met
                 $('#minPlayerModal').modal('show');
-            } else {
+                return;
+            } 
+            
+            if (teamStats < edStats) {
+                // Display the modal if team stats are lower than edStats
+                $('#teamStatsModal').modal('show');
+                return;
+            }
+            
                 // Submit the form if the condition is met
 
                 const playerIds = addedPlayers.map(player => player.id);
                 document.getElementById('player-ids').value = playerIds.join(',');
                 document.getElementById('team-registration-form').submit();
-            }
+            
         }
     </script>
 </body>
