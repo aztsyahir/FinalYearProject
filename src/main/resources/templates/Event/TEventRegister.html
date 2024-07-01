@@ -34,8 +34,11 @@
                         th:object="${EventCreate}" onsubmit="submitForm(event)" id="team-registration-form">
                         <input type="hidden" name="teamid" th:value="${teamid}" />
                         <input type="hidden" name="playerIds" id="player-ids" />
-                        <input type="hidden" id="edid" th:value="${edid}" />
+                        <input type="hidden" name="edid" id="edid" th:value="${event.eventDetail.edid}" />
                         <input type="hidden" id="edstats" th:value="${event.eventDetail.edstats}" />
+                        <input type="hidden" name="eventname" th:value="${event.eventname}" />
+                        <input type="hidden" name="edtype" th:value="${event.eventDetail.edtype}" />
+                        <input type="hidden" name="eddate" th:value="${#dates.format(event.eventDetail.eddate, 'yyyy-MM-dd')}" />
                         <div class="form-floating g-2 mb-3">
                             <input type="text" name="teamname"
                                 class="form-control form-control-lg bg-light fs-6 text-uppercase"
@@ -84,25 +87,6 @@
                 </div>
                 <div class="modal-body">
                     You must add at least 7 players to submit the registration form.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for player already registered -->
-    <div class="modal fade" id="playerRegisteredModal" tabindex="-1" aria-labelledby="playerRegisteredModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="playerRegisteredModalLabel">Player Already Registered</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Player already registered to this event. Please choose another player.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

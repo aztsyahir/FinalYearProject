@@ -31,27 +31,29 @@ public class PlayerEmailDAO {
         return players;
     }
 
-     public ArrayList<String> getMemberEmail(int edid) throws SQLException {
+    public ArrayList<String> getMemberEmail(int edid) throws SQLException {
         ArrayList<String> players = new ArrayList<>();
+        String sql = "SELECT player.playeremail " +
+                     "FROM player " +
+                     "JOIN member ON player.playerid = member.playerid " +
+                     "JOIN team ON member.teamid = team.teamid " +
+                     "WHERE team.eventdetailid = ?";
         
-        try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT player.playeremail " +
-                         "FROM player " +
-                         "JOIN member ON player.playerid = member.playerid " +
-                         "JOIN team ON member.teamid = team.teamid " +
-                         "WHERE team.eventdetailid = ?";
-            
-            PreparedStatement statement = connection.prepareStatement(sql);
+        try (Connection connection = dataSource.getConnection();
+             final var statement = connection.prepareStatement(sql)) {
+            System.out.println("edid : " + edid);
             statement.setInt(1, edid);
             
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                String emailToMember = resultSet.getString("playeremail");
-                players.add(emailToMember);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String emailToMember = resultSet.getString("playeremail");
+                    players.add(emailToMember);
+                }
             }
+            
+            System.out.println("Retrieved emails: " + players); 
         }
-
+        
         return players;
     }
 
@@ -69,7 +71,7 @@ public class PlayerEmailDAO {
                 String EmailToPlayer = resultSet.getString("playeremail");
                 players.add(EmailToPlayer);
             }
-        }
+        } 
         return players;
     }
 

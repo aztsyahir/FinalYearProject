@@ -18,12 +18,22 @@ public class PlayerListDAO {
         this.dataSource = dataSource;
     }
 
-    public ArrayList<Player> getPlayerList(String name) throws SQLException {
+    public ArrayList<Player> getPlayerList(String name, int edid) throws SQLException {
         ArrayList<Player> player = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT playerid, playername, playerstats FROM player WHERE playername LIKE ? ORDER BY playername DESC";
+            String sql = "SELECT p.playerid, p.playername, p.playerstats " +
+                         "FROM player p " +
+                         "WHERE p.playername LIKE ? " +
+                         "AND NOT EXISTS ( " +
+                         "    SELECT 1 FROM member m " +
+                         "    JOIN team t ON m.teamid = t.teamid " +
+                         "    WHERE m.playerid = p.playerid AND t.eventdetailid = ? " +
+                         ") " +
+                         "ORDER BY p.playername DESC";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                
                 statement.setString(1, "%" + name + "%");
+                statement.setInt(2, edid);
                 try (var resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
                         int playerid = resultSet.getInt("playerid");

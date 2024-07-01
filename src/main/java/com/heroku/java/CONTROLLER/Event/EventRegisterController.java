@@ -1,10 +1,13 @@
 package com.heroku.java.CONTROLLER.Event;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.io.IOException;
+
 
 import com.heroku.java.DAO.Event.EventRegisterDAO;
 import com.heroku.java.DAO.Player.PlayerEmailDAO;
@@ -67,25 +75,6 @@ public class EventRegisterController {
         }
     }
 
-    @PostMapping("/TEventRegister")
-    public String TeamEventRegister(@RequestParam("edid") int edid, HttpSession session,
-            Model model) {
-        try {
-            int playerid = (int) session.getAttribute("playerid");
-            String playername = (String) session.getAttribute("playername");
-
-            System.out.println("Player ID: " + playerid);
-            System.out.println("Player Name: " + playername);
-            System.out.println("Event ID: " + edid);
-
-            return "redirect:/TEventRegister?edid=" + edid;
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-            return "SignIn";
-        }
-    }
-
     @GetMapping("/TEventRegister")
     public String TEventRegister(@RequestParam("edid") int edid, HttpSession session,
             Model model) {
@@ -106,6 +95,7 @@ public class EventRegisterController {
             model.addAttribute("event", eventRegisterView);
             model.addAttribute("edid", edid);
             model.addAttribute("edstats", eventRegisterView.getEventDetail().getEdstats());
+            model.addAttribute("eventDetail", eventRegisterView.getEventDetail());
             return "Event/TEventRegister";
         } catch (Exception e) {
             // TODO: handle exception
@@ -131,7 +121,7 @@ public class EventRegisterController {
     }
 
     @PostMapping("/RegisterTeamMember")
-    public String registerTeam(@ModelAttribute Team team, @ModelAttribute EventDetail ed, @ModelAttribute Event event, @RequestParam("playerIds") List<Integer> playerIds,
+    public String registerTeam(@ModelAttribute("team") Team team, @ModelAttribute("eventDetail") EventDetail ed, @ModelAttribute("event") Event event, @RequestParam("playerIds") List<Integer> playerIds, @RequestParam("edid") int edid,
             Model model) {
         try {
             // Save the team details
@@ -142,7 +132,7 @@ public class EventRegisterController {
                 eventRegisterDAO.addmember(playerId, team.getTeamid(), team);
             }
 
-            ArrayList<String> memberEmails = playerEmailDAO.getMemberEmail(ed.getEdid());
+            ArrayList<String> memberEmails = playerEmailDAO.getMemberEmail(edid);
             // Send individualized email to each player
             for (String memberEmail : memberEmails) {
                 String subject = "You are on the Team : " + team.getTeamname();
@@ -159,9 +149,9 @@ public class EventRegisterController {
 
     @GetMapping("/SearchMember")
     @ResponseBody
-    public List<Player> searchPlayers(@RequestParam("query") String query) {
+    public List<Player> searchPlayers(@RequestParam("query") String query, @RequestParam("edid") int edid) {
         try {
-            return playerListDAO.getPlayerList(query);
+            return playerListDAO.getPlayerList(query, edid);
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>(); // Return an empty list or handle the error as needed

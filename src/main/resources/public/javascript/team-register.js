@@ -1,7 +1,9 @@
 document.getElementById('input-box').addEventListener('input', function () {
     const query = this.value;
+    const edid = document.getElementById('edid').value;
+    console.log('EDID:', edid);
     if (query.length >= 1) {
-        fetch('/SearchMember?query=' + encodeURIComponent(query))
+        fetch('/SearchMember?query=' + encodeURIComponent(query) + '&edid=' + edid)
             .then(response => response.json())
             .then(data => {
                 const resultsContainer = document.getElementById('member-results');
@@ -26,30 +28,19 @@ const addedPlayers = [];
 
 function addMember(playerID, playerName, playerStats) {
     if (!addedPlayers.some(player => player.id === playerID)) {
-        // Check if the player is already registered
-        const edid = document.getElementById('edid').value;
-        fetch(`/isPlayerRegistered?edid=${edid}&playerid=${playerID}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.isRegistered) {
-                    // Player is already registered, show modal
-                    $('#playerRegisteredModal').modal('show');
-                } else {
-                    addedPlayers.push({ id: playerID, name: playerName, stats: playerStats });
 
-                    const playerListItem = document.createElement('li');
-                    playerListItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                    playerListItem.innerHTML = `
+        addedPlayers.push({ id: playerID, name: playerName, stats: playerStats });
+
+        const playerListItem = document.createElement('li');
+        playerListItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+        playerListItem.innerHTML = `
         <span>${playerName}</span>
         <button type="button" class="btn btn-danger btn-sm" onclick="removePlayer('${playerName}', this)">Remove</button>
     `;
 
-                    document.getElementById('added-players').appendChild(playerListItem);
-
-                    // Update team stats
-                    updateTeamStats();
-                }
-            })
+        document.getElementById('added-players').appendChild(playerListItem);
+        // Update team stats
+        updateTeamStats();
     }
 }
 

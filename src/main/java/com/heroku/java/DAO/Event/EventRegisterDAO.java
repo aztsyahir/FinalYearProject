@@ -4,20 +4,13 @@ import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 import com.heroku.java.MODEL.Member;
 import com.heroku.java.MODEL.Team;
-
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.sql.DataSource;
 import java.sql.Date;
+import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import org.springframework.stereotype.Repository;
-import java.util.ArrayList;
-import java.util.Base64;
 
 @Repository
 public class EventRegisterDAO {
@@ -30,7 +23,7 @@ public class EventRegisterDAO {
     public Event RegisterEventView(int edid, int playerid) throws SQLException {
         Event event = null;
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT e.eventid, e.eventname, ed.edtype, ed.edstats " +
+            String sql = "SELECT e.eventid, e.eventname, ed.edtype, ed.edstats,ed.eddate " +
                     "FROM eventdetail ed " +
                     "JOIN event e ON ed.eventid = e.eventid " +
                     "WHERE ed.eventdetailid = ?";
@@ -42,8 +35,9 @@ public class EventRegisterDAO {
                 String eventname = resultSet.getString("eventname");
                 String edtype = resultSet.getString("edtype");
                 int edstats = resultSet.getInt("edstats");
+                Date eddate = resultSet.getDate("eddate");
 
-                EventDetail ed = new EventDetail(eventid, eventname, edid, edtype, edstats);
+                EventDetail ed = new EventDetail(eventid, eventname, edid, edtype, edstats,eddate);
                 event = new Event(eventid, eventname);
                 event.setEventDetail(ed);
             }
@@ -172,7 +166,7 @@ public class EventRegisterDAO {
     public int getEventMinStats(int edid) throws SQLException {
         String sql = "SELECT edstats FROM eventdetail WHERE eventdetailid = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, edid);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -182,11 +176,11 @@ public class EventRegisterDAO {
         }
         throw new SQLException("Event detail not found for eventdetailid: " + edid);
     }
-    
+
     public int getPlayerStats(int playerid) throws SQLException {
         String sql = "SELECT playerstats FROM player WHERE playerid = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, playerid);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {

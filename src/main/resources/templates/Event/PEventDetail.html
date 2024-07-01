@@ -49,7 +49,7 @@
                             <a th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'INDIVIDUAL' && event.eventDetail.edstatus != 'CLOSE'}">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Register Event</button>
                             </a>
-                            <form th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'TEAM' && event.eventDetail.edstatus != 'CLOSE'}" th:action="@{/TEventRegister}" method="post">
+                            <form th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'TEAM' && event.eventDetail.edstatus != 'CLOSE'}" th:action="@{/TEventRegister}" method="get">
                                 <input type="hidden" name="edid" th:value="${event.eventDetail.edid}" />
                                 <button class="btn btn-primary" type="submit">Register Event</button>
                             </form>
