@@ -76,6 +76,7 @@ public class EventUpdateDAO {
             statement2.setBytes(8, ed.getEdimgbyte());
             statement2.setInt(9, edid);
             statement2.executeUpdate();
+            connection.close();
         }
     }
 
@@ -92,6 +93,7 @@ public class EventUpdateDAO {
                 eventDetail = new EventDetail();
                 eventDetail.setEdimgbyte(edimgbyte);
             }
+            connection.close();
         }
         return eventDetail;
     }
@@ -104,6 +106,13 @@ public class EventUpdateDAO {
             statement.setString(1, "CANCELLED");
             statement.setInt(2, edid);
             statement.executeUpdate();
+
+            String sql2 = "UPDATE registration SET registrationstatus =? WHERE eventdetailid = ?";
+            final var statement2 = connection.prepareStatement(sql2);
+            statement2.setString(1, "REJECTED DUE TO EVENT CANCELLATION");
+            statement2.setInt(2, edid);
+            statement2.executeUpdate();
+            connection.close();
         }
         return eventDetail;
     }

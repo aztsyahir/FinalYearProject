@@ -52,13 +52,14 @@ public class EventRegisterController {
     @PostMapping("/IEventRegister")
     public String IEventRegister(@RequestParam("edid") int edid,
             @RequestParam("playerid") int playerid, Model model) throws SQLException {
+                System.out.println("edid registereed: " + edid);
 
         try {
             if (eventRegisterDAO.isPlayerRegistered(edid, playerid)) {
                 model.addAttribute("alreadyRegistered", true);
                 return "redirect:/PlayerEventCalendar?alreadyRegistered=true";
             }
-            int playerStats = eventRegisterDAO.getPlayerStats(playerid); // Assuming playerDAO.getPlayerStats() gets the player's stats
+            int playerStats = eventRegisterDAO.getPlayerStats(playerid); 
             int minStats = eventRegisterDAO.getEventMinStats(edid);
     
             if (playerStats < minStats) {
@@ -70,8 +71,7 @@ public class EventRegisterController {
             return "redirect:/PlayerEventCalendar?RegisterSuccess=true";
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handle exception
-            return "redirect:/PlayerEventCalendar";
+            return "Signin";
         }
     }
 
@@ -100,7 +100,7 @@ public class EventRegisterController {
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
-            return "SignIn";
+            return "Signin";
         }
     }
 
@@ -114,9 +114,8 @@ public class EventRegisterController {
             eventRegisterDAO.CancelTRegistration(teamid);
             return "redirect:/PlayerEventCalendar";
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
-            return "SignIn";
+            return "Signin";
         }
     }
 
@@ -143,7 +142,7 @@ public class EventRegisterController {
             return "redirect:/PlayerEventCalendar?RegisterSuccess=true";
         } catch (SQLException e) {
             e.printStackTrace();
-            return "redirect:/PlayerEventCalendar";
+            return "redirect:/Signin";
         }
     }
 

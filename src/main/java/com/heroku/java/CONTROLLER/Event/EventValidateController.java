@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import com.heroku.java.DAO.Admin.ValidateDAO;
 import com.heroku.java.DAO.Player.PlayerEmailDAO;
+import com.heroku.java.DAO.Event.EventUpdateDAO;
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 import com.heroku.java.MODEL.Player;
@@ -18,20 +19,26 @@ import com.heroku.java.SERVICES.EmailService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class EventValidateController {
     private final ValidateDAO validateDAO;
     private PlayerEmailDAO playerEmailDAO;
     private final EmailService emailService;
+    private final EventUpdateDAO eventUpdateDAO;
 
     @Autowired
-    public EventValidateController(ValidateDAO validateDAO, PlayerEmailDAO playerEmailDAO, EmailService emailService) {
+    public EventValidateController(ValidateDAO validateDAO, PlayerEmailDAO playerEmailDAO, EmailService emailService,
+            EventUpdateDAO eventUpdateDAO) {
         this.validateDAO = validateDAO;
         this.playerEmailDAO = playerEmailDAO;
         this.emailService = emailService;
+        this.eventUpdateDAO = eventUpdateDAO;
     }
+    
 
     @GetMapping("/EventValidateI")
     public String EventValidate(@RequestParam(name = "success", required = false) Boolean success,
@@ -47,21 +54,22 @@ public class EventValidateController {
             ArrayList<Player> players = validateDAO.getIndividual(edid);
             model.addAttribute("players", players);
 
-            EventDetail eventDetail = validateDAO.getEventDetail(edid); // Adjust this method if necessary
+            EventDetail eventDetail = validateDAO.getEventDetail(edid); 
             model.addAttribute("event", eventDetail);
 
             int totalPlayersRegistered = validateDAO.getTotalPlayersRegistered(edid);
             model.addAttribute("totalPlayers", totalPlayersRegistered);
 
-            return "Event/EventValidateI"; // Assuming this is your Thymeleaf template name
+            return "Event/EventValidateI"; 
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Signin"; // Handle appropriately, redirect to login or error page
+            return "Signin"; 
         }
     }
 
     @PostMapping("/EventValidateI")
-    public String approveRegistration(@ModelAttribute EventDetail ed, @ModelAttribute Event event, @RequestParam("playerid") List<Integer> playerids, @RequestParam("edid") int edid,
+    public String approveRegistration(@ModelAttribute EventDetail ed, @ModelAttribute Event event,
+            @RequestParam("playerid") List<Integer> playerids, @RequestParam("edid") int edid,
             HttpSession session, Model model) {
 
         int adminid = (int) session.getAttribute("adminid");
@@ -71,37 +79,55 @@ public class EventValidateController {
         System.out.println("Admin name in session (Event Validate Individual): " + Adminname);
 
         try {
-              // Get all registered player ids for the event
-        ArrayList<Player> allPlayers = validateDAO.getIndividual(edid);
-        ArrayList<String> registerEmails = playerEmailDAO.getMemberEmail(ed.getEdid());
-        
-        // Approve the displayed players
-        for (int playerid : playerids) {
-            validateDAO.approveITopRank(playerid, edid, adminid);
-            for (String registerEmail : registerEmails) {
-                String subject = "Your Registration approved! ";
-                String htmlContent = buildHtmlContent(event, ed);
-                emailService.sendHtmlEmail(registerEmail, subject, htmlContent);
-        }
-    }
-        // Reject the players not in the displayed list
-        for (Player player : allPlayers) {
-            if (!playerids.contains(player.getPlayerid())) {
-                validateDAO.rejectPlayer(player.getPlayerid(), edid, adminid);
-                for (String registerEmail : registerEmails) {
-                    String subject = "Your Registration Rejected! ";
-                    String htmlContent = buildHtmlContent(event, ed);
-                    emailService.sendHtmlEmail(registerEmail, subject, htmlContent);
+            ArrayList<Player> allPlayers = validateDAO.getIndividual(edid);
+            ed = validateDAO.getEventDetail(edid);
+
+            Set<String> approvedEmails = new HashSet<>();
+            Set<String> rejectedEmails = new HashSet<>();
+
+            boolean approveStatus = false;
+            for (int playerid : playerids) {
+                System.out.println("playerid : " + playerid);
+                approveStatus = validateDAO.approveITopRank(playerid, edid, adminid);
+                System.out.println("playerid : " + playerid + " | approved status : " + approveStatus);
+                if (approveStatus) {
+                    System.out.println("Player id : " + playerid + " status true" );
+                    approvedEmails.addAll(validateDAO.getIndividualEmail(playerid));
+                }
             }
+
+            System.out.println("approvedEmails : " + approvedEmails);
+
+            // Send approval emails
+            for (String approvedEmail : approvedEmails) {
+                System.out.println("email :: " + approvedEmail);
+                System.out.println("event :" + ed.getEventname());
+                System.out.println("ed type :" + ed.getEdtype());
+                System.out.println("ed date :" + ed.getEddate());
+                String subject = "Your Registration approved!";
+                emailService.sendHtmlEmailWithContentBuild(approvedEmail, subject, ed);
             }
-        }
+
+            // Reject teams that are not listed in teamids
+            List<Integer> rejectedPlayerIds = validateDAO.rejectPlayer(playerids, edid, adminid);
+            for (int rejectedPlayerId : rejectedPlayerIds) {
+                rejectedEmails.addAll(validateDAO.getIndividualEmail(rejectedPlayerId));
+            }
+
+            // Send rejection emails to those who are not approved
+            for (String rejectedEmail : rejectedEmails) {
+                if (!approvedEmails.contains(rejectedEmail)) {
+                    String subject = "Your Registration Rejected!";
+                    emailService.sendHtmlEmailWithContentBuild(rejectedEmail, subject, ed);
+                }
+            }
 
             return "redirect:/AdminEvent?ValidateSuccess=true";
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Signin"; // Handle appropriately, redirect to error page
+            return "Signin"; 
         }
-}
+    }
 
     @GetMapping("/EventValidateT")
     public String EventValidateT(@RequestParam(name = "success", required = false) Boolean success,
@@ -131,8 +157,14 @@ public class EventValidateController {
     }
 
     @PostMapping("/EventValidateT")
-    public String approveTeamRegistration(@ModelAttribute EventDetail ed, @ModelAttribute Event event, @RequestParam("teamid") List<Integer> teamids, @RequestParam("edid") int edid,
-            HttpSession session, Model model) {
+    public String approveTeamRegistration(
+            @ModelAttribute EventDetail ed,
+            @ModelAttribute Event event,
+            @RequestParam("teamid") List<Integer> teamids,
+            @RequestParam("edid") int edid,
+            @RequestParam("eventid") int eventid,
+            HttpSession session,
+            Model model) {
 
         int adminid = (int) session.getAttribute("adminid");
         String Adminname = (String) session.getAttribute("adminname");
@@ -141,31 +173,46 @@ public class EventValidateController {
         System.out.println("Admin name in session (Event Validate Team): " + Adminname);
 
         try {
-            // Get all registered team ids for the event
-        ArrayList<Team> allTeams = validateDAO.getTeam(edid);
-        ArrayList<String> registerEmails = playerEmailDAO.getMemberEmail(edid);
+            ArrayList<Team> allTeams = validateDAO.getTeam(edid);
+            ArrayList<String> registerEmails = playerEmailDAO.getMemberEmail(edid);
+            ed = validateDAO.getEventDetail(edid);
 
-        // Approve the displayed teams
-        for (int teamid : teamids) {
-            validateDAO.approveTTopRank(teamid, edid, adminid);
-            for (String registerEmail : registerEmails) {
-                String subject = "Your Registration approved! ";
-                String htmlContent = buildHtmlContent(event, ed);
-                emailService.sendHtmlEmail(registerEmail, subject, htmlContent);
-        }
-        }
+            Set<String> approvedEmails = new HashSet<>();
+            Set<String> rejectedEmails = new HashSet<>();
 
-        // Reject the teams not in the displayed list
-        for (Team team : allTeams) {
-            if (!teamids.contains(team.getTeamid())) {
-                validateDAO.rejectTeam(team.getTeamid(), edid, adminid);
-                for (String registerEmail : registerEmails) {
-                    String subject = "Your Registration Rejected! ";
-                    String htmlContent = buildHtmlContent(event, ed);
-                    emailService.sendHtmlEmail(registerEmail, subject, htmlContent);
+            // Approve the teams listed in teamids
+            boolean approveStatus = false;
+            for (int teamid : teamids) {
+                System.out.println("teamid : " + teamid);
+                approveStatus = validateDAO.approveTTopRank(teamid, edid, adminid);
+                if (approveStatus) {
+                    approvedEmails.addAll(validateDAO.getMemberEmailByTeamId(teamid));
+                }
             }
+
+            // Send approval emails
+            for (String approvedEmail : approvedEmails) {
+                System.out.println("email :: " + approvedEmail);
+                System.out.println("event :" + ed.getEventname());
+                System.out.println("ed type :" + ed.getEdtype());
+                System.out.println("ed date :" + ed.getEddate());
+                String subject = "Your Registration approved!";
+                emailService.sendHtmlEmailWithContentBuild(approvedEmail, subject, ed);
             }
-        }
+
+            // Reject teams that are not listed in teamids
+            List<Integer> rejectedTeamIds = validateDAO.rejectTeam(teamids, edid, adminid);
+            for (int rejectedTeamId : rejectedTeamIds) {
+                rejectedEmails.addAll(validateDAO.getMemberEmailByTeamId(rejectedTeamId));
+            }
+
+            // Send rejection emails to those who are not approved
+            for (String rejectedEmail : rejectedEmails) {
+                if (!approvedEmails.contains(rejectedEmail)) {
+                    String subject = "Your Registration Rejected!";
+                    emailService.sendHtmlEmailWithContentBuild(rejectedEmail, subject, ed);
+                }
+            }
 
             return "redirect:/AdminEvent?ValidateSuccess=true";
         } catch (SQLException e) {
@@ -174,13 +221,5 @@ public class EventValidateController {
         }
     }
 
-    private String buildHtmlContent(Event event, EventDetail ed) {
-        StringBuilder message = new StringBuilder();
-        message.append("<h2>Event Details</h2>");
-        message.append("<p><strong>Event Name:</strong> ").append(event.getEventname()).append("</p>");
-        message.append("<p><strong>Event Type:</strong> ").append(ed.getEdtype()).append("</p>");
-        message.append("<p><strong>Event Date:</strong> ").append(ed.getEddate()).append("</p>");
 
-        return message.toString();
-    }
 }

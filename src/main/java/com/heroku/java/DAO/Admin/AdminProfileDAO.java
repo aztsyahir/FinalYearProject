@@ -33,6 +33,7 @@ public class AdminProfileDAO {
 
                 return new Admin(adminid, adminname, adminemail, adminpassword);
             }
+            connection.close();
         } catch (SQLException sqe) {
             System.out.println("Error Code = " + sqe.getErrorCode());
             System.out.println("SQL state = " + sqe.getSQLState());
@@ -56,6 +57,7 @@ public class AdminProfileDAO {
             statement.setInt(4, admin.getAdminid());
 
             statement.executeUpdate();
+            connection.close();
         }
         return admin;
     }
@@ -67,6 +69,7 @@ public class AdminProfileDAO {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, admin.getAdminid());
             statement.executeUpdate();
+            connection.close();
         }
         return null;
     }

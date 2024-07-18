@@ -25,6 +25,7 @@
     <div class="d-flex justify-content-center text-center m-4">
         <form th:action="@{/EventValidateT}" method="post">
             <input type="hidden" name="edid" th:value="${event.edid}">
+            <input type="hidden" name="eventid" th:value="${event.eventid}">
             <table class="table table-bordered border-dark image-table">
                 <thead>
                     <tr>
@@ -41,7 +42,7 @@
                 </tbody>
             </table>
             <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary">Approve This Top Tank Registration</button>
+                <button type="submit" class="btn btn-primary">Approve This Top Rank Registration</button>
             </div>
         </form>
     </div>

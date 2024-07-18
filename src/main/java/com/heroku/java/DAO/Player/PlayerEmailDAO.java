@@ -27,6 +27,7 @@ public class PlayerEmailDAO {
                 String EmailToPlayer = resultSet.getString("playeremail");
                 players.add(EmailToPlayer);
             }
+            connection.close();
         }
         return players;
     }
@@ -50,7 +51,7 @@ public class PlayerEmailDAO {
                     players.add(emailToMember);
                 }
             }
-            
+            connection.close();
             System.out.println("Retrieved emails: " + players); 
         }
         
@@ -71,6 +72,7 @@ public class PlayerEmailDAO {
                 String EmailToPlayer = resultSet.getString("playeremail");
                 players.add(EmailToPlayer);
             }
+            connection.close();
         } 
         return players;
     }

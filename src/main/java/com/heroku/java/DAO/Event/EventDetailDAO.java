@@ -50,6 +50,7 @@ public class EventDetailDAO {
                 event.setEventDetail(ed);
                 events.add(event);
             }
+            connection.close();
         }
         return events;
     }

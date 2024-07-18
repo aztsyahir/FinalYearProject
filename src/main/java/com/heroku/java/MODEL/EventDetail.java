@@ -92,7 +92,7 @@ public class EventDetail extends Event {
     }
 
     public EventDetail(int edid, String edtype, int edcapacity, String edvenue, String edstate, String edstatus,
-            int edstats, int eventid, String eventname) {
+            int edstats, Date eddate, int eventid, String eventname) {
         super(eventid, eventname);
         this.edid = edid;
         this.edtype = edtype;
@@ -101,6 +101,7 @@ public class EventDetail extends Event {
         this.edstate = edstate;
         this.edstatus = edstatus;
         this.edstats = edstats;
+        this.eddate = eddate;
     }
 
     public int getEdid() {

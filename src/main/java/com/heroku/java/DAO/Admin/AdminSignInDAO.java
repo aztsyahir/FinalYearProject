@@ -31,7 +31,7 @@ public class AdminSignInDAO {
                 String adminname = resultSet.getString("adminname");
                 return new Admin(adminid, adminname, adminemail, adminpassword);
             }
-
+            connection.close();
         }
         return null;
     }

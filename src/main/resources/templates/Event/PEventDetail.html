@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="event : ${event}" th:action="@{/CancelEvent}" method="post">
+                <tr th:each="event : ${event}">
                     <td th:text="${event.eventDetail.edid}"></td>
                     <td th:text="${event.eventDetail.edtype}"></td>
                     <td th:text="${event.eventDetail.edcapacity}"></td>
@@ -46,9 +46,11 @@
                     <td th:text="${event.eventDetail.edstatus}"></td>
                     <td>
                         <div class="d-grid gap-2">
-                            <a th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'INDIVIDUAL' && event.eventDetail.edstatus != 'CLOSE'}">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Register Event</button>
-                            </a>
+                            <button th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'INDIVIDUAL' && event.eventDetail.edstatus != 'CLOSE'}" class="btn btn-primary register-individual-btn" type="button" data-bs-toggle="modal" 
+                                    data-bs-target="#staticBackdrop" 
+                                    th:attr="data-eventname=${event.eventname}, data-edid=${event.eventDetail.edid}, data-edtype=${event.eventDetail.edtype}, data-playername=${player.playername}, data-playerstats=${player.playerstats}">
+                                Register Event
+                            </button>
                             <form th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'TEAM' && event.eventDetail.edstatus != 'CLOSE'}" th:action="@{/TEventRegister}" method="get">
                                 <input type="hidden" name="edid" th:value="${event.eventDetail.edid}" />
                                 <button class="btn btn-primary" type="submit">Register Event</button>
@@ -70,27 +72,27 @@
                 </div>
                 <div class="modal-body">
                     <form method="post" th:action="@{/IEventRegister}" th:modelAttribute="IEventRegister" th:object="${IEventRegister}">
-                        <input type="hidden" name="eventname" th:value="${event[0].eventname}">
-                        <input type="hidden" name="edid" th:value="${event[0].eventDetail.edid}">
+                        <!-- <input type="hidden" name="eventname"> -->
+                        <input type="hidden" name="edid">
                         <input type="hidden" name="playerid" th:value="${player.playerid}">
                         <div class="form-floating g-2 mb-3">
-                            <input type="text" name="eventname" class="form-control form-control-lg bg-light fs-6 text-uppercase" placeholder="Event Name" th:value="${event[0].eventname}" readonly>
+                            <input type="text" name="eventname" class="form-control form-control-lg bg-light fs-6 text-uppercase" placeholder="Event Name" readonly>
                             <label for="floatingInputGrid">Event Name</label>
                         </div>
                         <div class="form-floating g-2 mb-3">
-                            <input type="text" name="playername" class="form-control form-control-lg bg-light fs-6 text-uppercase" placeholder="Player Name" th:value="${player.playername}" readonly>
+                            <input type="text" name="playername" class="form-control form-control-lg bg-light fs-6 text-uppercase" placeholder="Player Name" readonly>
                             <label for="floatingInputGrid">Player Name</label>
                         </div>
                         <div class="row g-2 mb-3">
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" name="edtype" class="form-control form-control-lg bg-light fs-6 text-uppercase" placeholder="PEvent Type" th:value="${event[0].eventDetail.edtype}" readonly>
+                                    <input type="text" name="edtype" class="form-control form-control-lg bg-light fs-6 text-uppercase" placeholder="Event Type" readonly>
                                     <label for="floatingInputGrid">Event Type</label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control form-control-lg bg-light fs-6" id="floatingInputGrid" placeholder="Player Stats" name="playerstats" th:value="${player.playerstats}" readonly>
+                                    <input type="number" class="form-control form-control-lg bg-light fs-6" id="floatingInputGrid" placeholder="Player Stats" name="playerstats" readonly>
                                     <label for="floatingInputGrid">Player stats (%)</label>
                                 </div>
                             </div>
@@ -107,6 +109,28 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var registerButtons = document.querySelectorAll('.register-individual-btn');
+            var modal = document.getElementById('staticBackdrop');
+
+            registerButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var eventname = button.getAttribute('data-eventname');
+                    var edid = button.getAttribute('data-edid');
+                    var edtype = button.getAttribute('data-edtype');
+                    var playername = button.getAttribute('data-playername');
+                    var playerstats = button.getAttribute('data-playerstats');
+
+                    modal.querySelector('input[name="eventname"]').value = eventname;
+                    modal.querySelector('input[name="edid"]').value = edid;
+                    modal.querySelector('input[name="edtype"]').value = edtype;
+                    modal.querySelector('input[name="playername"]').value = playername;
+                    modal.querySelector('input[name="playerstats"]').value = playerstats;
+                });
+            });
+        });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

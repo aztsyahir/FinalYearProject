@@ -21,6 +21,7 @@ public class PlayerStatsDAO {
             statement.setInt(1, totalPercentage);
             statement.setInt(2, playerid);
             statement.executeUpdate();
+            connection.close();
         }
     }
 }

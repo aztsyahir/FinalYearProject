@@ -43,6 +43,7 @@ public class PlayerListDAO {
                     }
                 }
             }
+            connection.close();
             return player;
         }
     }

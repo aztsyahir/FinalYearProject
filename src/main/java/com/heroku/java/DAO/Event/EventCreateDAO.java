@@ -42,6 +42,7 @@ public class EventCreateDAO {
             statement2.setBytes(9, ed.getEdimgbyte());
             statement2.setInt(10, eventid);
             statement2.executeUpdate();
+            connection.close();
         }
         return null;
     }
@@ -63,6 +64,7 @@ public class EventCreateDAO {
             statement2.setBytes(9, ed.getEdimgbyte());
             statement2.setInt(10, eventid);
             statement2.executeUpdate();
+            connection.close();
         }
         return null;
     }

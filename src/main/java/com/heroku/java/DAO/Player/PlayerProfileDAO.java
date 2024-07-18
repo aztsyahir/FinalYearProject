@@ -38,6 +38,7 @@ public class PlayerProfileDAO {
                 return new Player(playerid, playername, playeremail, playerpassword, playergender, playerage,
                         playerstats);
             }
+            connection.close();
         } catch (SQLException sqe) {
             System.out.println("Error Code = " + sqe.getErrorCode());
             System.out.println("SQL state = " + sqe.getSQLState());
@@ -64,6 +65,7 @@ public class PlayerProfileDAO {
             statement.setInt(7, player.getPlayerid());
 
             statement.executeUpdate();
+            connection.close();
         }
         return player;
     }
@@ -78,6 +80,7 @@ public class PlayerProfileDAO {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            connection.close();
         }
         return false;
     }
@@ -92,6 +95,7 @@ public class PlayerProfileDAO {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            connection.close();
         }
         return false;
     }
@@ -103,6 +107,7 @@ public class PlayerProfileDAO {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, player.getPlayerid());
             statement.executeUpdate();
+            connection.close();
         }
         return null;
     }

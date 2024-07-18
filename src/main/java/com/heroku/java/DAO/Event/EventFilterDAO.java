@@ -94,7 +94,7 @@ public class EventFilterDAO {
                     }
                 }
             }
-
+            connection.close();
         } catch (SQLException e) {
             throw new SQLException("Error retrieving Event: " + e.getMessage());
         }

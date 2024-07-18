@@ -28,7 +28,7 @@ public class PlayerSignInDAO {
                 String playername = resultSet.getString("playername");
                 return new Player(playerid, playername, playeremail, playerpassword);
             }
-
+            connection.close();
         }
         return null;
     }

@@ -41,6 +41,7 @@ public class EventRegisterDAO {
                 event = new Event(eventid, eventname);
                 event.setEventDetail(ed);
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,6 +60,7 @@ public class EventRegisterDAO {
                 // Execute individual insert
                 individualStatement.executeUpdate();
             }
+            connection.close();
         }
         return event;
     }
@@ -79,6 +81,7 @@ public class EventRegisterDAO {
                     }
                 }
             }
+            connection.close();
         }
         return team;
     }
@@ -96,6 +99,7 @@ public class EventRegisterDAO {
             if (rowsAffected > 0) {
                 System.out.println("Team with ID " + teamid + " was successfully deleted.");
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,6 +117,7 @@ public class EventRegisterDAO {
             statement.executeUpdate();
 
             member = new Member(playerid, teamid);
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,6 +133,7 @@ public class EventRegisterDAO {
             statement2.setInt(2, team.getTeamstats());
             statement2.setInt(3, teamid);
             statement2.executeUpdate();
+            connection.close();
         }
     }
 
@@ -142,6 +148,7 @@ public class EventRegisterDAO {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            connection.close();
         }
         return false;
     }
@@ -159,6 +166,7 @@ public class EventRegisterDAO {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            connection.close();
         }
         return false;
     }
@@ -173,6 +181,7 @@ public class EventRegisterDAO {
                     return resultSet.getInt("edstats");
                 }
             }
+            connection.close();
         }
         throw new SQLException("Event detail not found for eventdetailid: " + edid);
     }
@@ -187,6 +196,7 @@ public class EventRegisterDAO {
                     return resultSet.getInt("playerstats");
                 }
             }
+            connection.close();
         }
         throw new SQLException("Player not found for playerid: " + playerid);
     }

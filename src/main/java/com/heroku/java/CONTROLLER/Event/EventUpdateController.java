@@ -11,23 +11,34 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
 
+import com.heroku.java.DAO.Admin.ValidateDAO;
 import com.heroku.java.DAO.Event.EventUpdateDAO;
 import com.heroku.java.DAO.Event.EventWithdrawDAO;
+import com.heroku.java.DAO.Player.PlayerEmailDAO;
+import com.heroku.java.SERVICES.EmailService;
+
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @Controller
 public class EventUpdateController {
     private final EventUpdateDAO eventUpdateDAO;
     private final EventWithdrawDAO eventWithdrawDAO;
+    private final PlayerEmailDAO playerEmailDAO;
+    private final EmailService emailService;
+    private final ValidateDAO validateDAO;
 
     @Autowired
-    public EventUpdateController(EventUpdateDAO eventUpdateDAO, EventWithdrawDAO eventWithdrawDAO) {
+    public EventUpdateController(EventUpdateDAO eventUpdateDAO, EventWithdrawDAO eventWithdrawDAO, PlayerEmailDAO playerEmailDAO, EmailService emailService, ValidateDAO validateDAO) {
         this.eventUpdateDAO = eventUpdateDAO;
         this.eventWithdrawDAO = eventWithdrawDAO;
+        this.playerEmailDAO = playerEmailDAO;
+        this.emailService = emailService;
+        this.validateDAO = validateDAO;
     }
 
     @GetMapping("/EventUpdate")
@@ -92,7 +103,7 @@ public class EventUpdateController {
 
     @GetMapping("/CancelEvent")
     public String cancelEvent(@RequestParam("edid") int edid, @RequestParam("eventid") int eventid,
-            HttpSession session, Model model) {
+            HttpSession session, Model model, Event event, EventDetail ed) {
         int Adminid = (int) session.getAttribute("adminid");
         String Adminname = (String) session.getAttribute("adminname");
 
@@ -101,6 +112,17 @@ public class EventUpdateController {
 
         try {
             eventUpdateDAO.CancelEvent(edid);
+
+            List<String> playerEmails = playerEmailDAO.getPlayerEmail();
+            ed = validateDAO.getEventDetail(edid);
+
+            for (String playerEmail : playerEmails) {
+                String subject = "Event Has Been Cancelled: " + ed.getEventname();
+                System.out.println("Event name: " + ed.getEventname());
+                // String htmlContent = buildHtmlContent(event, ed);
+                emailService.sendHtmlEmailWithContentBuild(playerEmail, subject, ed);
+            }
+
             return "redirect:/AEventDetail?eventid=" + eventid + "&CancelEventSuccess=true";
         } catch (SQLException e) {
             // TODO Auto-generated catch block

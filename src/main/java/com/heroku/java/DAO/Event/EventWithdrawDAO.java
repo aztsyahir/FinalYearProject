@@ -21,6 +21,7 @@ public class EventWithdrawDAO {
             statement.setString(1, "WITHDRAWN");
             statement.setInt(2, registrationid);
             statement.executeUpdate();
+            connection.close();
         }
     }
 }

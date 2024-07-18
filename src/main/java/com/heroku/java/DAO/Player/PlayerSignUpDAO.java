@@ -31,6 +31,7 @@ public class PlayerSignUpDAO {
             statement.setInt(4, playerage);
             statement.setString(5, playerpassword);
             statement.executeUpdate();
+            connection.close();
         }
         return player;
     }

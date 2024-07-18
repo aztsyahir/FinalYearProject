@@ -58,6 +58,7 @@ public class EventListDAO {
                 events.add(event);
 
             }
+            connection.close();
             return events;
         }
     }
@@ -110,6 +111,7 @@ public class EventListDAO {
                     }
                 }
             }
+            connection.close();
         }
         return events;
     }
@@ -167,6 +169,7 @@ public class EventListDAO {
                     events.add(event);
                 }
             }
+            connection.close();
         }
         return events;
     }
@@ -201,7 +204,7 @@ public class EventListDAO {
                 event.setEventDetail(ed);
                 events.add(event);
             }
-
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
             throw e; // Handle the exception as needed
