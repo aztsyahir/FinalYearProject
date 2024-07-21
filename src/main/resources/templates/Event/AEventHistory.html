@@ -19,12 +19,12 @@
     <table class="table table-bordered border-dark image-table">
       <thead class="table-info border-dark">
         <tr>
-          <th>Event Image</th>
-          <th>Event Name</th>
-          <th>Event Type</th>
-          <th>Registration Status</th>
+          <th>EVENT IMAGE</th>
+          <th>EVENT NAME</th>
+          <th>EVENT TYPE</th>
+          <th>EVENT STATUS</th>
           <th>Event Date</th>
-          <th>Action</th>
+          <th>ACTION</th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +36,9 @@
           <td th:text="${event.eventDetail.edstatus}"></td>
           <td th:text="${#dates.format(event.eventDetail.eddate, 'dd-MM-yyyy')}"></td>
           <td><div><a th:href="@{/AEventDetail(eventid=${event.eventid})}"><button class="btn btn-info"
-            type="button">DETAIL</button></a></div></td>
+            type="button" style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
+              info
+              </span>DETAIL</button></a></div></td>
         </tr>
       </tbody>
     </table>

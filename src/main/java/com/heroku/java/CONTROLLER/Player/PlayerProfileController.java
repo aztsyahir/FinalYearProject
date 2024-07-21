@@ -27,13 +27,17 @@ public class PlayerProfileController {
     public String playerProfile(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model, Player player) {
 
-        int playerid = (int) session.getAttribute("playerid");
-        String playername = (String) session.getAttribute("playername");
+                Integer playerid = (Integer) session.getAttribute("playerid");
+                String playername = (String) session.getAttribute("playername");
+        
+                System.out.println("Player id in session (Player event calendar): " + playerid);
+                System.out.println("Player name in session (Player event calendar): " + playername);
+        
+                if (playerid == null || playername == null) {
+                    return "Home";
+                }
 
-        System.out.println("Player id in session (player profile): " + playerid);
-        System.out.println("Player name in session (player profile): " + playername);
-
-        if (playerid != 0) {
+        if (playerid != null) {
             try {
                 player = playerProfileDAO.PlayerProfile(playerid);
                 model.addAttribute("PlayerProfile", player);
@@ -52,12 +56,17 @@ public class PlayerProfileController {
 
     @PostMapping("UpdatePlayer")
     public String updatePlayer(HttpSession session, @ModelAttribute("PlayerProfile") Player player, Model model) {
-        int playerid = (int) session.getAttribute("playerid");
+        Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
-        System.out.println("Player id in session (player update): " + playerid);
-        System.out.println("Player name in session (player update): " + playername);
 
-        if (playerid != 0) {
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
+
+        if (playerid != null) {
             try {
                 player.setPlayerid(playerid);
                 player = playerProfileDAO.UpdatePlayer(player);
@@ -76,9 +85,16 @@ public class PlayerProfileController {
 
     @GetMapping("/DeletePlayer")
     public String deletePlayer(HttpSession session, Player player, Model model) {
-        int playerid = (int) session.getAttribute("playerid");
+        Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
-        if (playerid != 0) {
+
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
+        if (playerid != null) {
             try {
                 boolean isIndividualRegistered = playerProfileDAO.checkDeletedIPlayer(playerid);
                 boolean isMemberRegistered = playerProfileDAO.checkDeletedTPlayer(playerid);

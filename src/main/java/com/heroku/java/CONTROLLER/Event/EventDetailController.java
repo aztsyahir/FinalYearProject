@@ -33,12 +33,15 @@ public class EventDetailController {
     @GetMapping("/AEventDetail")
     public String EventDetail(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model, @RequestParam("eventid") int eventid) {
-        int Adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (AEvent Detail): " + Adminid);
-        System.out.println("Admin name in session (AEvent Detail): " + Adminname);
-
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
+                System.out.println("eventid: " +eventid);
         try {
             ArrayList<Event> eventDetail = EventDetailDAO.getEventDetail(eventid);
             model.addAttribute("event", eventDetail);
@@ -53,11 +56,15 @@ public class EventDetailController {
     @GetMapping("/PEventDetail")
     public String PEventDetail(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model, @RequestParam("eventid") int eventid, @RequestParam("edid") int edid) {
-        int playerid = (int) session.getAttribute("playerid");
+                Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player id in session (AEvent Detail): " + playerid);
-        System.out.println("Player name in session (AEvent Detail): " + playername);
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
 
         try {
             ArrayList<Event> eventDetail = EventDetailDAO.getEventDetail(eventid);

@@ -40,7 +40,15 @@ public class EventCreateController {
     }
 
     @GetMapping("/EventCreate")
-    public String AdminEvent() {
+    public String AdminEvent(@RequestParam(name = "success", required = false) Boolean success, HttpSession session) {
+        Integer adminid = (Integer) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Admin event): " + adminid);
+        System.out.println("Admin name in session (Admin event): " + adminname);
+        if (adminid == null || adminname == null) {
+            return "Home";
+        }
         return "Event/EventCreate";
     }
 
@@ -66,7 +74,7 @@ public class EventCreateController {
             System.out.println("Message = " + sqe.getMessage());
             System.out.println("printTrace /n");
             sqe.printStackTrace();
-            return "redirect:/EventCreate?CreateEventError=true";
+            return "redirect:/Signin";
         }
     }
 
@@ -105,12 +113,15 @@ public class EventCreateController {
 
     private String buildHtmlContent(Event event, EventDetail ed) {
         StringBuilder message = new StringBuilder();
+        message.append("<p>Dear Flatballer,</p>");
+        message.append("<p>We are happy to announce you that new ultimate frisbee event is in our website!</p>");
         message.append("<h2>Event Details</h2>");
         message.append("<p><strong>Event Name:</strong> ").append(event.getEventname()).append("</p>");
         message.append("<p><strong>Event Type:</strong> ").append(ed.getEdtype()).append("</p>");
         message.append("<p><strong>Event Date:</strong> ").append(ed.getEddate()).append("</p>");
         message.append("<p><strong>Last Registration Date:</strong> ").append(ed.getEdlastdate()).append("</p>");
         message.append("<p><strong>Minimum Stats Required(%):</strong> ").append(ed.getEdstats()).append("</p>");
+        message.append("<p>For more information of other event, chock out our ULTIMATENAV website!</p>");
 
         return message.toString();
     }

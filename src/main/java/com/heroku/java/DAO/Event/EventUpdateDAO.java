@@ -80,12 +80,12 @@ public class EventUpdateDAO {
         }
     }
 
-    public EventDetail EventUpdateimg(int edid) throws SQLException {
+    public EventDetail EventUpdateimg(int eventid) throws SQLException {
         EventDetail eventDetail = null;
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT edimg FROM eventdetail WHERE eventdetailid = ?";
+            String sql = "SELECT edimg FROM eventdetail WHERE eventid = ?";
             final var statement = connection.prepareStatement(sql);
-            statement.setInt(1, edid);
+            statement.setInt(1, eventid);
             final var resultSet = statement.executeQuery();
 
             if (resultSet.next()) {

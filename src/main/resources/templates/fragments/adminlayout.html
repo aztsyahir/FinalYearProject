@@ -26,7 +26,9 @@
             <li class="link"><a th:href="@{/AEventHistory}">Event Histoy</a></li>
             <li class="link"><a th:href="@{/AdminEvent}">Unvalidated Event</a></li>
             <li class="link"><a th:href="@{/AdminProfile}">Profile</a></li>
-            <li class="link"><a th:href="@{/EventCreate}" class="nav__btn glyphicon glyphicon-user">Create Event</a>
+            <li class="link"><a th:href="@{/EventCreate}" class="nav__btn glyphicon glyphicon-user" style="display: inline-flex; align-items: center;"> <span class="material-symbols-outlined">
+                calendar_month
+                </span>Create Event</a>
             </li>
         </ul>
     </nav>
@@ -95,5 +97,8 @@
         });
     </script>
 </body>
-
+<footer class="d-flex justify-content-center">
+    <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
+  </footer>
+  <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 </html>

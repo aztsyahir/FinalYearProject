@@ -34,8 +34,15 @@ public class EventFilterController {
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
 
-                int playerid = (int) session.getAttribute("playerid");
+                Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
         try {
             // Convert String dates to Date objects
             Date startDate = null;

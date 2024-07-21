@@ -29,7 +29,7 @@ public class EventListDAO {
                     "FROM event e " +
                     "JOIN eventdetail ed ON e.eventid = ed.eventid " +
                     "LEFT JOIN registration r ON ed.eventdetailid = r.eventdetailid " +
-                    "WHERE r.registrationstatus = 'PENDING' " +
+                    "WHERE r.registrationstatus = 'PENDING' AND ed.edstatus = 'OPEN'" +
                     "ORDER BY ed.eventdetailid DESC";
             final var statement = connection.createStatement();
             final var resultSet = statement.executeQuery(sql);

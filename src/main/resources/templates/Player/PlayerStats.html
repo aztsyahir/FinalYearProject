@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <h1 class="PlayerProfile d-flex justify-content-center">Player Stats</h1>
+    <h1 class="PlayerProfile d-flex justify-content-center" style="font-weight: bold;">PLAYER STATISTICS UPDATE</h1>
     <!----------------------- Main Container -------------------------->
     <div class="container d-flex justify-content-center align-items-center min-vh-15">
         <!----------------------- Login Container -------------------------->
@@ -68,7 +68,9 @@
                         </div>
                         <div class="input-group mb-3 justify-content-center ">
                             <div class="text-center">
-                                <button id="btncustsave" type="submit" class="btn btn-primary fs-6">SAVE</button>
+                                <button id="btncustsave" type="submit" class="btn btn-primary fs-6" style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
+                                    book_2
+                                    </span>SAVE</button>
                             </div>
                     </form>
                 </div>
@@ -86,6 +88,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <footer class="d-flex justify-content-center">
+            <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
+        </footer>
+        <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 </body>
 
 </html>

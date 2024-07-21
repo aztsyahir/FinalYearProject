@@ -13,8 +13,7 @@
 </head>
 
 <body>
-
-    <h1 class="PlayerProfile d-flex justify-content-center mb-20">Player Profile</h1>
+    <h1 class="PlayerProfile d-flex justify-content-center mb-20" style="font-weight: bold;">PLAYER PROFILE</h1>
     <!----------------------- Main Container -------------------------->
     <div class="container d-flex justify-content-center align-items-center min-vh-15">
         <!----------------------- Login Container -------------------------->
@@ -143,6 +142,10 @@
             </div>
         </div>
     </div>
+    <footer class="d-flex justify-content-center">
+        <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
+    </footer>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 </body>
 
 </html>

@@ -20,6 +20,7 @@ public class EmailService {
         try {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom("ULTIMATENAV <aztsyahir@gmail.com>");
             helper.setTo(toEmail);
             helper.setSubject(subject);
             helper.setText(htmlContent, true); // Set HTML content
@@ -37,10 +38,13 @@ public class EmailService {
 
     private String buildHtmlContent(EventDetail ed) {
         StringBuilder message = new StringBuilder();
+        message.append("<p>Dear Flatballer</p>"); 
+        message.append("<p>It is good to see you again, this is the details for the event.</p>");
         message.append("<h2>Event Details</h2>");
         message.append("<p><strong>Event Name:</strong> ").append(ed.getEventname()).append("</p>");
         message.append("<p><strong>Event Type:</strong> ").append(ed.getEdtype()).append("</p>");
         message.append("<p><strong>Event Date:</strong> ").append(ed.getEddate()).append("</p>");
+        message.append("<p>For more information, don't be shy to visit our website!</p>");
         return message.toString();
     }
 }

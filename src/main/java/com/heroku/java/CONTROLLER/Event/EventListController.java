@@ -15,6 +15,7 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import com.heroku.java.DAO.Event.EventListDAO;
 import com.heroku.java.MODEL.Event;
+import com.heroku.java.MODEL.Player;
 import com.heroku.java.MODEL.Admin;
 
 @Controller
@@ -30,11 +31,14 @@ public class EventListController {
     @GetMapping("/AdminEvent")
     public String AdminEvent(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model, Admin admin) {
-        int adminid = (int) session.getAttribute("adminid");
+        Integer adminid = (Integer) session.getAttribute("adminid");
         String adminname = (String) session.getAttribute("adminname");
 
         System.out.println("Admin id in session (Admin event): " + adminid);
         System.out.println("Admin name in session (Admin event): " + adminname);
+        if (adminid == null || adminname == null) {
+            return "Home";
+        }
 
         ArrayList<Event> eventList;
         try {
@@ -54,11 +58,15 @@ public class EventListController {
             @RequestParam(name = "year", required = false) Integer year,
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
-        int playerid = (int) session.getAttribute("playerid");
+        Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
         System.out.println("Player id in session (Player event calendar): " + playerid);
         System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
         try {
             // Default to current month and year if not provided
             Calendar cal = Calendar.getInstance();
@@ -104,6 +112,7 @@ public class EventListController {
             rows.add(currentRow);
             // Add formatted month to the model as "MM" string
             String formattedMonth = String.format("%02d", month);
+
             model.addAttribute("month", formattedMonth);
 
             // Add events to the model
@@ -115,15 +124,22 @@ public class EventListController {
             return "Event/PlayerEventCalendar";
         } catch (SQLException e) {
             e.printStackTrace();
-            return "error"; // Handle error appropriately
+            return "Signin"; // Handle error appropriately
         }
     }
 
     @GetMapping("/EventHistory")
     public String EventHistory(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
-        int playerid = (int) session.getAttribute("playerid");
-        String playername = (String) session.getAttribute("playername");
+                Integer playerid = (Integer) session.getAttribute("playerid");
+                String playername = (String) session.getAttribute("playername");
+        
+                System.out.println("Player id in session (Player event calendar): " + playerid);
+                System.out.println("Player name in session (Player event calendar): " + playername);
+        
+                if (playerid == null || playername == null) {
+                    return "Home";
+                }
 
         ArrayList<Event> eventList;
         try {
@@ -131,7 +147,6 @@ public class EventListController {
             model.addAttribute("events", eventList);
             return "Event/EventHistory";
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return "Signin";
         }
@@ -142,11 +157,14 @@ public class EventListController {
     public String AEventHistory(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
 
-        int adminid = (int) session.getAttribute("adminid");
-        String adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Admin event): " + adminid);
-        System.out.println("Admin name in session (Admin event): " + adminname);
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
         ArrayList<Event> eventList;
 
         try {

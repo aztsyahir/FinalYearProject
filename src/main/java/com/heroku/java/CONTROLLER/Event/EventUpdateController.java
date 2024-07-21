@@ -44,11 +44,14 @@ public class EventUpdateController {
     @GetMapping("/EventUpdate")
     public String EventUpdate(@RequestParam("eventid") int eventid, @RequestParam("edid") int edid,
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session, Model model) {
-        int Adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Event Update): " + Adminid);
-        System.out.println("Admin name in session (Event Update): " + Adminname);
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
 
         try {
             Event event = eventUpdateDAO.DisplayEvent(edid, eventid);
@@ -66,11 +69,14 @@ public class EventUpdateController {
     public String EventUpdate(@ModelAttribute("EventUpdate") Event event, @RequestParam("edimgs") MultipartFile edimgs,
             @RequestParam(name = "success", required = false) Boolean success,@RequestParam("eventid") int eventid, @RequestParam("edid") int eventdetailid, HttpSession session, EventDetail ed,
             Model model) throws IOException {
-        int Adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Event Update): " + Adminid);
-        System.out.println("Admin name in session (Event Update): " + Adminname);
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
 
         System.out.println("Event Detail ID to be updated: " + eventdetailid);
         try {
@@ -104,11 +110,14 @@ public class EventUpdateController {
     @GetMapping("/CancelEvent")
     public String cancelEvent(@RequestParam("edid") int edid, @RequestParam("eventid") int eventid,
             HttpSession session, Model model, Event event, EventDetail ed) {
-        int Adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Event Cancelation): " + Adminid);
-        System.out.println("Admin name in session (Event Cancelation): " + Adminname);
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
 
         try {
             eventUpdateDAO.CancelEvent(edid);
@@ -134,11 +143,15 @@ public class EventUpdateController {
 
     @PostMapping("/WithdrawEvent")
     public String withdrawEvent(@RequestParam("edid") int edid, HttpSession session, Model model) {
-        int playerid = (int) session.getAttribute("playerid");
+        Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player id in session (Withdraw Event): " + playerid);
-        System.out.println("Player name in session (Withdraw Event): " + playername);
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
 
         try {
             eventWithdrawDAO.WithdrawEvent(edid);

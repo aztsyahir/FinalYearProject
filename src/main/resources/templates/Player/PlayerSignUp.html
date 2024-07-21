@@ -16,8 +16,9 @@
 </head>
 
 <body>
+    <h1 class="PlayerSignUp d-flex justify-content-center" style="font-weight: bold;">LET'S CREATE AN ACCOUNT!</h1>
     <!----------------------- Main Container -------------------------->
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container d-flex justify-content-center align-items-center min-vh-50">
         <!----------------------- Login Container -------------------------->
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <!--------------------------- Left Box ----------------------------->
@@ -69,6 +70,25 @@
                     <div class="row">
                         <small>Already have account? <a th:href="@{/SignIn}">Sign In</a></small>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="emailExistsModal" tabindex="-1" role="dialog" aria-labelledby="emailExistsModalLabel" aria-hidden="true" th:if="${emailExists}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="emailExistsModalLabel">Email Already Registered</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The email address you entered is already registered! Please use a different email address or sign in.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

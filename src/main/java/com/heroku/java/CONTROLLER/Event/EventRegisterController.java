@@ -78,9 +78,16 @@ public class EventRegisterController {
     @GetMapping("/TEventRegister")
     public String TEventRegister(@RequestParam("edid") int edid, HttpSession session,
             Model model) {
+                Integer playerid = (Integer) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
         try {
-            int playerid = (int) session.getAttribute("playerid");
-            String playername = (String) session.getAttribute("playername");
 
             System.out.println("Player ID: " + playerid);
             System.out.println("Player Name: " + playername);
@@ -107,9 +114,16 @@ public class EventRegisterController {
     @GetMapping("/CancelTRegistration")
     public String CancelTRegistration(@RequestParam("teamid") int teamid, HttpSession session,
             Model model) {
+                Integer playerid = (Integer) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
         try {
-            int playerid = (int) session.getAttribute("playerid");
-            String playername = (String) session.getAttribute("playername");
 
             eventRegisterDAO.CancelTRegistration(teamid);
             return "redirect:/PlayerEventCalendar";

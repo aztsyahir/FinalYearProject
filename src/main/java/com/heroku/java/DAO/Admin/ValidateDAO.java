@@ -308,8 +308,7 @@ public class ValidateDAO {
                 String eventname = resultSet.getString("eventname");
 
                 eventDetail = new EventDetail(edid, edtype, edcapacity, edvenue, edstate, edstatus, edstats, eddate,
-                        eventid,
-                        eventname);
+                        eventid, eventname);
             }
             connection.close();
         } catch (SQLException e) {

@@ -20,7 +20,7 @@
             NAME</button>
     </div>
     <div>
-        <h2 class="text-center" th:text="${event[0].eventname} + ' DETAIL'"></h2>
+        <h2 class="text-center" th:text="${event[0].eventname} + ' DETAIL'" style="font-weight: bold;"></h2>
     </div>
     <div class="d-flex justify-content-center">
         <img class="rounded img-thumbnail mx-auto " th:src="${event[0].eventDetail.edimage}" alt="Event Image"
@@ -31,16 +31,16 @@
         <table class="table table-bordered border-dark image-table">
             <thead class="table-info border-dark">
                 <tr>
-                    <th>Detail ID</th>
-                    <th>Event Type</th>
-                    <th>Participant/Team Capacity</th>
-                    <th>Event Venue</th>
-                    <th>Event State</th>
-                    <th>Event Date</th>
-                    <th>Last Registration</th>
-                    <th>Minimum Stats</th>
-                    <th>Event Status</th>
-                    <th>Action</th>
+                    <th>DETAIL ID</th>
+                    <th>EVENT TYPE</th>
+                    <th>PARTICIPANT/TEAM CAPACITY</th>
+                    <th>EVENT VENUE</th>
+                    <th>EVENT STATES</th>
+                    <th>EVENT DATE</th>
+                    <th>LAST REGISTRATION DATE</th>
+                    <th>MINIMUM STATISTIC (%)</th>
+                    <th>EVENT STATUS</th>
+                    <th>ACTION</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,21 +55,22 @@
                     <td th:text="${event.eventDetail.edstats}"></td>
                     <td th:text="${event.eventDetail.edstatus}"></td>
                     <td>
-                        <div class="d-grid gap-2" >
+                        <div class="d-grid gap-2">
                             <a th:if="${event.eventDetail.edtype == 'INDIVIDUAL'&& event.eventDetail.edstatus == 'OPEN' }"
-                            th:href="@{/EventValidateI(edid=${event.eventDetail.edid})}">
-                            <button class="btn btn-primary" type="button">Validate</button>
-                          </a>
-                          <a th:if="${event.eventDetail.edtype == 'TEAM' && event.eventDetail.edstatus == 'OPEN'}"
-                            th:href="@{/EventValidateT(edid=${event.eventDetail.edid})}">
-                            <button class="btn btn-primary" type="button">Validate</button>
-                          </a>
-                            <a th:if="${event.eventDetail.edstatus == 'OPEN'}" th:href="@{/EventUpdate(edid=${event.eventDetail.edid}, eventid=${event.eventid})}"><button class="btn btn-primary"
-                                    type="button">Update Event</button></a>
+                                th:href="@{/EventValidateI(edid=${event.eventDetail.edid})}">
+                                <button class="btn btn-primary" type="button">Validate</button>
+                            </a>
+                            <a th:if="${event.eventDetail.edtype == 'TEAM' && event.eventDetail.edstatus == 'OPEN'}"
+                                th:href="@{/EventValidateT(edid=${event.eventDetail.edid})}">
+                                <button class="btn btn-primary" type="button">Validate</button>
+                            </a>
+                            <a th:if="${event.eventDetail.edstatus == 'OPEN'}"
+                                th:href="@{/EventUpdate(edid=${event.eventDetail.edid}, eventid=${event.eventid})}"><button
+                                    class="btn btn-primary" type="button">Update Event</button></a>
                             <a th:href="@{/CancelEvent(edid=${event.eventDetail.edid}, eventid=${event.eventid})}"
                                 onclick="return confirm('Are you sure you want to cancel this event?')"
-                                 th:if="${event.eventDetail.edstatus == 'OPEN'}"><button
-                                    class="btn btn-danger" type="button">CANCEL EVENT</button></a>
+                                th:if="${event.eventDetail.edstatus == 'OPEN'}"><button class="btn btn-danger"
+                                    type="button">CANCEL EVENT</button></a>
                             <div>
                                 <div class="offcanvas offcanvas-end" tabindex="-1"
                                     th:id="'offcanvasRight-' + ${event.eventid}"
@@ -83,8 +84,8 @@
                                         <div class="panel"><img th:src="${event.eventDetail.edimage}"
                                                 alt="Product Image" style="width: 200px; height: 200px; "></div>
                                         <div class="myForm1">
-                                            <h3 class="offcanvas-title1"  id="offcanvasRightLabel-${event.eventid}"
-                                            th:text="${event.eventname}"></h3>
+                                            <h3 class="offcanvas-title1" id="offcanvasRightLabel-${event.eventid}"
+                                                th:text="${event.eventname}"></h3>
                                             <br><br>
                                             <form id="myForm1" th:action="@{/NewEventSet}" method="post"
                                                 modelAttribute="NewEventSet">
@@ -186,7 +187,11 @@
                                                     </div>
                                                     <div class="submitOrder1" id="submitOrder1">
                                                         <button type="submit"
-                                                            style="color: #000000; font-weight: 800; border: 1px solid #000000; border-radius: 15px; background-color: #4594e9; padding: 8px 30%;">Set
+                                                            style="color: #000000; font-weight: 800; border: 1px solid #000000;
+                                                                   border-radius: 15px; background-color: #4594e9; padding: 8px 30%; display: inline-flex; align-items: center;"><span
+                                                                class="material-symbols-outlined">
+                                                                library_add
+                                                            </span>Set
                                                             New Event</button>
                                                     </div>
                                             </form>

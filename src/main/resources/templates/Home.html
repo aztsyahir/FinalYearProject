@@ -8,6 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" th:href="@{stylesheets/home.css}" />
   <title>UltimateNav</title>
+  <style>
+    .card {
+      display: inline-block;
+      width: 18rem;
+      vertical-align: top;
+      margin-right: 20px;
+    }
+  </style>
 </head>
 
 <body>
@@ -37,6 +45,11 @@
       </div>
     </div>
   </section>
+  <footer class="d-flex justify-content-center">
+    <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
+  </footer>
+  <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+</body>
 </body>
 
 </html>

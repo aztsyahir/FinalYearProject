@@ -2,11 +2,13 @@ package com.heroku.java.CONTROLLER.Player;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.heroku.java.DAO.Player.PlayerSignUpDAO;
 import com.heroku.java.MODEL.Player;
+
 
 import java.sql.SQLException;
 
@@ -26,8 +28,11 @@ public class PlayerSignUpController {
     }
 
     @PostMapping("/PlayerSignUp")
-    public String playerSignUp(@ModelAttribute Player player) {
+    public String playerSignUp(@ModelAttribute Player player, Model model) {
         try {
+            if (playerSignUpDAO.emailExists(player.getPlayeremail())) {
+                return "redirect:/PlayerSignUp?EmailExists=true";
+            }
             playerSignUpDAO.PlayerSignUp(player);
             // Redirect to a success page or another appropriate page
             return "redirect:/SignIn?SignUpSuccess=true";

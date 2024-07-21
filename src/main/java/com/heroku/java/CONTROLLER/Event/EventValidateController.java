@@ -44,11 +44,14 @@ public class EventValidateController {
     public String EventValidate(@RequestParam(name = "success", required = false) Boolean success,
             @RequestParam("edid") int edid, HttpSession session,
             Model model) {
-        int Adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Event Validate Individual): " + Adminid);
-        System.out.println("Admin name in session (Event Validate Individual): " + Adminname);
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
 
         try {
             ArrayList<Player> players = validateDAO.getIndividual(edid);
@@ -72,11 +75,14 @@ public class EventValidateController {
             @RequestParam("playerid") List<Integer> playerids, @RequestParam("edid") int edid,
             HttpSession session, Model model) {
 
-        int adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Event Validate Individual): " + adminid);
-        System.out.println("Admin name in session (Event Validate Individual): " + Adminname);
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
 
         try {
             ArrayList<Player> allPlayers = validateDAO.getIndividual(edid);
@@ -133,12 +139,14 @@ public class EventValidateController {
     public String EventValidateT(@RequestParam(name = "success", required = false) Boolean success,
             @RequestParam("edid") int edid, HttpSession session,
             Model model) {
-        int Adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Event Validate Team): " + Adminid);
-        System.out.println("Admin name in session (Event Validate Team): " + Adminname);
-
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
         try {
             ArrayList<Team> teams = validateDAO.getTeam(edid);
             model.addAttribute("teams", teams);
@@ -166,11 +174,14 @@ public class EventValidateController {
             HttpSession session,
             Model model) {
 
-        int adminid = (int) session.getAttribute("adminid");
-        String Adminname = (String) session.getAttribute("adminname");
-
-        System.out.println("Admin id in session (Event Validate Team): " + adminid);
-        System.out.println("Admin name in session (Event Validate Team): " + Adminname);
+                Integer adminid = (Integer) session.getAttribute("adminid");
+                String adminname = (String) session.getAttribute("adminname");
+        
+                System.out.println("Admin id in session (Admin event): " + adminid);
+                System.out.println("Admin name in session (Admin event): " + adminname);
+                if (adminid == null || adminname == null) {
+                    return "Home";
+                }
 
         try {
             ArrayList<Team> allTeams = validateDAO.getTeam(edid);
