@@ -29,12 +29,12 @@ public class SignInController {
         this.playerSignInDAO = playerSignInDAO;
     }
 
-    @GetMapping("/SignIn")
+    @GetMapping("/Signin")
     public String SignIn() {
-        return "SignIn";
+        return "Signin";
     }
 
-    @PostMapping("/SignIn")
+    @PostMapping("/Signin")
     public String SignInPage(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             String email, String password, Model model) {
 
@@ -61,7 +61,7 @@ public class SignInController {
                 return "redirect:/PlayerEventCalendar?signinSuccess=true";
             }
 
-            return "redirect:/SignIn?signinError=true";
+            return "redirect:/Signin?signinError=true";
         } catch (SQLException sqe) {
             System.out.println("Error Code = " + sqe.getErrorCode());
             System.out.println("SQL state = " + sqe.getSQLState());
@@ -71,7 +71,7 @@ public class SignInController {
             return "redirect:/SignIn?error";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/SignIn?error";
+            return "redirect:/Signin?error";
         }
     }
 
