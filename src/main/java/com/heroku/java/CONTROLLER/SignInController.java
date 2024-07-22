@@ -68,7 +68,7 @@ public class SignInController {
             System.out.println("Message = " + sqe.getMessage());
             System.out.println("printTrace /n");
             sqe.printStackTrace();
-            return "redirect:/SignIn?error";
+            return "redirect:/Signin?error";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/Signin?error";

@@ -35,7 +35,7 @@
                         <h2>Hello,Flatballer</h2>
                         <p>We are happy to have you back.</p>
                     </div>
-                    <form method="post" th:action="@{/SignIn}" modelAttribute="SignIn" th:object="${SignIn}">
+                    <form method="post" th:action="@{/Signin}" modelAttribute="Signin" th:object="${Signin}">
                         <div class="input-group mb-4">
                             <input type="email" name="email" class="form-control form-control-lg bg-light fs-6"
                                 placeholder="Email address" required>
@@ -55,6 +55,9 @@
             </div>
         </div>
     </div>
+    <footer class="d-flex justify-content-center">
+        <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
+      </footer>
+      <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 </body>
-
 </html>

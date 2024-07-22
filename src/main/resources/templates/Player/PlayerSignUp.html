@@ -34,7 +34,7 @@
                 <div class="row align-items-center">
                     <div class="header-text mb-4">
                         <h2>The journey begin!</h2>
-                        <p>Lets create an account!</p>
+                        <p>Create account to explore more!</p>
                     </div>
                     <form method="post" th:action="@{/PlayerSignUp}" modelAttribute="PlayerSignUp"
                         th:object="${PlayerSignUp}">
@@ -68,7 +68,7 @@
                         </div>
                     </form>
                     <div class="row">
-                        <small>Already have account? <a th:href="@{/SignIn}">Sign In</a></small>
+                        <small>Already have account? <a th:href="@{/Signin}">Sign In</a></small>
                     </div>
                 </div>
             </div>
@@ -93,6 +93,10 @@
             </div>
         </div>
     </div>
+    <footer class="d-flex justify-content-center">
+        <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
+      </footer>
+      <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
@@ -100,5 +104,4 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 </body>
-
 </html>
