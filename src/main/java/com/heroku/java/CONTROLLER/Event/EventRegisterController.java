@@ -1,14 +1,10 @@
 package com.heroku.java.CONTROLLER.Event;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.sql.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.io.IOException;
-
-
 import com.heroku.java.DAO.Event.EventRegisterDAO;
 import com.heroku.java.DAO.Player.PlayerEmailDAO;
 import com.heroku.java.DAO.Player.PlayerListDAO;
@@ -31,7 +21,6 @@ import com.heroku.java.MODEL.EventDetail;
 import com.heroku.java.MODEL.Player;
 import com.heroku.java.MODEL.Team;
 import com.heroku.java.SERVICES.EmailService;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -42,7 +31,8 @@ public class EventRegisterController {
     private PlayerEmailDAO playerEmailDAO;
     private final EmailService emailService;
 
-    private EventRegisterController(EventRegisterDAO eventRegisterDAO, PlayerListDAO playerListDAO, PlayerEmailDAO playerEmailDAO, EmailService emailService) {
+    private EventRegisterController(EventRegisterDAO eventRegisterDAO, PlayerListDAO playerListDAO,
+            PlayerEmailDAO playerEmailDAO, EmailService emailService) {
         this.eventRegisterDAO = eventRegisterDAO;
         this.playerListDAO = playerListDAO;
         this.playerEmailDAO = playerEmailDAO;
@@ -52,16 +42,16 @@ public class EventRegisterController {
     @PostMapping("/IEventRegister")
     public String IEventRegister(@RequestParam("edid") int edid,
             @RequestParam("playerid") int playerid, Model model) throws SQLException {
-                System.out.println("edid registereed: " + edid);
+        System.out.println("edid registereed: " + edid);
 
         try {
             if (eventRegisterDAO.isPlayerRegistered(edid, playerid)) {
                 model.addAttribute("alreadyRegistered", true);
                 return "redirect:/PlayerEventCalendar?alreadyRegistered=true";
             }
-            int playerStats = eventRegisterDAO.getPlayerStats(playerid); 
+            int playerStats = eventRegisterDAO.getPlayerStats(playerid);
             int minStats = eventRegisterDAO.getEventMinStats(edid);
-    
+
             if (playerStats < minStats) {
                 model.addAttribute("statsTooLow", true);
                 return "redirect:/PlayerEventCalendar?statsTooLow=true";
@@ -78,11 +68,11 @@ public class EventRegisterController {
     @GetMapping("/TEventRegister")
     public String TEventRegister(@RequestParam("edid") int edid, HttpSession session,
             Model model) {
-                Integer playerid = (Integer) session.getAttribute("playerid");
+        Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player id in session (Player event calendar): " + playerid);
-        System.out.println("Player name in session (Player event calendar): " + playername);
+        System.out.println("Player id in session (Team Event Register): " + playerid);
+        System.out.println("Player name in session (Team Event Register): " + playername);
 
         if (playerid == null || playername == null) {
             return "Home";
@@ -114,11 +104,11 @@ public class EventRegisterController {
     @GetMapping("/CancelTRegistration")
     public String CancelTRegistration(@RequestParam("teamid") int teamid, HttpSession session,
             Model model) {
-                Integer playerid = (Integer) session.getAttribute("playerid");
+        Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player id in session (Player event calendar): " + playerid);
-        System.out.println("Player name in session (Player event calendar): " + playername);
+        System.out.println("Player id in session (Cancel Registration): " + playerid);
+        System.out.println("Player name in session (Cancel Registration): " + playername);
 
         if (playerid == null || playername == null) {
             return "Home";
@@ -134,7 +124,9 @@ public class EventRegisterController {
     }
 
     @PostMapping("/RegisterTeamMember")
-    public String registerTeam(@ModelAttribute("team") Team team, @ModelAttribute("eventDetail") EventDetail ed, @ModelAttribute("event") Event event, @RequestParam("playerIds") List<Integer> playerIds, @RequestParam("edid") int edid,
+    public String registerTeam(@ModelAttribute("team") Team team, @ModelAttribute("eventDetail") EventDetail ed,
+            @ModelAttribute("event") Event event, @RequestParam("playerIds") List<Integer> playerIds,
+            @RequestParam("edid") int edid,
             Model model) {
         try {
             // Save the team details
@@ -192,7 +184,6 @@ public class EventRegisterController {
         message.append("<p><strong>Event Name:</strong> ").append(event.getEventname()).append("</p>");
         message.append("<p><strong>Event Type:</strong> ").append(ed.getEdtype()).append("</p>");
         message.append("<p><strong>Event Date:</strong> ").append(ed.getEddate()).append("</p>");
-
         return message.toString();
     }
 }

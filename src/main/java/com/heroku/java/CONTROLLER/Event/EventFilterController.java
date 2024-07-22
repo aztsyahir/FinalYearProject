@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import com.heroku.java.DAO.Event.EventFilterDAO;
 import com.heroku.java.MODEL.Event;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -34,11 +32,11 @@ public class EventFilterController {
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
 
-                Integer playerid = (Integer) session.getAttribute("playerid");
+        Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player id in session (Player event calendar): " + playerid);
-        System.out.println("Player name in session (Player event calendar): " + playername);
+        System.out.println("Player id in session (Player Filter Event): " + playerid);
+        System.out.println("Player name in session (Player Filter Event): " + playername);
 
         if (playerid == null || playername == null) {
             return "Home";

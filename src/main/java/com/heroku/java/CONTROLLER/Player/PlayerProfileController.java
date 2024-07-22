@@ -13,7 +13,6 @@ import com.heroku.java.MODEL.Player;
 
 import java.sql.SQLException;
 
-
 @Controller
 public class PlayerProfileController {
     private final PlayerProfileDAO playerProfileDAO;
@@ -22,20 +21,20 @@ public class PlayerProfileController {
     public PlayerProfileController(PlayerProfileDAO playerProfileDAO) {
         this.playerProfileDAO = playerProfileDAO;
     }
-    
+
     @GetMapping("/PlayerProfile")
     public String playerProfile(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model, Player player) {
 
-                Integer playerid = (Integer) session.getAttribute("playerid");
-                String playername = (String) session.getAttribute("playername");
-        
-                System.out.println("Player id in session (Player event calendar): " + playerid);
-                System.out.println("Player name in session (Player event calendar): " + playername);
-        
-                if (playerid == null || playername == null) {
-                    return "Home";
-                }
+        Integer playerid = (Integer) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
 
         if (playerid != null) {
             try {
@@ -65,22 +64,18 @@ public class PlayerProfileController {
         if (playerid == null || playername == null) {
             return "Home";
         }
-
-        if (playerid != null) {
-            try {
-                player.setPlayerid(playerid);
-                player = playerProfileDAO.UpdatePlayer(player);
-                return "redirect:/PlayerProfile?profileSuccess=true";
-            } catch (SQLException sqe) {
-                System.out.println("Error Code = " + sqe.getErrorCode());
-                System.out.println("SQL state = " + sqe.getSQLState());
-                System.out.println("Message = " + sqe.getMessage());
-                System.out.println("printTrace /n");
-                sqe.printStackTrace();
-                return "redirect:/PlayerProfile";
-            }
+        try {
+            player.setPlayerid(playerid);
+            player = playerProfileDAO.UpdatePlayer(player);
+            return "redirect:/PlayerProfile?profileSuccess=true";
+        } catch (SQLException sqe) {
+            System.out.println("Error Code = " + sqe.getErrorCode());
+            System.out.println("SQL state = " + sqe.getSQLState());
+            System.out.println("Message = " + sqe.getMessage());
+            System.out.println("printTrace /n");
+            sqe.printStackTrace();
+            return "redirect:/PlayerProfile";
         }
-        return "Player/PlayerProfile?profileSuccess=true";
     }
 
     @GetMapping("/DeletePlayer")
@@ -94,28 +89,25 @@ public class PlayerProfileController {
         if (playerid == null || playername == null) {
             return "Home";
         }
-        if (playerid != null) {
-            try {
-                boolean isIndividualRegistered = playerProfileDAO.checkDeletedIPlayer(playerid);
-                boolean isMemberRegistered = playerProfileDAO.checkDeletedTPlayer(playerid);
-                if (isIndividualRegistered || isMemberRegistered) {
-                    // Show modal that player cannot delete their account
-                    model.addAttribute("cannotDelete", true);
-                    return "redirect:/PlayerProfile?cannotDelete=true"; // Return to player profile with modal shown
-                }
-                player.setPlayerid(playerid);
-                playerProfileDAO.DeletePlayer(player);
-                System.out.println("player deleted: " + playername);
-                return "redirect:/";
-            } catch (SQLException sqe) {
-                System.out.println("Error Code = " + sqe.getErrorCode());
-                System.out.println("SQL state = " + sqe.getSQLState());
-                System.out.println("Message = " + sqe.getMessage());
-                System.out.println("printTrace /n");
-                sqe.printStackTrace();
-                return "redirect:/PlayerProfile";
+        try {
+            boolean isIndividualRegistered = playerProfileDAO.checkDeletedIPlayer(playerid);
+            boolean isMemberRegistered = playerProfileDAO.checkDeletedTPlayer(playerid);
+            if (isIndividualRegistered || isMemberRegistered) {
+                // Show modal that player cannot delete their account
+                model.addAttribute("cannotDelete", true);
+                return "redirect:/PlayerProfile?cannotDelete=true"; // Return to player profile with modal shown
             }
+            player.setPlayerid(playerid);
+            playerProfileDAO.DeletePlayer(player);
+            System.out.println("player deleted: " + playername);
+            return "redirect:/";
+        } catch (SQLException sqe) {
+            System.out.println("Error Code = " + sqe.getErrorCode());
+            System.out.println("SQL state = " + sqe.getSQLState());
+            System.out.println("Message = " + sqe.getMessage());
+            System.out.println("printTrace /n");
+            sqe.printStackTrace();
+            return "redirect:/PlayerProfile";
         }
-        return "redirect:/PlayerProfile";
     }
 }

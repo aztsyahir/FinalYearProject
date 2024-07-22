@@ -8,9 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@Repository 
+@Repository
 public class AdminProfileDAO {
-     private final DataSource dataSource;
+    private final DataSource dataSource;
 
     public AdminProfileDAO(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -48,6 +48,7 @@ public class AdminProfileDAO {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "UPDATE admin SET adminname=?, adminemail=?, adminpassword=? WHERE adminid=?";
             final var statement = connection.prepareStatement(sql);
+
             String adminpassword = admin.getAdminpassword();
             System.out.println("password: " + adminpassword);
 
@@ -55,7 +56,6 @@ public class AdminProfileDAO {
             statement.setString(2, admin.getAdminemail());
             statement.setString(3, adminpassword);
             statement.setInt(4, admin.getAdminid());
-
             statement.executeUpdate();
             connection.close();
         }
@@ -63,7 +63,6 @@ public class AdminProfileDAO {
     }
 
     public String DeleteAdmin(Admin admin) throws SQLException {
-
         try (Connection connection = dataSource.getConnection()) {
             String sql = "DELETE FROM admin WHERE adminid =?";
             PreparedStatement statement = connection.prepareStatement(sql);

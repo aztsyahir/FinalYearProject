@@ -8,14 +8,14 @@ public class Admin {
     public String adminpassword;
 
     public Admin() {
-}
+    }
 
-public Admin(int adminid, String adminname, String adminemail,String adminpassword){
-    this.adminid = adminid;
-    this.adminname = adminname;
-    this.adminemail = adminemail;
-    this.adminpassword = adminpassword;
-}
+    public Admin(int adminid, String adminname, String adminemail, String adminpassword) {
+        this.adminid = adminid;
+        this.adminname = adminname;
+        this.adminemail = adminemail;
+        this.adminpassword = adminpassword;
+    }
 
     public int getAdminid() {
         return this.adminid;
@@ -48,6 +48,5 @@ public Admin(int adminid, String adminname, String adminemail,String adminpasswo
     public void setAdminpassword(String adminpassword) {
         this.adminpassword = adminpassword;
     }
-
 
 }

@@ -2,7 +2,6 @@ package com.heroku.java.DAO.Event;
 
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;

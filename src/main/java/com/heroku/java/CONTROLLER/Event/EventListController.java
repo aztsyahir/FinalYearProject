@@ -7,15 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
 import java.util.Calendar;
-import java.util.stream.Collectors;
 import java.sql.SQLException;
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import com.heroku.java.DAO.Event.EventListDAO;
 import com.heroku.java.MODEL.Event;
-import com.heroku.java.MODEL.Player;
 import com.heroku.java.MODEL.Admin;
 
 @Controller
@@ -68,10 +64,10 @@ public class EventListController {
             return "Home";
         }
         try {
-            // Default to current month and year if not provided
+            // Default to current month and year
             Calendar cal = Calendar.getInstance();
             if (month == null) {
-                month = cal.get(Calendar.MONTH) + 1; // Calendar.MONTH is 0-based
+                month = cal.get(Calendar.MONTH) + 1;
             }
             if (year == null) {
                 year = cal.get(Calendar.YEAR);
@@ -131,15 +127,15 @@ public class EventListController {
     @GetMapping("/EventHistory")
     public String EventHistory(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
-                Integer playerid = (Integer) session.getAttribute("playerid");
-                String playername = (String) session.getAttribute("playername");
-        
-                System.out.println("Player id in session (Player event calendar): " + playerid);
-                System.out.println("Player name in session (Player event calendar): " + playername);
-        
-                if (playerid == null || playername == null) {
-                    return "Home";
-                }
+        Integer playerid = (Integer) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (Player Event History): " + playerid);
+        System.out.println("Player name in session (Player Event History): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
 
         ArrayList<Event> eventList;
         try {
@@ -157,14 +153,14 @@ public class EventListController {
     public String AEventHistory(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
 
-                Integer adminid = (Integer) session.getAttribute("adminid");
-                String adminname = (String) session.getAttribute("adminname");
-        
-                System.out.println("Admin id in session (Admin event): " + adminid);
-                System.out.println("Admin name in session (Admin event): " + adminname);
-                if (adminid == null || adminname == null) {
-                    return "Home";
-                }
+        Integer adminid = (Integer) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Admin Event History): " + adminid);
+        System.out.println("Admin name in session (Admin Event History): " + adminname);
+        if (adminid == null || adminname == null) {
+            return "Home";
+        }
         ArrayList<Event> eventList;
 
         try {

@@ -47,11 +47,12 @@ public class EventDetail extends Event {
         this.edstats = edstats;
         this.eddate = eddate;
     }
+
     public EventDetail(int eventid, String eventname, int edid, String edtype) {
         super(eventid, eventname);
         this.edid = edid;
         this.edtype = edtype;
-        
+
     }
 
     public EventDetail(int eventid, String eventname, int edid, String edtype, int edcapacity, String edvenue,

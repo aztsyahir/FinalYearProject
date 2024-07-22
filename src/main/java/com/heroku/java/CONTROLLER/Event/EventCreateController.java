@@ -44,8 +44,8 @@ public class EventCreateController {
         Integer adminid = (Integer) session.getAttribute("adminid");
         String adminname = (String) session.getAttribute("adminname");
 
-        System.out.println("Admin id in session (Admin event): " + adminid);
-        System.out.println("Admin name in session (Admin event): " + adminname);
+        System.out.println("Admin id in session (Admin event create): " + adminid);
+        System.out.println("Admin name in session (Admin event create): " + adminname);
         if (adminid == null || adminname == null) {
             return "Home";
         }
@@ -80,7 +80,8 @@ public class EventCreateController {
 
     @PostMapping("NewEventSet")
     public String NewEventSet(@RequestParam(name = "success", required = false) Boolean success,
-            @RequestParam("eventid") int eventid,@RequestParam("eventname") String eventname, HttpSession session, Event event, EventDetail ed, Model model)
+            @RequestParam("eventid") int eventid, @RequestParam("eventname") String eventname, HttpSession session,
+            Event event, EventDetail ed, Model model)
             throws IOException {
         try {
             EventDetail existingDetail = eventUpdateDAO.EventUpdateimg(eventid);
@@ -88,11 +89,11 @@ public class EventCreateController {
                 ed.setEdimgbyte(existingDetail.getEdimgbyte());
             }
             event.setEventname(eventname);
-            System.out.println("Event ID: " + event.getEventid());
-            System.out.println("Event Name Controller: " + event.getEventname());
+            System.out.println("New Event ID set: " + event.getEventid());
+            System.out.println("Event Name New: " + event.getEventname());
             eventCreateDAO.NewEventSet(event, ed);
             model.addAttribute("event", event);
-            // Fetch all player emails from database (example)
+
             List<String> playerEmails = playerEmailDAO.getPlayerEmail();
 
             for (String playerEmail : playerEmails) {
@@ -122,8 +123,6 @@ public class EventCreateController {
         message.append("<p><strong>Last Registration Date:</strong> ").append(ed.getEdlastdate()).append("</p>");
         message.append("<p><strong>Minimum Stats Required(%):</strong> ").append(ed.getEdstats()).append("</p>");
         message.append("<p>For more information of other event, chock out our ULTIMATENAV website!</p>");
-
         return message.toString();
     }
-
 }

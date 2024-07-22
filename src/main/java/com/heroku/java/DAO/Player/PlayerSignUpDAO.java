@@ -37,7 +37,8 @@ public class PlayerSignUpDAO {
         }
         return player;
     }
-     public boolean emailExists(String playerEmail) throws SQLException {
+
+    public boolean emailExists(String playerEmail) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT COUNT(*) FROM player WHERE playeremail = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {

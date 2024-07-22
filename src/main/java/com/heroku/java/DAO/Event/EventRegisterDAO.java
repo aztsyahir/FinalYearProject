@@ -37,7 +37,7 @@ public class EventRegisterDAO {
                 int edstats = resultSet.getInt("edstats");
                 Date eddate = resultSet.getDate("eddate");
 
-                EventDetail ed = new EventDetail(eventid, eventname, edid, edtype, edstats,eddate);
+                EventDetail ed = new EventDetail(eventid, eventname, edid, edtype, edstats, eddate);
                 event = new Event(eventid, eventname);
                 event.setEventDetail(ed);
             }

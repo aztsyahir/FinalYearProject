@@ -12,7 +12,7 @@ public class Player {
 
     public Player() {
     }
-    
+
     public Player(int playerid) {
         this.playerid = playerid;
     }
@@ -35,12 +35,12 @@ public class Player {
         this.playerpassword = playerpassword;
     }
 
-    public Player(int playerid, int playerstats){
+    public Player(int playerid, int playerstats) {
         this.playerid = playerid;
         this.playerstats = playerstats;
     }
 
-    public Player(int playerid, String playername, int playerstats){
+    public Player(int playerid, String playername, int playerstats) {
         this.playerid = playerid;
         this.playername = playername;
         this.playerstats = playerstats;

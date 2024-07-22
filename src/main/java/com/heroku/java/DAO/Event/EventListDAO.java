@@ -213,5 +213,4 @@ public class EventListDAO {
         return events;
     }
 
-    
 }

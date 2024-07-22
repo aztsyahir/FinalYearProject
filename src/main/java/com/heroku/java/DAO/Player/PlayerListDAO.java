@@ -22,16 +22,16 @@ public class PlayerListDAO {
         ArrayList<Player> player = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT p.playerid, p.playername, p.playerstats " +
-                         "FROM player p " +
-                         "WHERE p.playername LIKE ? " +
-                         "AND NOT EXISTS ( " +
-                         "    SELECT 1 FROM member m " +
-                         "    JOIN team t ON m.teamid = t.teamid " +
-                         "    WHERE m.playerid = p.playerid AND t.eventdetailid = ? " +
-                         ") " +
-                         "ORDER BY p.playername DESC";
+                    "FROM player p " +
+                    "WHERE p.playername LIKE ? " +
+                    "AND NOT EXISTS ( " +
+                    "    SELECT 1 FROM member m " +
+                    "    JOIN team t ON m.teamid = t.teamid " +
+                    "    WHERE m.playerid = p.playerid AND t.eventdetailid = ? " +
+                    ") " +
+                    "ORDER BY p.playername DESC";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                
+
                 statement.setString(1, "%" + name + "%");
                 statement.setInt(2, edid);
                 try (var resultSet = statement.executeQuery()) {

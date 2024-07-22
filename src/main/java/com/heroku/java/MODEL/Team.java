@@ -19,7 +19,6 @@ public class Team {
 
     }
 
-
     public int getTeamid() {
         return this.teamid;
     }

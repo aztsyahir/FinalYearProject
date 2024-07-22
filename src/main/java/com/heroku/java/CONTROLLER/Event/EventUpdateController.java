@@ -8,18 +8,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.servlet.http.HttpSession;
-
 import com.heroku.java.DAO.Admin.ValidateDAO;
 import com.heroku.java.DAO.Event.EventUpdateDAO;
 import com.heroku.java.DAO.Event.EventWithdrawDAO;
 import com.heroku.java.DAO.Player.PlayerEmailDAO;
 import com.heroku.java.SERVICES.EmailService;
-
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -33,7 +29,8 @@ public class EventUpdateController {
     private final ValidateDAO validateDAO;
 
     @Autowired
-    public EventUpdateController(EventUpdateDAO eventUpdateDAO, EventWithdrawDAO eventWithdrawDAO, PlayerEmailDAO playerEmailDAO, EmailService emailService, ValidateDAO validateDAO) {
+    public EventUpdateController(EventUpdateDAO eventUpdateDAO, EventWithdrawDAO eventWithdrawDAO,
+            PlayerEmailDAO playerEmailDAO, EmailService emailService, ValidateDAO validateDAO) {
         this.eventUpdateDAO = eventUpdateDAO;
         this.eventWithdrawDAO = eventWithdrawDAO;
         this.playerEmailDAO = playerEmailDAO;
@@ -44,14 +41,14 @@ public class EventUpdateController {
     @GetMapping("/EventUpdate")
     public String EventUpdate(@RequestParam("eventid") int eventid, @RequestParam("edid") int edid,
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session, Model model) {
-                Integer adminid = (Integer) session.getAttribute("adminid");
-                String adminname = (String) session.getAttribute("adminname");
-        
-                System.out.println("Admin id in session (Admin event): " + adminid);
-                System.out.println("Admin name in session (Admin event): " + adminname);
-                if (adminid == null || adminname == null) {
-                    return "Home";
-                }
+        Integer adminid = (Integer) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Event Update): " + adminid);
+        System.out.println("Admin name in session (Event Update): " + adminname);
+        if (adminid == null || adminname == null) {
+            return "Home";
+        }
 
         try {
             Event event = eventUpdateDAO.DisplayEvent(edid, eventid);
@@ -67,21 +64,20 @@ public class EventUpdateController {
 
     @PostMapping("/EventUpdate")
     public String EventUpdate(@ModelAttribute("EventUpdate") Event event, @RequestParam("edimgs") MultipartFile edimgs,
-            @RequestParam(name = "success", required = false) Boolean success,@RequestParam("eventid") int eventid, @RequestParam("edid") int eventdetailid, HttpSession session, EventDetail ed,
+            @RequestParam(name = "success", required = false) Boolean success, @RequestParam("eventid") int eventid,
+            @RequestParam("edid") int eventdetailid, HttpSession session, EventDetail ed,
             Model model) throws IOException {
-                Integer adminid = (Integer) session.getAttribute("adminid");
-                String adminname = (String) session.getAttribute("adminname");
-        
-                System.out.println("Admin id in session (Admin event): " + adminid);
-                System.out.println("Admin name in session (Admin event): " + adminname);
-                if (adminid == null || adminname == null) {
-                    return "Home";
-                }
+        Integer adminid = (Integer) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Event Update (post)): " + adminid);
+        System.out.println("Admin name in session (Event Update (post)): " + adminname);
+        if (adminid == null || adminname == null) {
+            return "Home";
+        }
 
         System.out.println("Event Detail ID to be updated: " + eventdetailid);
         try {
-
-
             if (!edimgs.isEmpty()) {
                 // Save the uploaded image to the database
                 ed.setEdimgbyte(edimgs.getBytes());
@@ -97,7 +93,7 @@ public class EventUpdateController {
                 event.setEventDetail(new EventDetail());
             }
 
-            eventUpdateDAO.EventUpdate(event, ed,eventdetailid);
+            eventUpdateDAO.EventUpdate(event, ed, eventdetailid);
             return "redirect:/AEventDetail?eventid=" + eventid + "&UpdateEventSuccess=true";
 
         } catch (SQLException e) {
@@ -110,14 +106,14 @@ public class EventUpdateController {
     @GetMapping("/CancelEvent")
     public String cancelEvent(@RequestParam("edid") int edid, @RequestParam("eventid") int eventid,
             HttpSession session, Model model, Event event, EventDetail ed) {
-                Integer adminid = (Integer) session.getAttribute("adminid");
-                String adminname = (String) session.getAttribute("adminname");
-        
-                System.out.println("Admin id in session (Admin event): " + adminid);
-                System.out.println("Admin name in session (Admin event): " + adminname);
-                if (adminid == null || adminname == null) {
-                    return "Home";
-                }
+        Integer adminid = (Integer) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("Admin id in session (Cancel Event): " + adminid);
+        System.out.println("Admin name in session (Cancel Event): " + adminname);
+        if (adminid == null || adminname == null) {
+            return "Home";
+        }
 
         try {
             eventUpdateDAO.CancelEvent(edid);
@@ -146,8 +142,8 @@ public class EventUpdateController {
         Integer playerid = (Integer) session.getAttribute("playerid");
         String playername = (String) session.getAttribute("playername");
 
-        System.out.println("Player id in session (Player event calendar): " + playerid);
-        System.out.println("Player name in session (Player event calendar): " + playername);
+        System.out.println("Player id in session (Withdraw Event): " + playerid);
+        System.out.println("Player name in session (Withdraw Event): " + playername);
 
         if (playerid == null || playername == null) {
             return "Home";

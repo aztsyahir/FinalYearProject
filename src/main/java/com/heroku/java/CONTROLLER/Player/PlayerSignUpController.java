@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.heroku.java.DAO.Player.PlayerSignUpDAO;
 import com.heroku.java.MODEL.Player;
-
-
 import java.sql.SQLException;
-
 
 @Controller
 public class PlayerSignUpController {
@@ -22,7 +19,7 @@ public class PlayerSignUpController {
         this.playerSignUpDAO = playerSignUpDAO;
     }
 
-     @GetMapping("/PlayerSignUp")
+    @GetMapping("/PlayerSignUp")
     public String PlayerSignUp() {
         return "Player/PlayerSignUp";
     }

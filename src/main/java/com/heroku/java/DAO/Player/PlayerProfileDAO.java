@@ -70,7 +70,7 @@ public class PlayerProfileDAO {
         return player;
     }
 
-     public boolean checkDeletedIPlayer(int playerid) throws SQLException {
+    public boolean checkDeletedIPlayer(int playerid) throws SQLException {
         String sql = "SELECT COUNT(*) FROM individual WHERE playerid = ?";
         Connection connection = dataSource.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -88,7 +88,7 @@ public class PlayerProfileDAO {
     public boolean checkDeletedTPlayer(int playerid) throws SQLException {
         String sql = "SELECT COUNT(*) FROM team WHERE playerid = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, playerid);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {

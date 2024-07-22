@@ -42,15 +42,15 @@ public class PlayerStatsController {
             @RequestParam("tournaments") int tournaments, @RequestParam("tournamentwon") int tournamentwon,
             @RequestParam("mvps") int mvps, Model model) {
 
-                Integer playerid = (Integer) session.getAttribute("playerid");
-                String playername = (String) session.getAttribute("playername");
-        
-                System.out.println("Player id in session (Player event calendar): " + playerid);
-                System.out.println("Player name in session (Player event calendar): " + playername);
-        
-                if (playerid == null || playername == null) {
-                    return "Home";
-                }
+        Integer playerid = (Integer) session.getAttribute("playerid");
+        String playername = (String) session.getAttribute("playername");
+
+        System.out.println("Player id in session (Player event calendar): " + playerid);
+        System.out.println("Player name in session (Player event calendar): " + playername);
+
+        if (playerid == null || playername == null) {
+            return "Home";
+        }
 
         int total = experience + tournaments + tournamentwon + mvps;
         String Stringtotal = String.valueOf(total);

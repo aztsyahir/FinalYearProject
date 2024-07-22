@@ -16,12 +16,12 @@ public class Event {
         this.eventDay = eventDay;
     }
 
-    public Event(int eventid, String eventname){
+    public Event(int eventid, String eventname) {
         this.eventid = eventid;
         this.eventname = eventname;
     }
-    
-    public Event(EventDetail eventDetail){
+
+    public Event(EventDetail eventDetail) {
         this.eventDetail = eventDetail;
     }
 
@@ -48,9 +48,11 @@ public class Event {
     public void setEventDetail(EventDetail eventDetail) {
         this.eventDetail = eventDetail;
     }
+
     public int getEventDay() {
         return this.eventDay;
     }
+
     public void setEventDay(int eventDay) {
         this.eventDay = eventDay;
     }

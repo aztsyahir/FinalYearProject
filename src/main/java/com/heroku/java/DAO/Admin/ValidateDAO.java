@@ -24,9 +24,9 @@ public class ValidateDAO {
     public ArrayList<Player> getIndividual(int edid) throws SQLException {
         ArrayList<Player> players = new ArrayList<>();
         String sql = "SELECT p.playerid, p.playername, p.playerstats " +
-                     "FROM individual i " +
-                     "JOIN player p ON i.playerid = p.playerid " +
-                     "WHERE i.eventdetailid = ? ORDER BY p.playerstats DESC";
+                "FROM individual i " +
+                "JOIN player p ON i.playerid = p.playerid " +
+                "WHERE i.eventdetailid = ? ORDER BY p.playerstats DESC";
 
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -70,8 +70,8 @@ public class ValidateDAO {
     public int getTotalPlayersRegistered(int edid) throws SQLException {
         int totalPlayers = 0;
         String sql = "SELECT COUNT(*) AS total_players " +
-                     "FROM individual " +
-                     "WHERE eventdetailid = ?";
+                "FROM individual " +
+                "WHERE eventdetailid = ?";
 
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -93,7 +93,7 @@ public class ValidateDAO {
 
     public boolean approveITopRank(int playerid, int edid, int adminid) throws SQLException {
         String sql = "UPDATE individual SET registrationstatus = 'APPROVED', adminid = ? " +
-                     "WHERE playerid = ? AND eventdetailid = ?";
+                "WHERE playerid = ? AND eventdetailid = ?";
         String sql2 = "UPDATE eventdetail SET edstatus = 'CLOSE' WHERE eventdetailid = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -117,7 +117,7 @@ public class ValidateDAO {
 
     public List<Integer> rejectPlayer(List<Integer> approvedPlayerIds, int edid, int adminid) throws SQLException {
         String sql = "UPDATE individual SET registrationstatus = 'REJECTED', adminid = ? " +
-                     "WHERE eventdetailid = ? AND playerid NOT IN (" + approvedPlayerIds.stream()
+                "WHERE eventdetailid = ? AND playerid NOT IN (" + approvedPlayerIds.stream()
                         .map(String::valueOf)
                         .collect(Collectors.joining(", "))
                 + ")";
@@ -155,7 +155,7 @@ public class ValidateDAO {
     public ArrayList<Team> getTeam(int edid) throws SQLException {
         ArrayList<Team> teams = new ArrayList<>();
         String sql = "SELECT teamid, teamname, teamstats " +
-                     "FROM team  WHERE eventdetailid = ? ORDER BY teamstats DESC";
+                "FROM team  WHERE eventdetailid = ? ORDER BY teamstats DESC";
 
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -182,8 +182,8 @@ public class ValidateDAO {
     public int getTotalTeamsRegistered(int edid) throws SQLException {
         int totalTeams = 0;
         String sql = "SELECT COUNT(*) AS total_teams " +
-                     "FROM team " +
-                     "WHERE eventdetailid = ?";
+                "FROM team " +
+                "WHERE eventdetailid = ?";
 
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -205,7 +205,7 @@ public class ValidateDAO {
 
     public boolean approveTTopRank(int teamid, int edid, int adminid) throws SQLException {
         String sql = "UPDATE team SET registrationstatus = 'APPROVED', adminid = ? " +
-                     "WHERE teamid = ? AND eventdetailid = ?";
+                "WHERE teamid = ? AND eventdetailid = ?";
         String sql2 = "UPDATE eventdetail SET edstatus = 'CLOSE' WHERE eventdetailid = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);

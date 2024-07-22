@@ -38,7 +38,7 @@ public class EmailService {
 
     private String buildHtmlContent(EventDetail ed) {
         StringBuilder message = new StringBuilder();
-        message.append("<p>Dear Flatballer</p>"); 
+        message.append("<p>Dear Flatballer</p>");
         message.append("<p>It is good to see you again, this is the details for the event.</p>");
         message.append("<h2>Event Details</h2>");
         message.append("<p><strong>Event Name:</strong> ").append(ed.getEventname()).append("</p>");
