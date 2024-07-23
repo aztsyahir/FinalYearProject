@@ -156,8 +156,6 @@ public class EventListDAO {
                     String registrationstatus = resultSet.getString("registrationstatus");
 
                     int registrationid = resultSet.getInt("r_registrationid");
-                    int iRegistrationId = resultSet.getInt("i_registrationid");
-                    int tRegistrationId = resultSet.getInt("t_registrationid");
 
                     boolean isDirectRegistration = resultSet.getInt("playerid") == playerid;
 
