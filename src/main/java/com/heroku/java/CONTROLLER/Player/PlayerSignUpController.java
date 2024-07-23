@@ -32,7 +32,7 @@ public class PlayerSignUpController {
             }
             playerSignUpDAO.PlayerSignUp(player);
             // Redirect to a success page or another appropriate page
-            return "redirect:/SignIn?SignUpSuccess=true";
+            return "redirect:/Signin?SignUpSuccess=true";
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle database exception
