@@ -2,6 +2,8 @@ package com.heroku.java.DAO.Event;
 
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
+import com.heroku.java.MODEL.Player;
+import com.heroku.java.MODEL.Team;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -209,6 +211,67 @@ public class EventListDAO {
         }
 
         return events;
+    }
+    public ArrayList<Player> getParticipant(int edid) throws SQLException {
+        System.out.println("edid participant dao : " + edid);
+        ArrayList<Player> players = new ArrayList<>();
+    
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT p.playerid, p.playername, p.playerstats " +
+                         "FROM player p " +
+                         "JOIN registration r ON p.playerid = r.playerid " +
+                         "WHERE r.registrationstatus = 'APPROVED' AND r.eventdetailid = ? " +
+                         "ORDER BY p.playerstats DESC";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, edid);
+                ResultSet resultSet = statement.executeQuery();
+    
+                while (resultSet.next()) {
+                    int playerid = resultSet.getInt("playerid");
+                    String playername = resultSet.getString("playername");
+                    int playerstats = resultSet.getInt("playerstats");
+    
+                    Player player = new Player(playerid, playername, playerstats);
+                    players.add(player);
+                }
+            }
+        } catch (SQLException sqe) {
+            System.out.println("Error Code = " + sqe.getErrorCode());
+            System.out.println("SQL state = " + sqe.getSQLState());
+            System.out.println("Message = " + sqe.getMessage());
+            System.out.println("printTrace /n");
+            sqe.printStackTrace();
+        }
+        return players;
+    }
+
+     public ArrayList<Team> getTeam(int edid) throws SQLException {
+        ArrayList<Team> teams = new ArrayList<>();
+        String sql = "SELECT teamid, teamname, teamstats " +
+                "FROM team " + 
+                "WHERE registrationstatus = 'APPROVED' AND eventdetailid = ? " + 
+                "ORDER BY teamstats DESC";
+
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, edid);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int teamid = resultSet.getInt("teamid");
+                String teamname = resultSet.getString("teamname");
+                int teamstats = resultSet.getInt("teamstats");
+
+                Team team = new Team(teamid, teamname, teamstats);
+                teams.add(team);
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return teams;
     }
 
 }

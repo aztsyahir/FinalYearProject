@@ -5,14 +5,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.heroku.java.DAO.Event.EventDetailDAO;
 import com.heroku.java.DAO.Event.EventRegisterDAO;
 import com.heroku.java.DAO.Player.PlayerProfileDAO;
+import com.heroku.java.DAO.Event.EventListDAO;
 
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.Player;
+import com.heroku.java.MODEL.Team;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,13 +25,15 @@ public class EventDetailController {
     private final EventDetailDAO EventDetailDAO;
     private final EventRegisterDAO EventRegisterDAO;
     private final PlayerProfileDAO PlayerProfileDAO;
+    private final EventListDAO EventListDAO;
 
     @Autowired
     public EventDetailController(EventDetailDAO eventDetailDAO, EventRegisterDAO eventRegisterDAO,
-            PlayerProfileDAO playerProfileDAO) {
+            PlayerProfileDAO playerProfileDAO, EventListDAO eventListDAO) {
         this.EventDetailDAO = eventDetailDAO;
         this.EventRegisterDAO = eventRegisterDAO;
         this.PlayerProfileDAO = playerProfileDAO;
+        this.EventListDAO = eventListDAO;
     }
 
     @GetMapping("/AEventDetail")
@@ -45,6 +51,7 @@ public class EventDetailController {
         try {
             ArrayList<Event> eventDetail = EventDetailDAO.getEventDetail(eventid);
             model.addAttribute("event", eventDetail);
+
             return "Event/AEventDetail";
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -52,6 +59,31 @@ public class EventDetailController {
             return "Event/AEventDetail";
         }
     }
+
+    @GetMapping("/participants")
+    @ResponseBody
+    public ArrayList<Player> getParticipants(@RequestParam("edid") int edid) throws SQLException {
+        System.out.println("edid for participants is "+ edid);
+        return EventListDAO.getParticipant(edid);
+    }
+    
+    @GetMapping("/TeamList")
+    @ResponseBody
+    public ArrayList<Team> getTeam(@RequestParam("edid") int edid) throws SQLException {
+        System.out.println("edid for teamList is "+ edid);
+        return EventListDAO.getTeam(edid);
+    }
+    
+public String teamList(@RequestParam("edid") int edid, Model model) {
+    try {
+        ArrayList<Team> teams = EventListDAO.getTeam(edid); // Assuming you have a TeamDAO with the getTeam method
+        model.addAttribute("teams", teams);
+        return "Event/TeamList";
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return "error"; // Return an error page or handle the error appropriately
+    }
+}
 
     @GetMapping("/PEventDetail")
     public String PEventDetail(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
