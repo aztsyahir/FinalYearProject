@@ -3,6 +3,8 @@ package com.heroku.java.DAO.Event;
 import com.heroku.java.MODEL.Event;
 import com.heroku.java.MODEL.EventDetail;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
@@ -67,5 +69,19 @@ public class EventCreateDAO {
             connection.close();
         }
         return null;
+    }
+
+    public boolean CheckEventName(String eventname) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM event WHERE eventname = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, eventname);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
     }
 }

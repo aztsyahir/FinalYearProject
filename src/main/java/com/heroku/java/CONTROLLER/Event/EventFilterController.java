@@ -70,4 +70,33 @@ public class EventFilterController {
             return "Signin";
         }
     }
+
+    @GetMapping("/AFilterEvent")
+    public String AFilterEvent( @RequestParam(name = "searchValue", required = false) String searchValue,
+            @RequestParam(name = "success", required = false) Boolean success, HttpSession session,
+            Model model) {
+
+        Integer adminid = (Integer) session.getAttribute("adminid");
+        String adminname = (String) session.getAttribute("adminname");
+
+        System.out.println("admin id in session (admin Filter Event): " + adminid);
+        System.out.println("admin name in session (admin Filter Event): " + adminname);
+
+        if (adminid == null || adminname == null) {
+            return "Home";
+        }
+        try {
+
+            ArrayList<Event> FilterResults = eventFilterDAO.AFilterEvent(searchValue);
+
+            model.addAttribute("events", FilterResults);
+            model.addAttribute("eventFilterSuccess", true);
+            return "Event/AEventHistory";
+        } catch (SQLException e) {
+            // Handle any SQL exceptions
+            e.printStackTrace(); // Log the exception or handle it appropriately
+            model.addAttribute("error", "An error occurred while filtering events: " + e.getMessage());
+            return "Signin";
+        }
+    }
 }

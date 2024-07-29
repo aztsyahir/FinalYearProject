@@ -51,6 +51,25 @@
         </div>
     </div>
 
+     <!-- Modal for already registered -->
+     <div class="modal fade" id="eventalreadyRegisteredModal" tabindex="-1" aria-labelledby="eventalreadyRegisteredLabel"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h1 class="modal-title fs-5" id="eventalreadyRegisteredLabel">Event Creation Failed!</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+                 <p>This Event Name Is Already Registered in the System. Please Try Again.</p>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
     <!-- swiper js link  -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -69,6 +88,7 @@
             const UpdateEventSuccessParam = urlParams.get('UpdateEventSuccess');
             const CancelEventSuccessParam = urlParams.get('CancelEventSuccess');
             const ValidateSuccessParam = urlParams.get('ValidateSuccess');
+            const EventFilterSuccessParam = urlParams.get('eventFilterSuccess');
 
             if (ProfileSuccessParam !== null && ProfileSuccessParam === 'true') {
                 toastBootstrap.show();
@@ -94,7 +114,19 @@
                 toastBootstrap.show();
                 document.getElementById("display-message1").innerHTML = "Event Validated Successfully!";
             }
+            else if (EventFilterSuccessParam !== null && EventFilterSuccessParam === 'true') {
+                toastBootstrap.show();
+                document.getElementById("display-message1").innerHTML = "Event Filtered Successfully!";
+            }
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+                var urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('eventalreadyRegistered') && urlParams.get('eventalreadyRegistered') === 'true') {
+                    var modal = new bootstrap.Modal(document.getElementById('eventalreadyRegisteredModal'));
+                    modal.show();
+                }
+            });
     </script>
 </body>
 <footer class="d-flex justify-content-center">

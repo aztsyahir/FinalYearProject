@@ -54,9 +54,14 @@ public class EventCreateController {
 
     @PostMapping("/EventCreate")
     public String EventCreate(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
-            Event event, EventDetail ed, @RequestParam("eventimgs") MultipartFile edimgs, Model model)
+            Event event, EventDetail ed, @RequestParam("eventimgs") MultipartFile edimgs,@RequestParam("eventname") String eventname, Model model)
             throws IOException {
         try {
+
+            if (eventCreateDAO.CheckEventName(eventname)) {
+                model.addAttribute("eventalreadyRegistered", true);
+                return "redirect:/EventCreate?eventalreadyRegistered=true";
+            }
             ed.setEdimgbyte(edimgs.getBytes());
             eventCreateDAO.EventCreate(event, ed);
 

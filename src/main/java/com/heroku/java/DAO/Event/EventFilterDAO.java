@@ -100,4 +100,53 @@ public class EventFilterDAO {
         }
         return events;
     }
+
+    public ArrayList<Event> AFilterEvent(String EventName)
+            throws SQLException {
+        ArrayList<Event> events = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT * FROM event JOIN eventdetail ON event.eventid = eventdetail.eventid WHERE eventdetail.edstatus = 'OPEN'";
+
+           
+            if (EventName != null && !EventName.isEmpty()) {
+                sql += " AND event.eventname LIKE ?";
+            }
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                int parameterIndex = 1;
+                if (EventName != null && !EventName.isEmpty()) {
+                    statement.setString(parameterIndex++, "%" + EventName + "%");
+                }
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int eventid = resultSet.getInt("eventid");
+                        String eventname = resultSet.getString("eventname");
+                        String edtype = resultSet.getString("edtype");
+                        int edcapacity = resultSet.getInt("edcapacity");
+                        String edvenue = resultSet.getString("edvenue");
+                        String edstate = resultSet.getString("edstate");
+                        Date eddate = resultSet.getDate("eddate");
+                        Date edlastdate = resultSet.getDate("edlastdate");
+                        String edstatus = resultSet.getString("edstatus");
+                        int edstats = resultSet.getInt("edstats");
+
+                        byte[] edimgbyte = resultSet.getBytes("edimg");
+                        String edimgbase64 = Base64.getEncoder().encodeToString(edimgbyte);
+                        String edimage = "data:image/jpeg;base64," + edimgbase64;
+
+                        EventDetail ed = new EventDetail(eventid, eventname, edtype, edcapacity, edvenue, edstate,
+                                eddate,
+                                edlastdate, edstatus, edstats, null, null, edimage);
+                        Event event = new Event(eventid, eventname);
+                        event.setEventDetail(ed);
+                        events.add(event);
+                    }
+                }
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new SQLException("Error retrieving Event: " + e.getMessage());
+        }
+        return events;
+    }
 }

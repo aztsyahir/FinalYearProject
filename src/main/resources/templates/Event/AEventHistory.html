@@ -13,9 +13,25 @@
 </head>
 
 <body>
-
-  <h2 class="d-flex justify-content-center" style="font-weight: bold;">EVENT HISTORY</h2>
-  <div class="d-flex justify-content-center text-center m-4">
+  <div class="d-flex justify-content-between align-items-center" style="font-weight: bold;">
+    <h2 class="text-center flex-grow-1" style="font-weight: bold;">EVENT HISTORY</h2>
+  </div>
+  <form class="row  align-items-center justify-content-center m-5" method="get" th:action="@{/AFilterEvent}"
+  th:modelAttribute="FilterEvent" th:object="${AFilterEvent}">
+  <div class="row g-2 mb-3">
+    <div class="input-group">
+      <input id="EventSearchInput" name="searchValue" type="text" class="form-control" placeholder="Search Event Name"
+        aria-label="Search Event You Wanted" aria-describedby="basic-addon2"
+        oninput="this.value = this.value.toUpperCase()">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center"><span class="material-symbols-outlined">
+        tune
+      </span> FILTER EVENT</button>
+  </div>
+</form>
+  <div class="d-flex justify-content-center text-center m-4" th:if="${!events.empty}">
     <table class="table table-bordered border-dark image-table">
       <thead class="table-info border-dark">
         <tr>
@@ -42,6 +58,12 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="d-flex justify-content-center text-center m-4" th:if="${events.empty}">
+    <div class="alert alert-warning" role="alert">
+      No Events!
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
