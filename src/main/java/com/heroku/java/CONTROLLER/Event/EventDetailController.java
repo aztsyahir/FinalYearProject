@@ -63,27 +63,27 @@ public class EventDetailController {
     @GetMapping("/participants")
     @ResponseBody
     public ArrayList<Player> getParticipants(@RequestParam("edid") int edid) throws SQLException {
-        System.out.println("edid for participants is "+ edid);
+        System.out.println("edid for participants is " + edid);
         return EventListDAO.getParticipant(edid);
     }
-    
+
     @GetMapping("/TeamList")
     @ResponseBody
     public ArrayList<Team> getTeam(@RequestParam("edid") int edid) throws SQLException {
-        System.out.println("edid for teamList is "+ edid);
+        System.out.println("edid for teamList is " + edid);
         return EventListDAO.getTeam(edid);
     }
-    
-public String teamList(@RequestParam("edid") int edid, Model model) {
-    try {
-        ArrayList<Team> teams = EventListDAO.getTeam(edid); // Assuming you have a TeamDAO with the getTeam method
-        model.addAttribute("teams", teams);
-        return "Event/TeamList";
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return "error"; // Return an error page or handle the error appropriately
+
+    public String teamList(@RequestParam("edid") int edid, Model model) {
+        try {
+            ArrayList<Team> teams = EventListDAO.getTeam(edid); // Assuming you have a TeamDAO with the getTeam method
+            model.addAttribute("teams", teams);
+            return "Event/TeamList";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "error"; // Return an error page or handle the error appropriately
+        }
     }
-}
 
     @GetMapping("/PEventDetail")
     public String PEventDetail(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,

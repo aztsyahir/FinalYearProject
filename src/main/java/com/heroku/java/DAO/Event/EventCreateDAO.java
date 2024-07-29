@@ -74,7 +74,7 @@ public class EventCreateDAO {
     public boolean CheckEventName(String eventname) throws SQLException {
         String sql = "SELECT COUNT(*) FROM event WHERE eventname = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, eventname);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {

@@ -107,7 +107,6 @@ public class EventFilterDAO {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "SELECT * FROM event JOIN eventdetail ON event.eventid = eventdetail.eventid WHERE eventdetail.edstatus = 'OPEN'";
 
-           
             if (EventName != null && !EventName.isEmpty()) {
                 sql += " AND event.eventname LIKE ?";
             }

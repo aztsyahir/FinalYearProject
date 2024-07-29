@@ -36,20 +36,22 @@
             <div class="d-grid gap-2">
               <a th:if="${event.eventDetail.edtype == 'INDIVIDUAL'}"
                 th:href="@{/EventValidateI(edid=${event.eventDetail.edid})}">
-                <button class="btn btn-primary" type="button"style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
-                  assignment_turned_in
+                <button class="btn btn-primary" type="button" style="display: inline-flex; align-items: center;"><span
+                    class="material-symbols-outlined">
+                    assignment_turned_in
                   </span>VALIDATE</button>
               </a>
               <a th:if="${event.eventDetail.edtype == 'TEAM'}"
                 th:href="@{/EventValidateT(edid=${event.eventDetail.edid})}">
-                <button class="btn btn-primary" type="button"style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
-                  assignment_turned_in
+                <button class="btn btn-primary" type="button" style="display: inline-flex; align-items: center;"><span
+                    class="material-symbols-outlined">
+                    assignment_turned_in
                   </span>VALIDATE</button>
               </a>
-              <a th:href="@{/AEventDetail(eventid=${event.eventid})}"><button class="btn btn-info"
-                  type="button" style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
+              <a th:href="@{/AEventDetail(eventid=${event.eventid})}"><button class="btn btn-info" type="button"
+                  style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
                     info
-                    </span>DETAIL</button></a>
+                  </span>DETAIL</button></a>
             </div>
           </td>
         </tr>

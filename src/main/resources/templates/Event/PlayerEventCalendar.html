@@ -23,23 +23,20 @@
     </div>
     <div class="col-auto">
       <div class="form-floating">
-        <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD"
-          name="startdate">
+        <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD" name="startdate">
         <label for="floatingInputGrid">Event Date (From)</label>
       </div>
     </div>
     <div class="col-auto">
       <div class="form-floating">
-        <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD" 
-          name="enddate">
+        <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD" name="enddate">
         <label for="floatingInputGrid">Event Date (To)</label>
       </div>
     </div>
     </div>
     <div class="col-auto">
       <div class="form-floating">
-        <input type="number" class="form-control fs-6" id="floatingInputGrid" placeholder="Event stats"
-          name="edstats">
+        <input type="number" class="form-control fs-6" id="floatingInputGrid" placeholder="Event stats" name="edstats">
         <label for="floatingInputGrid">Minimum statistics (%)</label>
       </div>
     </div>
@@ -77,15 +74,18 @@
       </div>
     </div>
     <div class="row mb-3">
-      <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center"><span class="material-symbols-outlined">
+      <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center"><span
+          class="material-symbols-outlined">
           tune
         </span> FILTER</button>
     </div>
   </form>
   <div class="d-flex justify-content-between align-items-center" style="font-weight: bold;">
-    <button type="button" class="btn btn-primary m-4" id="previousButton" onclick="navigateMonth(-1)" style="display: flex; align-items: center;">PREVIOUS</button>
+    <button type="button" class="btn btn-primary m-4" id="previousButton" onclick="navigateMonth(-1)"
+      style="display: flex; align-items: center;">PREVIOUS</button>
 
-    <button type="button" class="btn btn-primary m-4 d-none d-md-block ms-auto" onclick="navigateMonth(1)" style="display: flex; align-items: center;">
+    <button type="button" class="btn btn-primary m-4 d-none d-md-block ms-auto" onclick="navigateMonth(1)"
+      style="display: flex; align-items: center;">
       NEXT</button>
   </div>
 
@@ -125,12 +125,12 @@
       </tbody>
     </table>
   </div>
-  
+
   <script th:src="@{javascript/event-calendar.js}"></script>
   <footer class="d-flex justify-content-center">
     <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
-</footer>
-<script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+  </footer>
+  <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 </body>
 
 </html>

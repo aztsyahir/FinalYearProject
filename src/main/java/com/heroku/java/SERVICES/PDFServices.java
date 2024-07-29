@@ -31,10 +31,11 @@ public class PDFServices {
 
     @Autowired
     public PDFServices(EventListDAO eventListDAO) {
-        this.eventListDAO= eventListDAO;
+        this.eventListDAO = eventListDAO;
     }
 
-    public void generatePdfFileIndividual(HttpServletResponse response, int edid) throws DocumentException, IOException, SQLException {
+    public void generatePdfFileIndividual(HttpServletResponse response, int edid)
+            throws DocumentException, IOException, SQLException {
         response.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
         String currentDateTime = dateFormat.format(new Date());
@@ -68,12 +69,11 @@ public class PDFServices {
 
         Font fontStakeholderDetails = FontFactory.getFont(FontFactory.HELVETICA, 12);
         Paragraph StakeholderDetails = new Paragraph(
-            
-            "21-1-9, Solok Sungai Pinang 6,\n" +
-            "11600 Georgetown,\n" +
-            "Pulau Pinang",
-            fontStakeholderDetails
-        );
+
+                "21-1-9, Solok Sungai Pinang 6,\n" +
+                        "11600 Georgetown,\n" +
+                        "Pulau Pinang",
+                fontStakeholderDetails);
         document.add(StakeholderDetails);
 
         document.add(new Paragraph("\n"));
@@ -91,8 +91,8 @@ public class PDFServices {
         Font fontTableHeader = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
         addTableHeader(table, fontTableHeader);
 
-         // Table Rows
-         for (Player player : listParticipant) {
+        // Table Rows
+        for (Player player : listParticipant) {
             table.addCell(String.valueOf(player.getPlayerid()));
             table.addCell(player.getPlayername());
             table.addCell(String.valueOf(player.getPlayerstats()));
@@ -100,7 +100,7 @@ public class PDFServices {
 
         document.add(table);
         document.close();
-    
+
     }
 
     private void addTableHeader(PdfPTable table, Font font) {
@@ -115,7 +115,8 @@ public class PDFServices {
         table.addCell(cell);
     }
 
-    public void generatePdfFileTeam(HttpServletResponse response, int edid) throws DocumentException, IOException, SQLException {
+    public void generatePdfFileTeam(HttpServletResponse response, int edid)
+            throws DocumentException, IOException, SQLException {
         response.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
         String currentDateTime = dateFormat.format(new Date());
@@ -149,12 +150,11 @@ public class PDFServices {
 
         Font fontStakeholderDetails = FontFactory.getFont(FontFactory.HELVETICA, 12);
         Paragraph StakeholderDetails = new Paragraph(
-            
-            "21-1-9, Solok Sungai Pinang 6,\n" +
-            "11600 Georgetown,\n" +
-            "Pulau Pinang",
-            fontStakeholderDetails
-        );
+
+                "21-1-9, Solok Sungai Pinang 6,\n" +
+                        "11600 Georgetown,\n" +
+                        "Pulau Pinang",
+                fontStakeholderDetails);
         document.add(StakeholderDetails);
 
         document.add(new Paragraph("\n")); // Add space between sections
@@ -172,16 +172,17 @@ public class PDFServices {
         Font fontTableHeader = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
         addTableHeaderTeam(table, fontTableHeader);
 
-         // Table Rows
-         for (Team team : listTeam) {
+        // Table Rows
+        for (Team team : listTeam) {
             table.addCell(String.valueOf(team.getTeamid()));
             table.addCell(team.getTeamname());
-            table.addCell(String.valueOf(team.getTeamstats())); // Placeholder, replace with actual category if available
+            table.addCell(String.valueOf(team.getTeamstats())); // Placeholder, replace with actual category if
+                                                                // available
         }
 
         document.add(table);
         document.close();
-    
+
     }
 
     private void addTableHeaderTeam(PdfPTable table, Font font) {

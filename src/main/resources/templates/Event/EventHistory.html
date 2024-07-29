@@ -41,9 +41,10 @@
                 th:if="${event.eventDetail.isDirectRegistration and event.eventDetail.registrationstatus == 'PENDING'}"
                 th:action="@{/WithdrawEvent(edid=${event.eventDetail.registrationid})}" method="post">
                 <button class="btn btn-info" type="submit"
-                  onclick="return confirm('Are you sure you want to withdraw from this event?')" style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
+                  onclick="return confirm('Are you sure you want to withdraw from this event?')"
+                  style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
                     remove_done
-                    </span>
+                  </span>
                   Withdraw
                 </button>
               </form>
@@ -62,8 +63,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-Ra4HMTLfL/c77B0K0DpzQGm1N1V4BR46xIlS6PcVyZIT+RExOqA2QrL84PLF1b2h"
     crossorigin="anonymous"></script>
-    <footer class="d-flex justify-content-center">
-      <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
+  <footer class="d-flex justify-content-center">
+    <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
   </footer>
   <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 </body>

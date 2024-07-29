@@ -57,11 +57,13 @@
                     <td>
                         <div class="d-grid gap-2">
                             <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
-                            th:data-bs-target="'#participantModal-' + ${event.eventDetail.edid}"
-                            th:if="${event.eventDetail.edtype == 'INDIVIDUAL' && event.eventDetail.edstatus == 'CLOSE'}">View Participants</button>
+                                th:data-bs-target="'#participantModal-' + ${event.eventDetail.edid}"
+                                th:if="${event.eventDetail.edtype == 'INDIVIDUAL' && event.eventDetail.edstatus == 'CLOSE'}">View
+                                Participants</button>
                             <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
-                            th:data-bs-target="'#teamModal-' + ${event.eventDetail.edid}"
-                            th:if="${event.eventDetail.edtype == 'TEAM' && event.eventDetail.edstatus == 'CLOSE'}">View Teams</button>
+                                th:data-bs-target="'#teamModal-' + ${event.eventDetail.edid}"
+                                th:if="${event.eventDetail.edtype == 'TEAM' && event.eventDetail.edstatus == 'CLOSE'}">View
+                                Teams</button>
                             <a th:if="${event.eventDetail.edtype == 'INDIVIDUAL' && event.eventDetail.edstatus == 'OPEN' }"
                                 th:href="@{/EventValidateI(edid=${event.eventDetail.edid})}">
                                 <button class="btn btn-primary" type="button">Validate</button>
@@ -239,12 +241,9 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <form
-                        th:action="@{/export-to-pdf-participant}"
-                        method="post"
-                        modelAttribute="generatePDF">
-                        <input type="hidden" name="edid" th:value="${event.eventDetail.edid}" />
-                        <button type="submit" class="btn btn-success generate-pdf-button" >Generate PDF</button>
+                        <form th:action="@{/export-to-pdf-participant}" method="post" modelAttribute="generatePDF">
+                            <input type="hidden" name="edid" th:value="${event.eventDetail.edid}" />
+                            <button type="submit" class="btn btn-success generate-pdf-button">Generate PDF</button>
                         </form>
                     </div>
                 </div>
@@ -280,12 +279,9 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <form
-                        th:action="@{/export-to-pdf-team}"
-                        method="post"
-                        modelAttribute="generatePDF">
-                        <input type="hidden" name="edid" th:value="${event.eventDetail.edid}" />
-                        <button type="submit" class="btn btn-success generate-pdf-button" >Generate PDF</button>
+                        <form th:action="@{/export-to-pdf-team}" method="post" modelAttribute="generatePDF">
+                            <input type="hidden" name="edid" th:value="${event.eventDetail.edid}" />
+                            <button type="submit" class="btn btn-success generate-pdf-button">Generate PDF</button>
                         </form>
                     </div>
                 </div>
@@ -293,81 +289,81 @@
         </div>
     </div>
     <script>
-         document.querySelectorAll('[data-bs-target^="#participantModal-"]').forEach(button => {
-        button.addEventListener('click', function () {
-            const edid = this.getAttribute('data-bs-target').split('-')[1];
-            console.log(`Fetching participants for edid: ${edid}`);
-            fetch(`/participants?edid=${edid}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(`Received data:`, data);
-                    const alertContainer = document.querySelector(`#participantModal-${edid} #participantAlertContainer`);
-                const table = document.querySelector(`#participantModal-${edid} #participantTable`);
-                    const tbody = document.querySelector(`#participantModal-${edid} #participantTableBody`);
-                    const pdfButton = document.querySelector(`#participantModal-${edid} .generate-pdf-button`);
-                    if (data.length === 0) {
-                    alertContainer.classList.remove('d-none');
-                    table.classList.add('d-none');
-                    pdfButton.classList.add('d-none');
-                } else {
-                    alertContainer.classList.add('d-none');
-                    table.classList.remove('d-none');
-                    pdfButton.classList.remove('d-none');
-                    tbody.innerHTML = '';
-                    data.forEach(player => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+        document.querySelectorAll('[data-bs-target^="#participantModal-"]').forEach(button => {
+            button.addEventListener('click', function () {
+                const edid = this.getAttribute('data-bs-target').split('-')[1];
+                console.log(`Fetching participants for edid: ${edid}`);
+                fetch(`/participants?edid=${edid}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(`Received data:`, data);
+                        const alertContainer = document.querySelector(`#participantModal-${edid} #participantAlertContainer`);
+                        const table = document.querySelector(`#participantModal-${edid} #participantTable`);
+                        const tbody = document.querySelector(`#participantModal-${edid} #participantTableBody`);
+                        const pdfButton = document.querySelector(`#participantModal-${edid} .generate-pdf-button`);
+                        if (data.length === 0) {
+                            alertContainer.classList.remove('d-none');
+                            table.classList.add('d-none');
+                            pdfButton.classList.add('d-none');
+                        } else {
+                            alertContainer.classList.add('d-none');
+                            table.classList.remove('d-none');
+                            pdfButton.classList.remove('d-none');
+                            tbody.innerHTML = '';
+                            data.forEach(player => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
                             <td>${player.playerid}</td>
                             <td>${player.playername}</td>
                             <td>${player.playerstats}</td>
                         `;
-                        tbody.appendChild(row);
+                                tbody.appendChild(row);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching participants:', error);
                     });
-                }
-                })
-                .catch(error => {
-                    console.error('Error fetching participants:', error);
-                });
+            });
         });
-    });
-    document.querySelectorAll('[data-bs-target^="#teamModal-"]').forEach(button => {
-    button.addEventListener('click', function () {
-        const edid = this.getAttribute('data-bs-target').split('-')[1];
-        console.log(`Fetching teams for edid: ${edid}`);
-        fetch(`/TeamList?edid=${edid}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(`Received data:`, data);
-                const alertContainer = document.querySelector(`#teamModal-${edid} #teamAlertContainer`);
-                const table = document.querySelector(`#teamModal-${edid} #teamTable`);
-                const tbody = document.querySelector(`#teamModal-${edid} #teamTableBody`);
-                const pdfButton = document.querySelector(`#teamModal-${edid} .generate-pdf-button`);
-                
-                if (data.length === 0) {
-                    alertContainer.classList.remove('d-none');
-                    table.classList.add('d-none');
-                    pdfButton.classList.add('d-none');
-                } else {
-                    alertContainer.classList.add('d-none');
-                    table.classList.remove('d-none');
-                    pdfButton.classList.remove('d-none');
-                    tbody.innerHTML = '';
-                    data.forEach(team => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+        document.querySelectorAll('[data-bs-target^="#teamModal-"]').forEach(button => {
+            button.addEventListener('click', function () {
+                const edid = this.getAttribute('data-bs-target').split('-')[1];
+                console.log(`Fetching teams for edid: ${edid}`);
+                fetch(`/TeamList?edid=${edid}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(`Received data:`, data);
+                        const alertContainer = document.querySelector(`#teamModal-${edid} #teamAlertContainer`);
+                        const table = document.querySelector(`#teamModal-${edid} #teamTable`);
+                        const tbody = document.querySelector(`#teamModal-${edid} #teamTableBody`);
+                        const pdfButton = document.querySelector(`#teamModal-${edid} .generate-pdf-button`);
+
+                        if (data.length === 0) {
+                            alertContainer.classList.remove('d-none');
+                            table.classList.add('d-none');
+                            pdfButton.classList.add('d-none');
+                        } else {
+                            alertContainer.classList.add('d-none');
+                            table.classList.remove('d-none');
+                            pdfButton.classList.remove('d-none');
+                            tbody.innerHTML = '';
+                            data.forEach(team => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
                             <td>${team.teamid}</td>
                             <td>${team.teamname}</td>
                             <td>${team.teamstats}</td>
                         `;
-                        tbody.appendChild(row);
+                                tbody.appendChild(row);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching teams:', error);
                     });
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching teams:', error);
             });
-    });
-});
+        });
     </script>
     <script>
         // Initialize Bootstrap offcanvas components

@@ -10,7 +10,8 @@
 </head>
 
 <body>
-    <h1 class="TEventRegister d-flex justify-content-center mb-20" th:text="${event.eventname}" style="font-weight: bold;"></h1>
+    <h1 class="TEventRegister d-flex justify-content-center mb-20" th:text="${event.eventname}"
+        style="font-weight: bold;"></h1>
     <!----------------------- Main Container -------------------------->
     <div class="container d-flex justify-content-center align-items-center min-vh-15">
         <!----------------------- Login Container -------------------------->
@@ -38,7 +39,8 @@
                         <input type="hidden" id="edstats" th:value="${event.eventDetail.edstats}" />
                         <input type="hidden" name="eventname" th:value="${event.eventname}" />
                         <input type="hidden" name="edtype" th:value="${event.eventDetail.edtype}" />
-                        <input type="hidden" name="eddate" th:value="${#dates.format(event.eventDetail.eddate, 'yyyy-MM-dd')}" />
+                        <input type="hidden" name="eddate"
+                            th:value="${#dates.format(event.eventDetail.eddate, 'yyyy-MM-dd')}" />
                         <div class="form-floating g-2 mb-3">
                             <input type="text" name="teamname"
                                 class="form-control form-control-lg bg-light fs-6 text-uppercase"

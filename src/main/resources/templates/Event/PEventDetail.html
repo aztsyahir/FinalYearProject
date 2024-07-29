@@ -52,8 +52,7 @@
                             <button
                                 th:if="${event.eventDetail.edstatus != 'CANCELLED' && event.eventDetail.edtype == 'INDIVIDUAL' && event.eventDetail.edstatus != 'CLOSE'}"
                                 class="btn btn-primary register-individual-btn" type="button" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop"
-                                th:attr="data-eventname=${event.eventname}, data-edid=${event.eventDetail.edid}, data-edtype=${event.eventDetail.edtype}, 
+                                data-bs-target="#staticBackdrop" th:attr="data-eventname=${event.eventname}, data-edid=${event.eventDetail.edid}, data-edtype=${event.eventDetail.edtype}, 
                                         data-playername=${player.playername}, data-playerstats=${player.playerstats}"
                                 style="display: inline-flex; align-items: center;"><span
                                     class="material-symbols-outlined">

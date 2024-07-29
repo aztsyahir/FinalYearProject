@@ -72,7 +72,7 @@ public class EventFilterController {
     }
 
     @GetMapping("/AFilterEvent")
-    public String AFilterEvent( @RequestParam(name = "searchValue", required = false) String searchValue,
+    public String AFilterEvent(@RequestParam(name = "searchValue", required = false) String searchValue,
             @RequestParam(name = "success", required = false) Boolean success, HttpSession session,
             Model model) {
 

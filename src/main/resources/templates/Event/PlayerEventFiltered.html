@@ -15,80 +15,78 @@
     <h2 class="text-center flex-grow-1" style="font-weight: bold;">UPCOMING EVENT (FILTERED)</h2>
   </div>
   <form class="row  align-items-center justify-content-center m-5" method="get" th:action="@{/FilterEvent}"
-  th:modelAttribute="FilterEvent" th:object="${FilterEvent}">
-  <div class="col-auto">
-    <div class="form-floating">
-      <select class="form-select fs-6" id="floatingSelectGrid" placeholder="Event Type" name="edtype">
-        <option selected disabled>Event Type</option>
-        <option value="INDIVIDUAL">INDIVIDUAL</option>
-        <option value="TEAM">TEAM</option>
-      </select>
+    th:modelAttribute="FilterEvent" th:object="${FilterEvent}">
+    <div class="col-auto">
+      <div class="form-floating">
+        <select class="form-select fs-6" id="floatingSelectGrid" placeholder="Event Type" name="edtype">
+          <option selected disabled>Event Type</option>
+          <option value="INDIVIDUAL">INDIVIDUAL</option>
+          <option value="TEAM">TEAM</option>
+        </select>
+      </div>
     </div>
-  </div>
-  <div class="col-auto">
-    <div class="form-floating">
-      <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD"
-        name="startdate">
-      <label for="floatingInputGrid">Event Date (From)</label>
+    <div class="col-auto">
+      <div class="form-floating">
+        <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD" name="startdate">
+        <label for="floatingInputGrid">Event Date (From)</label>
+      </div>
     </div>
-  </div>
-  <div class="col-auto">
-    <div class="form-floating">
-      <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD"
-        name="enddate">
-      <label for="floatingInputGrid">Event Date (To)</label>
+    <div class="col-auto">
+      <div class="form-floating">
+        <input type="date" class="form-control fs-6" id="date" placeholder="YYYY-MM-DD" name="enddate">
+        <label for="floatingInputGrid">Event Date (To)</label>
+      </div>
     </div>
-  </div>
-  </div>
-  <div class="col-auto">
-    <div class="form-floating">
-      <input type="number" class="form-control fs-6" id="floatingInputGrid" placeholder="Event stats"
-        name="edstats">
-      <label for="floatingInputGrid">Minimum stats (%)</label>
     </div>
-  </div>
-  <div class="col-auto">
-    <div class="form-floating">
-      <select class="form-select fs-6" id="floatingSelectGrid" placeholder="Event State" name="edstate">
-        <option selected disabled>States</option>
-        <option value="JOHOR">JOHOR</option>
-        <option value="KEDAH">KEDAH</option>
-        <option value="KELANTAN">KELANTAN</option>
-        <option value="MELAKA">MELAKA</option>
-        <option value="NEGERI SEMBILAN">NEGERI SEMBILAN</option>
-        <option value="PAHANG">PAHANG</option>
-        <option value="PERAK">PERAK</option>
-        <option value="PERLIS">PERLIS</option>
-        <option value="PULAU PINANG">PULAU PINANG</option>
-        <option value="SABAH">SABAH</option>
-        <option value="SARAWAK">SARAWAK</option>
-        <option value="SELANGOR">SELANGOR</option>
-        <option value="TERENGGANU">TERENGGANU</option>
-        <option value="WILAYAH PERSEKUTUAN (KUALA LUMPUR)">WILAYAH PERSEKUTUAN (KUALA
-          LUMPUR)</option>
-        <option value="WILAYAH PERSEKUTUAN (LABUAN)">WILAYAH PERSEKUTUAN (LABUAN)
-        </option>
-        <option value="WILAYAH PERSEKUTUAN (PUTRAJAYA)">WILAYAH PERSEKUTUAN (PUTRAJAYA)
-        </option>
-      </select>
+    <div class="col-auto">
+      <div class="form-floating">
+        <input type="number" class="form-control fs-6" id="floatingInputGrid" placeholder="Event stats" name="edstats">
+        <label for="floatingInputGrid">Minimum stats (%)</label>
+      </div>
     </div>
-  </div>
-  <div class="row g-2 mb-3">
-    <div class="input-group">
-      <input id="EventSearchInput" name="searchValue" type="text" class="form-control" placeholder="Search Event Name"
-        aria-label="Search Event You Wanted" aria-describedby="basic-addon2"
-        oninput="this.value = this.value.toUpperCase()">
+    <div class="col-auto">
+      <div class="form-floating">
+        <select class="form-select fs-6" id="floatingSelectGrid" placeholder="Event State" name="edstate">
+          <option selected disabled>States</option>
+          <option value="JOHOR">JOHOR</option>
+          <option value="KEDAH">KEDAH</option>
+          <option value="KELANTAN">KELANTAN</option>
+          <option value="MELAKA">MELAKA</option>
+          <option value="NEGERI SEMBILAN">NEGERI SEMBILAN</option>
+          <option value="PAHANG">PAHANG</option>
+          <option value="PERAK">PERAK</option>
+          <option value="PERLIS">PERLIS</option>
+          <option value="PULAU PINANG">PULAU PINANG</option>
+          <option value="SABAH">SABAH</option>
+          <option value="SARAWAK">SARAWAK</option>
+          <option value="SELANGOR">SELANGOR</option>
+          <option value="TERENGGANU">TERENGGANU</option>
+          <option value="WILAYAH PERSEKUTUAN (KUALA LUMPUR)">WILAYAH PERSEKUTUAN (KUALA
+            LUMPUR)</option>
+          <option value="WILAYAH PERSEKUTUAN (LABUAN)">WILAYAH PERSEKUTUAN (LABUAN)
+          </option>
+          <option value="WILAYAH PERSEKUTUAN (PUTRAJAYA)">WILAYAH PERSEKUTUAN (PUTRAJAYA)
+          </option>
+        </select>
+      </div>
     </div>
-  </div>
-  <div class="row mb-3">
-    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center"><span class="material-symbols-outlined">
-        tune
-      </span> FILTER</button>
-  </div>
-</form>
+    <div class="row g-2 mb-3">
+      <div class="input-group">
+        <input id="EventSearchInput" name="searchValue" type="text" class="form-control" placeholder="Search Event Name"
+          aria-label="Search Event You Wanted" aria-describedby="basic-addon2"
+          oninput="this.value = this.value.toUpperCase()">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center"><span
+          class="material-symbols-outlined">
+          tune
+        </span> FILTER</button>
+    </div>
+  </form>
 
   <div class="d-flex justify-content-center text-center m-4" th:if="${!event.empty}">
-    <table class="table table-bordered border-dark image-table" >
+    <table class="table table-bordered border-dark image-table">
       <thead class="table-info border-dark">
         <tr>
           <th>EVENT IMAGE</th>
@@ -107,10 +105,11 @@
           <td th:text="${event.eventDetail.edstate}"></td>
           <td>
             <div class="d-grid gap-2">
-              <a th:href="@{/PEventDetail(eventid=${event.eventid}, edid=${event.eventDetail.edid})}"><button class="btn btn-info"
-                  type="button" style="display: inline-flex; align-items: center;"><span class="material-symbols-outlined">
+              <a th:href="@{/PEventDetail(eventid=${event.eventid}, edid=${event.eventDetail.edid})}"><button
+                  class="btn btn-info" type="button" style="display: inline-flex; align-items: center;"><span
+                    class="material-symbols-outlined">
                     info
-                    </span>DETAIL</button></a>
+                  </span>DETAIL</button></a>
             </div>
           </td>
         </tr>
@@ -131,7 +130,7 @@
     crossorigin="anonymous"></script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       // Get today's date
       let today = new Date();
       // Format the date as YYYY-MM-DD
@@ -139,15 +138,15 @@
       let month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
       let day = today.getDate().toString().padStart(2, '0');
       let formattedDate = `${year}-${month}-${day}`;
-      
+
       // Set the min attribute of the date input field
       document.getElementById('date').setAttribute('min', formattedDate);
     });
   </script>
-   <footer class="d-flex justify-content-center">
+  <footer class="d-flex justify-content-center">
     <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
-</footer>
-<script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+  </footer>
+  <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 </body>
 
 </html>

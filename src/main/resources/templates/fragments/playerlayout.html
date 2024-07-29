@@ -24,9 +24,10 @@
         <ul class="nav__links">
             <li class="link"><a th:href="@{/EventHistory}">Event History</a></li>
             <li class="link"><a th:href="@{/PlayerProfile}">Profile</a></li>
-            <li class="link"><a th:href="@{/PlayerEventCalendar}" class="nav__btn glyphicon glyphicon-user" style="display: inline-flex; align-items: center;"> <span class="material-symbols-outlined">
-                calendar_month
-                </span>Events</a>
+            <li class="link"><a th:href="@{/PlayerEventCalendar}" class="nav__btn glyphicon glyphicon-user"
+                    style="display: inline-flex; align-items: center;"> <span class="material-symbols-outlined">
+                        calendar_month
+                    </span>Events</a>
             </li>
         </ul>
     </nav>
@@ -183,6 +184,7 @@
 </body>
 <footer class="d-flex justify-content-center">
     <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
-  </footer>
-  <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+</footer>
+<script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+
 </html>

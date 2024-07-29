@@ -18,15 +18,16 @@
     </div>
     <div>
         <h3 class="text-center"
-            th:text="'TOP ' + ${event.edcapacity} + ' PLAYERS THAT HAVE AT LEAST ' + ${event.edstats} + '% STATISTIC'" style="font-weight: bold;"></h3>
+            th:text="'TOP ' + ${event.edcapacity} + ' PLAYERS THAT HAVE AT LEAST ' + ${event.edstats} + '% STATISTIC'"
+            style="font-weight: bold;"></h3>
         <p class="text-center" th:text="'Total Players Registered: ' + ${totalPlayers}" style="font-weight: bold;"></p>
     </div>
 
     <div class="d-flex justify-content-center text-center m-4" th:if="${players.empty}">
         <div class="alert alert-warning" role="alert">
-          There Are No Any Registration Yet!
+            There Are No Any Registration Yet!
         </div>
-      </div>
+    </div>
 
     <div class="d-flex justify-content-center text-center m-4" th:if="${players.size() > 0}">
         <form th:action="@{/EventValidateI}" method="post">

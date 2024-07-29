@@ -26,9 +26,10 @@
             <li class="link"><a th:href="@{/AEventHistory}">Event Histoy</a></li>
             <li class="link"><a th:href="@{/AdminEvent}">Unvalidated Event</a></li>
             <li class="link"><a th:href="@{/AdminProfile}">Profile</a></li>
-            <li class="link"><a th:href="@{/EventCreate}" class="nav__btn glyphicon glyphicon-user" style="display: inline-flex; align-items: center;"> <span class="material-symbols-outlined">
-                calendar_month
-                </span>Create Event</a>
+            <li class="link"><a th:href="@{/EventCreate}" class="nav__btn glyphicon glyphicon-user"
+                    style="display: inline-flex; align-items: center;"> <span class="material-symbols-outlined">
+                        calendar_month
+                    </span>Create Event</a>
             </li>
         </ul>
     </nav>
@@ -51,24 +52,24 @@
         </div>
     </div>
 
-     <!-- Modal for already registered -->
-     <div class="modal fade" id="eventalreadyRegisteredModal" tabindex="-1" aria-labelledby="eventalreadyRegisteredLabel"
-     aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h1 class="modal-title fs-5" id="eventalreadyRegisteredLabel">Event Creation Failed!</h1>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-             </div>
-             <div class="modal-body">
-                 <p>This Event Name Is Already Registered in the System. Please Try Again.</p>
-             </div>
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-             </div>
-         </div>
-     </div>
- </div>
+    <!-- Modal for already registered -->
+    <div class="modal fade" id="eventalreadyRegisteredModal" tabindex="-1" aria-labelledby="eventalreadyRegisteredLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="eventalreadyRegisteredLabel">Event Creation Failed!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This Event Name Is Already Registered in the System. Please Try Again.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- swiper js link  -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -121,16 +122,17 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-                var urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.has('eventalreadyRegistered') && urlParams.get('eventalreadyRegistered') === 'true') {
-                    var modal = new bootstrap.Modal(document.getElementById('eventalreadyRegisteredModal'));
-                    modal.show();
-                }
-            });
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('eventalreadyRegistered') && urlParams.get('eventalreadyRegistered') === 'true') {
+                var modal = new bootstrap.Modal(document.getElementById('eventalreadyRegisteredModal'));
+                modal.show();
+            }
+        });
     </script>
 </body>
 <footer class="d-flex justify-content-center">
     <p>&copy; <span id="currentYear"></span> UltimateNav: Frisbee Event Discovery System. All rights reserved.</p>
-  </footer>
-  <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+</footer>
+<script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+
 </html>

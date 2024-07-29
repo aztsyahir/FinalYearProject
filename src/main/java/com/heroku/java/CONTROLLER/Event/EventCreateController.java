@@ -54,7 +54,8 @@ public class EventCreateController {
 
     @PostMapping("/EventCreate")
     public String EventCreate(@RequestParam(name = "success", required = false) Boolean success, HttpSession session,
-            Event event, EventDetail ed, @RequestParam("eventimgs") MultipartFile edimgs,@RequestParam("eventname") String eventname, Model model)
+            Event event, EventDetail ed, @RequestParam("eventimgs") MultipartFile edimgs,
+            @RequestParam("eventname") String eventname, Model model)
             throws IOException {
         try {
 

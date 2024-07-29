@@ -1,4 +1,5 @@
 package com.heroku.java.CONTROLLER;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -12,7 +13,6 @@ import com.lowagie.text.DocumentException;
 
 import jakarta.servlet.http.HttpServletResponse;
 
-
 @Controller
 public class PDFController {
 
@@ -24,11 +24,14 @@ public class PDFController {
     }
 
     @PostMapping("/export-to-pdf-participant")
-    public void generatePdfFile(HttpServletResponse response, @RequestParam("edid") int edid) throws DocumentException, IOException, SQLException {
+    public void generatePdfFile(HttpServletResponse response, @RequestParam("edid") int edid)
+            throws DocumentException, IOException, SQLException {
         PDFServices.generatePdfFileIndividual(response, edid);
     }
+
     @PostMapping("/export-to-pdf-team")
-    public void generatePdfFileTeam(HttpServletResponse response, @RequestParam("edid") int edid) throws DocumentException, IOException, SQLException {
+    public void generatePdfFileTeam(HttpServletResponse response, @RequestParam("edid") int edid)
+            throws DocumentException, IOException, SQLException {
         PDFServices.generatePdfFileTeam(response, edid);
     }
 }
