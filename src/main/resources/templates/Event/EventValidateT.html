@@ -22,7 +22,13 @@
         <p class="text-center" th:text="'Total Teams Registered: ' + ${totalTeams}" style="font-weight: bold;"></p>
     </div>
 
-    <div class="d-flex justify-content-center text-center m-4">
+    <div class="d-flex justify-content-center text-center m-4" th:if="${teams.empty}">
+        <div class="alert alert-warning" role="alert">
+          There Are No Any Registration Yet!
+        </div>
+      </div>
+
+    <div class="d-flex justify-content-center text-center m-4" th:if="${teams.size() > 0}">
         <form th:action="@{/EventValidateT}" method="post">
             <input type="hidden" name="edid" th:value="${event.edid}">
             <input type="hidden" name="eventid" th:value="${event.eventid}">
@@ -30,7 +36,7 @@
                 <thead class="table-info border-dark">
                     <tr>
                         <th>TEAM NAME</th>
-                        <th>PLAYER STATISTIC</th>
+                        <th>TEAM STATISTIC</th>
                     </tr>
                 </thead>
                 <tbody>
